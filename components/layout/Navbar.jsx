@@ -52,7 +52,7 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Accueil Composte">
-            <Image src="/logo.png" alt="Composte" width={40} height={40} className="shrink-0" />
+            <Image src="/logo.png" alt="Composte" width={80} height={80} className="shrink-0" />
             <span className="text-xl font-semibold text-slate-800">
               composte<span className="text-composte-600">.</span>
             </span>
