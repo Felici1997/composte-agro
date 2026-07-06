@@ -1,0 +1,155 @@
+export const dummyProfiles = [
+  { id: "00000000-0000-0000-0000-000000000001", email: "earl.dupont@example.fr", nom_complet: "EARL Dupont", telephone: "06 12 34 56 78", role: "professionnel", commune: "Chartres", departement: "Eure-et-Loir", created_at: "2024-01-10T08:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000002", email: "gaec.lioran@example.fr", nom_complet: "GAEC du Lioran", telephone: "06 23 45 67 89", role: "professionnel", commune: "Saint-Flour", departement: "Cantal", created_at: "2024-02-15T09:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000003", email: "sci.agricole@example.fr", nom_complet: "SCI Agricole", telephone: "06 34 56 78 90", role: "professionnel", commune: "Rennes", departement: "Ille-et-Vilaine", created_at: "2024-03-01T10:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000004", email: "coop.oise@example.fr", nom_complet: "Coopérative de l'Oise", telephone: "06 45 67 89 01", role: "professionnel", commune: "Compiègne", departement: "Oise", created_at: "2024-01-20T07:30:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000005", email: "ferme.garonne@example.fr", nom_complet: "Ferme de la Garonne", telephone: "06 56 78 90 12", role: "professionnel", commune: "Agen", departement: "Lot-et-Garonne", created_at: "2024-04-05T11:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000006", email: "eta.moreau@example.fr", nom_complet: "ETA Moreau", telephone: "06 67 89 01 23", role: "professionnel", commune: "Châlons-en-Champagne", departement: "Marne", created_at: "2024-02-28T14:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000007", email: "jp.martin@example.fr", nom_complet: "Jean-Pierre Martin", telephone: "06 78 90 12 34", role: "particulier", commune: "Dreux", departement: "Eure-et-Loir", created_at: "2024-05-10T16:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000008", email: "garage.touraine@example.fr", nom_complet: "Garage Agricole Touraine", telephone: "06 89 01 23 45", role: "professionnel", commune: "Tours", departement: "Indre-et-Loire", created_at: "2024-01-05T09:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000009", email: "maraichage.paca@example.fr", nom_complet: "Maraîchage PACA", telephone: "06 90 12 34 56", role: "professionnel", commune: "Avignon", departement: "Vaucluse", created_at: "2024-03-15T10:30:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000010", email: "ferme.limousin@example.fr", nom_complet: "FERME DU LIMOUSIN", telephone: "06 01 23 45 67", role: "professionnel", commune: "Limoges", departement: "Haute-Vienne", created_at: "2024-02-10T08:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000011", email: "viti.occitane@example.fr", nom_complet: "Viticulture Occitane", telephone: "06 12 34 56 79", role: "professionnel", commune: "Montpellier", departement: "Hérault", created_at: "2024-04-20T12:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000012", email: "earl.sources@example.fr", nom_complet: "EARL des Sources", telephone: "06 23 45 67 80", role: "professionnel", commune: "Chaumont", departement: "Haute-Marne", created_at: "2024-01-30T15:00:00Z", is_active: true },
+  { id: "00000000-0000-0000-0000-000000000013", email: "elevage.auvergne@example.fr", nom_complet: "Élevage d'Auvergne", telephone: "06 34 56 78 01", role: "professionnel", commune: "Clermont-Ferrand", departement: "Puy-de-Dôme", created_at: "2024-05-01T09:00:00Z", is_active: true },
+]
+
+export const dummyListings = [
+  {
+    id: "a0000000-0001-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000001",
+    category_id: 1, title: "Tracteur John Deere 6120M - 2020",
+    description: "Vends tracteur John Deere 6120M année 2020, 1200 heures, état impeccable. Entretien régulier fait chez concessionnaire. Pneus avant 90%, arrière 70%. Climatisation, GPS, relevage avant. Disponible immédiatement. Possibilité de venir l'essayer sur rendez-vous.",
+    price: 85000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-28T10:30:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000001"),
+    _category: { id: 1, nom: "Matériel Agricole" },
+    _commune: "Chartres", _departement: "Eure-et-Loir",
+  },
+  {
+    id: "a0000000-0002-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000002",
+    category_id: 2, title: "Vaches Charolaises prêtes à vêler",
+    description: "Lot de 10 vaches Charolaises inscrites au herd-book, prêtes à vêler de juillet à septembre. Excellentes mères, bonne morphologie. Vaccination à jour. Possibilité de voir sur place dans le Cantal.",
+    price: 18000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-30T14:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000002"),
+    _category: { id: 2, nom: "Élevage & Animaux" },
+    _commune: "Saint-Flour", _departement: "Cantal",
+  },
+  {
+    id: "a0000000-0003-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000003",
+    category_id: 1, title: "Pulvérisateur traîné 24m - Berthoud",
+    description: "Pulvérisateur traîné Berthoud Vantage 3000L, rampe 24m, année 2019, 800 ha. Très bon état, cuve inox, régulation ISOBUS. Prix à débattre.",
+    price: 18500, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-25T16:45:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000001"),
+    _category: { id: 1, nom: "Matériel Agricole" },
+    _commune: "La Roche-sur-Yon", _departement: "Vendée",
+  },
+  {
+    id: "a0000000-0004-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000008",
+    category_id: 8, title: "Pneus arrière tracteur 520/85R42 - occasion",
+    description: "Vends pneus arrière 520/85R42 pour tracteur. Michelin Multibib, usure 40%. Bon état général, pas de réparation. Idéal pour remplacement économique. Prix pour la paire.",
+    price: 1500, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-07-01T15:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000008"),
+    _category: { id: 8, nom: "Pièces & Accessoires" },
+    _commune: "Tours", _departement: "Indre-et-Loire",
+  },
+  {
+    id: "a0000000-0005-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000009",
+    category_id: 10, title: "Enrouleur d'irrigation Bauer 65/300m",
+    description: "Enrouleur Bauer Rainstar 65, tuyau 300m, année 2018, bon état. Turbine hydraulique, régulation électronique. Prix : 8500€. Visible dans le Vaucluse.",
+    price: 8500, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-29T09:30:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000009"),
+    _category: { id: 10, nom: "Irrigation & Eau" },
+    _commune: "Avignon", _departement: "Vaucluse",
+  },
+  {
+    id: "a0000000-0006-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000010",
+    category_id: 11, title: "Hangar agricole 500m2 + stabulation",
+    description: "Hangar agricole 500m² avec stabulation attenante 200m². Structure métallique, toiture bac acier refaite en 2022. Électricité aux normes. Idéal élevage ou stockage. Terrain de 2ha inclus.",
+    price: 180000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-20T08:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000010"),
+    _category: { id: 11, nom: "Bâtiments & Hangars" },
+    _commune: "Limoges", _departement: "Haute-Vienne",
+  },
+  {
+    id: "a0000000-0007-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000011",
+    category_id: 12, title: "Pick-up double cabine pour exploitation",
+    description: "Vends pick-up double cabine Isuzu D-Max 2021, 85000km, boîte manuelle. Très bon état, entretien suivi. Utilisé pour tournée d'exploitation. Benne amovible. Vendu avec galerie et treuil.",
+    price: 26000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-07-03T16:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000011"),
+    _category: { id: 12, nom: "Véhicules Utilitaires" },
+    _commune: "Montpellier", _departement: "Hérault",
+  },
+  {
+    id: "a0000000-0008-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000013",
+    category_id: 2, title: "Moutons Suffolk - lot de 20 brebis",
+    description: "Lot de 20 brebis Suffolk, excellent état sanitaire. Herd-book. Programmées pour agnelage de septembre. TRES BONNE ORIGINE. Voir sur place dans le Puy-de-Dôme.",
+    price: 4000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-07-05T09:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000013"),
+    _category: { id: 2, nom: "Élevage & Animaux" },
+    _commune: "Clermont-Ferrand", _departement: "Puy-de-Dôme",
+  },
+]
+
+export const dummyProducts = [
+  {
+    id: 1, vendeur_id: "00000000-0000-0000-0000-000000000004",
+    category_id: 4, nom: "Semences blé tendre LG Absalon",
+    description: "Vends semences de blé tendre LG Absalon, certifiées. Très bon potentiel rendement. 120 sacs disponibles de 25kg. Prix dégressif selon quantité.",
+    prix_unitaire: 35, unite_mesure: "sac 25kg", stock_actuel: 120, image_url: "", is_active: true, created_at: "2026-07-02T08:30:00Z", updated_at: "2026-07-02T08:30:00Z", conditionnement: "Sac",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000004"),
+    _category: { id: 4, nom: "Semences & Plants" },
+    departement: "Oise", localite: "Compiègne",
+  },
+  {
+    id: 2, vendeur_id: "00000000-0000-0000-0000-000000000005",
+    category_id: 5, nom: "Pommes Gala bio - vente directe",
+    description: "Vente directe de pommes Gala bio, production personnelle en agriculture biologique. Calibre 70-85mm. Conditionnement en caisse de 10kg. Prix au kg.",
+    prix_unitaire: 1.80, unite_mesure: "kg", stock_actuel: 500, image_url: "", is_active: true, created_at: "2026-07-03T11:00:00Z", updated_at: "2026-07-03T11:00:00Z", conditionnement: "Caisse 10kg",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000005"),
+    _category: { id: 5, nom: "Vente Directe" },
+    departement: "Lot-et-Garonne", localite: "Agen",
+  },
+  {
+    id: 3, vendeur_id: "00000000-0000-0000-0000-000000000002",
+    category_id: 9, nom: "Foin de prairie naturelle",
+    description: "Vends foin de prairie naturelle en ballots ronds (1.20m). Très bonne qualité, récolte précoce. Idéal pour bovins et chevaux. Livraison possible dans un rayon de 30km.",
+    prix_unitaire: 45, unite_mesure: "ballot", stock_actuel: 200, image_url: "", is_active: true, created_at: "2026-07-02T10:00:00Z", updated_at: "2026-07-02T10:00:00Z", conditionnement: "Ballot rond 1.20m",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000002"),
+    _category: { id: 9, nom: "Alimentation Animale" },
+    departement: "Allier", localite: "Moulins",
+  },
+]
+
+export const dummyServices = [
+  {
+    id: 1, prestataire_id: "00000000-0000-0000-0000-000000000006",
+    type_service: "prestation", titre: "Service de moisson - moissonneuse New Holland",
+    description: "Je propose mes services de moisson avec moissonneuse New Holland CX 8.90. Je me déplace dans toute la région Grand Est. Tarif compétitif. Intervention rapide, chantier soigné.",
+    tarif_base: 130, est_disponible: true, departement: "Marne", localite: "Châlons-en-Champagne", created_at: "2026-07-04T07:00:00Z", updated_at: "2026-07-04T07:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000006"),
+    _category: { id: 6, nom: "Services Agricoles" },
+  },
+  {
+    id: 2, prestataire_id: "00000000-0000-0000-0000-000000000007",
+    type_service: "demande", titre: "Cherche ouvrier agricole polyvalent - CDI",
+    description: "Exploitation céréalière en Eure-et-Loir cherche ouvrier agricole polyvalent. Travaux de culture, conduite d'engins, entretien du matériel. CDI 35h. Logement possible.",
+    tarif_base: null, est_disponible: true, departement: "Eure-et-Loir", localite: "Dreux", created_at: "2026-07-05T13:00:00Z", updated_at: "2026-07-05T13:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000007"),
+    _category: { id: 7, nom: "Emploi Agricole" },
+  },
+  {
+    id: 3, prestataire_id: "00000000-0000-0000-0000-000000000012",
+    type_service: "demande", titre: "Semis de maïs grain confié - cherché prestataire",
+    description: "Je cherche un prestataire pour semis de maïs grain sur 35ha en Haute-Marne. Semis direct souhaité. Calendrier : mi-avril.",
+    tarif_base: null, est_disponible: true, departement: "Haute-Marne", localite: "Chaumont", created_at: "2026-07-04T11:00:00Z", updated_at: "2026-07-04T11:00:00Z",
+    _profile: dummyProfiles.find(p => p.id === "00000000-0000-0000-0000-000000000012"),
+    _category: { id: 6, nom: "Services Agricoles" },
+  },
+]
+
+export const dummyAds = [
+  ...dummyListings.map(l => ({ ...l, contentType: 'listing' })),
+  ...dummyProducts.map(p => ({ ...p, contentType: 'product' })),
+  ...dummyServices.map(s => ({ ...s, contentType: 'service' })),
+]
+
+export const dummyConversations = []

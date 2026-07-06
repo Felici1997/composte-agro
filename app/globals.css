@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-composte-50: #f0fdf4;
+  --color-composte-100: #dcfce7;
+  --color-composte-200: #bbf7d0;
+  --color-composte-300: #86efac;
+  --color-composte-400: #4ade80;
+  --color-composte-500: #22c55e;
+  --color-composte-600: #16a34a;
+  --color-composte-700: #15803d;
+  --color-composte-800: #166534;
+  --color-composte-900: #14532d;
+}
+
+@layer base {
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-composte-500;
+  }
+  button { cursor: pointer; }
+}
+
+html, body { overflow-x: hidden; }
+
+@keyframes marqueeScroll {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+.ad-card-img {
+  aspect-ratio: 4/3;
+  overflow: hidden;
+}
+.ad-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
