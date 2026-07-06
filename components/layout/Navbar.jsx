@@ -1,6 +1,7 @@
 'use client'
-import { Leaf, Search, Heart, PlusCircle, Menu, X, User, LogOut, LayoutDashboard, MapPin, ShoppingCart } from "lucide-react";
+import { Search, Heart, PlusCircle, Menu, X, User, LogOut, LayoutDashboard, MapPin, ShoppingCart } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
@@ -51,7 +52,7 @@ const Navbar = () => {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Accueil Composte">
-            <Leaf size={28} className="text-composte-600" />
+            <Image src="/logo.png" alt="Composte" width={32} height={32} className="shrink-0" />
             <span className="text-xl font-semibold text-slate-800">
               composte<span className="text-composte-600">.</span>
             </span>

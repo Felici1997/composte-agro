@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#2d6a4f" />
-        <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
       </head>
       <body className={`${outfit.className} antialiased`}>
         <StoreProvider>
