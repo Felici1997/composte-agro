@@ -14,7 +14,7 @@ function getAdRegion(ad) { return ad._departement || ad.departement || '' }
 function SearchContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
-  const allAds = useSelector(state => state.ads.list)
+  const { list: allAds, loading: adsLoading } = useSelector(state => state.ads)
 
   const q = searchParams.get('q') || ''
   const catFilter = searchParams.get('cat') || ''
@@ -23,9 +23,12 @@ function SearchContent() {
   const maxPrice = searchParams.get('maxPrice') || ''
   const sortBy = searchParams.get('sort') || 'date_desc'
 
+  const [mounted, setMounted] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
   const [localMin, setLocalMin] = useState(minPrice)
   const [localMax, setLocalMax] = useState(maxPrice)
+
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -112,7 +115,7 @@ function SearchContent() {
 
             {showFilters && (
               <button onClick={() => setShowFilters(false)} className="w-full bg-composte-600 text-white py-2.5 rounded-lg text-sm font-medium lg:hidden">
-                Voir les résultats ({filteredAds.length})
+                Voir les résultats ({mounted ? filteredAds.length : 0})
               </button>
             )}
           </div>
@@ -125,7 +128,7 @@ function SearchContent() {
               <h1 className="text-lg font-semibold text-slate-700">
                 {q ? <>Résultats pour "<span className="text-composte-600">{q}</span>"</> : 'Toutes les annonces'}
               </h1>
-              <p className="text-sm text-slate-400">{filteredAds.length} annonce{filteredAds.length > 1 ? 's' : ''} trouvée{filteredAds.length > 1 ? 's' : ''}</p>
+              <p className="text-sm text-slate-400">{mounted ? filteredAds.length : 0} annonce{(mounted ? filteredAds.length : 0) > 1 ? 's' : ''} trouvée{(mounted ? filteredAds.length : 0) > 1 ? 's' : ''}</p>
             </div>
             <div className="flex items-center gap-2">
               <button onClick={() => setShowFilters(!showFilters)} className="lg:hidden flex items-center gap-1.5 text-sm text-slate-500 border px-3 py-1.5 rounded-lg hover:bg-slate-50 transition">
@@ -149,7 +152,20 @@ function SearchContent() {
             </div>
           )}
 
-          {filteredAds.length > 0 ? (
+          {!mounted || (adsLoading && filteredAds.length === 0) ? (
+            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="bg-white rounded-xl border border-slate-200 overflow-hidden animate-pulse">
+                  <div className="aspect-[4/3] bg-slate-200" />
+                  <div className="p-3 space-y-2">
+                    <div className="h-4 bg-slate-200 rounded w-20" />
+                    <div className="h-4 bg-slate-200 rounded w-full" />
+                    <div className="h-3 bg-slate-200 rounded w-16" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : filteredAds.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
               {filteredAds.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
             </div>

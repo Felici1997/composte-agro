@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
@@ -63,8 +63,8 @@ export default function AdDetailPage() {
           <MapPin size={28} className="text-slate-300" />
         </div>
         <h1 className="text-xl text-slate-400 font-medium">Annonce introuvable</h1>
-        <p className="text-sm text-slate-300 mt-1">Cette annonce n'existe plus ou a été supprimée.</p>
-        <button onClick={() => router.push('/')} className="mt-6 text-sm text-composte-600 hover:underline font-medium">Retour à l'accueil</button>
+        <p className="text-sm text-slate-300 mt-1">Cette annonce n'existe plus ou a ├®t├® supprim├®e.</p>
+        <button onClick={() => router.push('/')} className="mt-6 text-sm text-composte-600 hover:underline font-medium">Retour ├á l'accueil</button>
       </div>
     )
   }
@@ -74,7 +74,7 @@ export default function AdDetailPage() {
   const isProduct = ad.contentType === 'product'
   const commune = adCommune(ad)
   const departement = adDepartement(ad)
-  const localisation = commune && departement ? `${commune} (${departement})` : commune || departement || 'Localisation non précisée'
+  const localisation = commune && departement ? `${commune} (${departement})` : commune || departement || 'Localisation non pr├®cis├®e'
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-6">
@@ -84,9 +84,15 @@ export default function AdDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="w-full h-80 bg-slate-50 rounded-xl flex flex-col items-center justify-center text-slate-300">
-            <ImageIcon size={48} className="mb-2" />
-            <span className="text-sm">Pas d'image disponible</span>
+          <div className="w-full h-80 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden">
+            {adImg(ad) ? (
+              <Image src={adImg(ad)} alt={adTitle(ad)} width={800} height={400} className="w-full h-full object-cover" />
+            ) : (
+              <div className="flex flex-col items-center justify-center text-slate-300">
+                <ImageIcon size={48} className="mb-2" />
+                <span className="text-sm">Pas d'image disponible</span>
+              </div>
+            )}
           </div>
 
           <div>
@@ -158,14 +164,14 @@ export default function AdDetailPage() {
               <div className="space-y-2">
                 {adPhone(ad) && (
                   <a href={`tel:${adPhone(ad)}`} className="flex items-center justify-center gap-2 w-full bg-composte-600 hover:bg-composte-700 text-white font-medium py-3 rounded-lg transition text-sm">
-                    <Phone size={16} /> Appeler — {adPhone(ad)}
+                    <Phone size={16} /> Appeler ÔÇö {adPhone(ad)}
                   </a>
                 )}
-                <button onClick={() => toast.success('Messagerie bientôt disponible')} className="flex items-center justify-center gap-2 w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-3 rounded-lg transition text-sm">
+                <button onClick={() => toast.success('Messagerie bient├┤t disponible')} className="flex items-center justify-center gap-2 w-full bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-medium py-3 rounded-lg transition text-sm">
                   <MessageCircle size={16} /> Message
                 </button>
                 {!isService && (
-                  <button onClick={() => { dispatch(addItem({ id: ad.id, title: adTitle(ad), price: adPrice(ad) })); toast.success('Ajouté au panier') }} className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 rounded-lg transition text-sm">
+                  <button onClick={() => { dispatch(addItem({ id: ad.id, title: adTitle(ad), price: adPrice(ad) })); toast.success('Ajout├® au panier') }} className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 rounded-lg transition text-sm">
                     <ShoppingCart size={16} /> Ajouter au panier
                   </button>
                 )}
@@ -179,7 +185,7 @@ export default function AdDetailPage() {
               {departement && <p className="flex justify-between"><span>Département</span><span className="text-slate-500">{departement}</span></p>}
             </div>
 
-            <button onClick={() => toast.success('Merci, notre équipe va examiner cette annonce.')} className="flex items-center justify-center gap-1.5 w-full text-xs text-slate-400 hover:text-red-500 transition py-2">
+            <button onClick={() => toast.success('Merci, notre équipe va examiner cette annonce.')} className="flex items-center justify-center gap-1.5 w-full text-xs text-red-500 hover:text-red-600 hover:bg-red-50 transition py-2 rounded-lg">
               <Flag size={14} /> Signaler cette annonce
             </button>
           </div>
