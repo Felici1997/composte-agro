@@ -86,6 +86,6 @@ export async function POST(request) {
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('POST /api/ads:', err)
-    return NextResponse.json({ error: 'Erreur lors de la publication' }, { status: 500 })
+    return NextResponse.json({ error: err.message || 'Erreur lors de la publication' }, { status: 500 })
   }
 }

@@ -27,7 +27,8 @@ export async function POST(request) {
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('POST /api/admin/products:', err)
-    return NextResponse.json({ error: err.message === 'Non authentifié' || err.message === 'Accès refusé' ? err.message : 'Erreur interne' }, { status: 500 })
+    const msg = err.message || ''
+    return NextResponse.json({ error: msg === 'Non authentifié' || msg === 'Accès refusé' ? msg : 'Erreur interne' }, { status: 500 })
   }
 }
 
