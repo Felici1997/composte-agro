@@ -51,8 +51,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 gap-2 sm:gap-4">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1.5 shrink-0" aria-label="Accueil Composte">
-            <Image src="/logo.png" alt="Composte" width={80} height={80} className="shrink-0" />
+          <Link href="/" className="flex items-center gap-0 shrink-0" aria-label="Accueil Composte">
+            <Image src="/logo.png" alt="Composte" width={80} height={80} className="-ml-2 shrink-0" />
             <span className="text-xl font-semibold text-slate-800">
               composte<span className="text-composte-600">.</span>
             </span>

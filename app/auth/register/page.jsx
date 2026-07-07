@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Leaf, Eye, EyeOff, Check, X } from 'lucide-react'
+import { Leaf, Eye, EyeOff, Check, X, User, Store, Wrench } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 
@@ -13,7 +13,14 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [fullName, setFullName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [role, setRole] = useState('client')
   const [loading, setLoading] = useState(false)
+
+  const roles = [
+    { value: 'client', label: 'Client', desc: 'Je veux acheter', icon: User },
+    { value: 'vendeur', label: 'Vendeur', desc: 'Je veux vendre mes produits', icon: Store },
+    { value: 'prestataire', label: 'Prestataire', desc: 'Je propose des services', icon: Wrench },
+  ]
 
   const passwordMinLength = password.length >= 6
   const passwordsMatch = password === confirmPassword && confirmPassword.length > 0
@@ -25,10 +32,18 @@ export default function RegisterPage() {
     if (password.length < 6) return toast.error('Le mot de passe doit contenir au moins 6 caractères')
 
     setLoading(true)
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email, password,
-      options: { data: { full_name: fullName } },
+      options: { data: { full_name: fullName, role } },
     })
+    if (!error && data?.user) {
+      await supabase.from('profiles').upsert({
+        id: data.user.id,
+        email,
+        nom_complet: fullName,
+        role,
+      }, { onConflict: 'id' })
+    }
     setLoading(false)
     if (error) {
       toast.error(error.message)
@@ -56,6 +71,27 @@ export default function RegisterPage() {
             <input id="name" type="text" value={fullName} onChange={e => setFullName(e.target.value)} required
               className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition"
               placeholder="Jean Dupont" autoComplete="name" />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Vous êtes ?</label>
+            <div className="grid grid-cols-3 gap-2">
+              {roles.map(r => {
+                const Icon = r.icon
+                return (
+                  <button key={r.value} type="button" onClick={() => setRole(r.value)}
+                    className={`flex flex-col items-center gap-1 p-2.5 rounded-lg border text-center transition ${
+                      role === r.value
+                        ? 'border-composte-500 bg-composte-50 text-composte-700'
+                        : 'border-slate-200 text-slate-500 hover:border-slate-300'
+                    }`}>
+                    <Icon size={18} />
+                    <span className="text-xs font-medium">{r.label}</span>
+                    <span className="text-[10px] text-slate-400 leading-tight">{r.desc}</span>
+                  </button>
+                )
+              })}
+            </div>
           </div>
 
           <div>

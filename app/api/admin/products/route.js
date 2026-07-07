@@ -14,11 +14,12 @@ function sanitize(body) {
 
 export async function POST(request) {
   try {
-    await requireAdmin()
+    const { user } = await requireAdmin()
     const body = await request.json()
     const admin = getAdminClient()
     const { error } = await admin.from('products').insert({
       ...sanitize(body),
+      vendeur_id: user.id,
       created_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
     })
