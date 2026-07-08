@@ -57,7 +57,7 @@ export function ConversationView({ conversation, messages, currentUserId }) {
 
       <div className="bg-white rounded-xl border border-slate-200 p-4">
         <div className="flex items-center gap-3 mb-1">
-          <div className="w-10 h-10 rounded-full bg-composte-100 text-composte-700 flex items-center justify-center text-sm font-bold shrink-0">
+          <div className="w-10 h-10 rounded-full bg-agrishop-100 text-agrishop-700 flex items-center justify-center text-sm font-bold shrink-0">
             {(conversation.nom_complet || '?').charAt(0).toUpperCase()}
           </div>
           <div>
@@ -76,11 +76,11 @@ export function ConversationView({ conversation, messages, currentUserId }) {
           <div key={msg.id || i} className={`flex ${msg.sender_role === 'assistant' || msg.sender_id === currentUserId ? 'justify-end' : 'justify-start'}`}>
             <div className={`max-w-[75%] rounded-xl px-3 py-2 text-sm ${
               msg.sender_role === 'assistant' || msg.sender_id === currentUserId
-                ? 'bg-composte-600 text-white'
+                ? 'bg-agrishop-600 text-white'
                 : 'bg-slate-100 text-slate-700'
             }`}>
               <p>{msg.content}</p>
-              <p className={`text-[10px] mt-0.5 ${msg.sender_role === 'assistant' ? 'text-composte-200' : 'text-slate-400'}`}>
+              <p className={`text-[10px] mt-0.5 ${msg.sender_role === 'assistant' ? 'text-agrishop-200' : 'text-slate-400'}`}>
                 {new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })}
               </p>
             </div>
@@ -95,9 +95,9 @@ export function ConversationView({ conversation, messages, currentUserId }) {
             value={newMessage}
             onChange={e => setNewMessage(e.target.value)}
             placeholder="Votre message..."
-            className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-composte-400"
+            className="flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400"
           />
-          <button type="submit" disabled={sending || !newMessage.trim()} className="inline-flex items-center gap-1 bg-composte-600 text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-composte-700 transition disabled:opacity-50">
+          <button type="submit" disabled={sending || !newMessage.trim()} className="inline-flex items-center gap-1 bg-agrishop-600 text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-agrishop-700 transition disabled:opacity-50">
             <Send size={15} />
             {sending ? '...' : 'Envoyer'}
           </button>

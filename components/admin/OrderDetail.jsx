@@ -61,7 +61,7 @@ export function OrderDetail({ order }) {
             {showStatusMenu && (
               <div className="absolute right-0 mt-1 w-40 bg-white border border-slate-200 rounded-lg shadow-lg z-10 py-1">
                 {statusFlow.map(s => (
-                  <button key={s} onClick={() => handleStatusChange(s)} className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-50 transition ${currentStatus === s ? 'text-composte-600 font-medium' : 'text-slate-600'}`}>
+                  <button key={s} onClick={() => handleStatusChange(s)} className={`w-full text-left px-3 py-1.5 text-sm hover:bg-slate-50 transition ${currentStatus === s ? 'text-agrishop-600 font-medium' : 'text-slate-600'}`}>
                     {statusLabels[s]}
                   </button>
                 ))}

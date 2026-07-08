@@ -30,10 +30,10 @@ export default function ClientHome() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
-      <div className="bg-gradient-to-r from-composte-600 to-composte-700 rounded-xl p-6 mb-8 text-white">
-        <h1 className="text-xl font-semibold">Bienvenue sur Composte</h1>
+      <div className="bg-gradient-to-r from-agrishop-600 to-agrishop-700 rounded-xl p-6 mb-8 text-white">
+        <h1 className="text-xl font-semibold">Bienvenue sur AgriShop</h1>
         <p className="text-sm text-white/80 mt-1">Trouvez les meilleurs produits et services agricoles près de chez vous</p>
-        <Link href="/create-ad" className="inline-flex items-center gap-1.5 bg-white text-composte-700 font-medium px-5 py-2.5 rounded-lg mt-4 text-sm hover:bg-composte-50 transition">
+        <Link href="/create-ad" className="inline-flex items-center gap-1.5 bg-white text-agrishop-700 font-medium px-5 py-2.5 rounded-lg mt-4 text-sm hover:bg-agrishop-50 transition">
           <PlusCircle size={18} /> Déposer une annonce
         </Link>
       </div>
@@ -41,7 +41,7 @@ export default function ClientHome() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-slate-700">Produits agricoles</h2>
-          <Link href="/search?type=product" className="text-sm text-composte-600 hover:underline font-medium">Voir tout →</Link>
+          <Link href="/search?type=product" className="text-sm text-agrishop-600 hover:underline font-medium">Voir tout →</Link>
         </div>
         {loading && products.length === 0 ? <SkeletonCards /> : products.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -58,7 +58,7 @@ export default function ClientHome() {
       <div>
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-slate-700">Services</h2>
-          <Link href="/search?type=service" className="text-sm text-composte-600 hover:underline font-medium">Voir tout →</Link>
+          <Link href="/search?type=service" className="text-sm text-agrishop-600 hover:underline font-medium">Voir tout →</Link>
         </div>
         {loading && services.length === 0 ? <SkeletonCards /> : services.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

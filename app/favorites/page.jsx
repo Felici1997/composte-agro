@@ -23,7 +23,7 @@ export default function FavoritesPage() {
           <Heart size={48} className="mx-auto text-slate-200 mb-3" />
           <p className="text-slate-400 font-medium">Aucun favori</p>
           <p className="text-sm text-slate-300 mt-1">Ajoutez des annonces en favoris en cliquant sur le cœur</p>
-          <Link href="/" className="inline-block mt-4 text-sm text-composte-600 hover:underline">Découvrir les annonces</Link>
+          <Link href="/" className="inline-block mt-4 text-sm text-agrishop-600 hover:underline">Découvrir les annonces</Link>
         </div>
       )}
     </div>

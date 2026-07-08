@@ -16,7 +16,7 @@ export default function CategoryPage() {
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <h1 className="text-2xl text-slate-400 font-medium">Catégorie introuvable</h1>
-        <Link href="/" className="inline-block mt-4 text-sm text-composte-600 hover:underline">Retour à l'accueil</Link>
+        <Link href="/" className="inline-block mt-4 text-sm text-agrishop-600 hover:underline">Retour à l'accueil</Link>
       </div>
     )
   }
@@ -37,7 +37,7 @@ export default function CategoryPage() {
       ) : (
         <div className="text-center py-20">
           <p className="text-slate-400 font-medium">Aucune annonce dans cette catégorie</p>
-          <Link href="/" className="inline-block mt-2 text-sm text-composte-600 hover:underline">Voir toutes les annonces</Link>
+          <Link href="/" className="inline-block mt-2 text-sm text-agrishop-600 hover:underline">Voir toutes les annonces</Link>
         </div>
       )}
     </div>

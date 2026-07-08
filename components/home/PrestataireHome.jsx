@@ -76,7 +76,7 @@ export default function PrestataireHome() {
                 </div>
               </div>
               <div className="text-right shrink-0 ml-4">
-                <Link href={`/ad/${d.id}`} className="text-composte-600 hover:underline text-xs font-medium">Voir →</Link>
+                <Link href={`/ad/${d.id}`} className="text-agrishop-600 hover:underline text-xs font-medium">Voir →</Link>
               </div>
             </div>
           ))}

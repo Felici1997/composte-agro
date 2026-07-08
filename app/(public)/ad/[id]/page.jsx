@@ -64,7 +64,7 @@ export default function AdDetailPage() {
         </div>
         <h1 className="text-xl text-slate-400 font-medium">Annonce introuvable</h1>
         <p className="text-sm text-slate-300 mt-1">Cette annonce n'existe plus ou a ├®t├® supprim├®e.</p>
-        <button onClick={() => router.push('/')} className="mt-6 text-sm text-composte-600 hover:underline font-medium">Retour ├á l'accueil</button>
+        <button onClick={() => router.push('/')} className="mt-6 text-sm text-agrishop-600 hover:underline font-medium">Retour ├á l'accueil</button>
       </div>
     )
   }
@@ -100,7 +100,7 @@ export default function AdDetailPage() {
               <div className="flex-1">
                 <h1 className="text-xl sm:text-2xl font-semibold text-slate-800 leading-tight">{adTitle(ad)}</h1>
                 <div className="flex flex-wrap items-center gap-2 mt-2">
-                  {cat && <span className="inline-block text-xs font-medium text-composte-700 bg-composte-50 px-3 py-1 rounded-full">{cat.nom}</span>}
+                  {cat && <span className="inline-block text-xs font-medium text-agrishop-700 bg-agrishop-50 px-3 py-1 rounded-full">{cat.nom}</span>}
                   {isProduct && (
                     <span className="text-xs font-medium px-3 py-1 rounded-full bg-blue-50 text-blue-600">
                       {ad.stock_actuel > 0 ? `Stock: ${ad.stock_actuel}` : 'Sur commande'}
@@ -121,7 +121,7 @@ export default function AdDetailPage() {
               </button>
             </div>
 
-            <p className="text-2xl sm:text-3xl font-bold text-composte-600 mt-4">
+            <p className="text-2xl sm:text-3xl font-bold text-agrishop-600 mt-4">
               {formatPrice(adPrice(ad))}
               {ad.unite_mesure && <span className="text-lg text-slate-400 font-normal"> / {ad.unite_mesure}</span>}
             </p>
@@ -152,7 +152,7 @@ export default function AdDetailPage() {
             <div className="bg-white border rounded-xl p-5 space-y-4">
               <h3 className="font-semibold text-slate-700">Contact</h3>
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-composte-100 text-composte-700 rounded-full flex items-center justify-center text-lg font-semibold">
+                <div className="w-12 h-12 bg-agrishop-100 text-agrishop-700 rounded-full flex items-center justify-center text-lg font-semibold">
                   {adVendeur(ad)[0]}
                 </div>
                 <div>
@@ -163,7 +163,7 @@ export default function AdDetailPage() {
 
               <div className="space-y-2">
                 {adPhone(ad) && (
-                  <a href={`tel:${adPhone(ad)}`} className="flex items-center justify-center gap-2 w-full bg-composte-600 hover:bg-composte-700 text-white font-medium py-3 rounded-lg transition text-sm">
+                  <a href={`tel:${adPhone(ad)}`} className="flex items-center justify-center gap-2 w-full bg-agrishop-600 hover:bg-agrishop-700 text-white font-medium py-3 rounded-lg transition text-sm">
                     <Phone size={16} /> Appeler ÔÇö {adPhone(ad)}
                   </a>
                 )}

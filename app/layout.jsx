@@ -6,8 +6,8 @@ import "./globals.css";
 const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
 
 export const metadata = {
-  title: "Composte - Le marché agricole",
-  description: "Composte - Le marché agricole : annonces de matériel agricole, élevage, terrains, services et vente directe producteur",
+  title: "AgriShop - Le marché agricole",
+  description: "AgriShop - Le marché agricole : annonces de matériel agricole, élevage, terrains, services et vente directe producteur",
 };
 
 export default function RootLayout({ children }) {

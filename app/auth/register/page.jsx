@@ -55,12 +55,12 @@ export default function RegisterPage() {
   }
 
   const selectedRole = roles.find(r => r.value === role)
-  const accentColor = selectedRole ? colorMap[selectedRole.color] : 'composte'
+  const accentColor = selectedRole ? colorMap[selectedRole.color] : 'agrishop'
 
   return (
     <div className="min-h-screen flex">
       {/* Left panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-600 via-composte-600 to-green-700 relative overflow-hidden items-center justify-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-600 via-agrishop-600 to-green-700 relative overflow-hidden items-center justify-center p-12">
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4" />
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 25% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
@@ -69,7 +69,7 @@ export default function RegisterPage() {
             <UserPlus size={44} className="text-white" />
           </div>
           <h2 className="text-3xl font-bold text-white leading-tight">Rejoignez la communauté</h2>
-          <p className="text-emerald-100 mt-4 leading-relaxed">Créez votre compte en quelques clics et accédez à toutes les fonctionnalités de Composte.</p>
+          <p className="text-emerald-100 mt-4 leading-relaxed">Créez votre compte en quelques clics et accédez à toutes les fonctionnalités d'AgriShop.</p>
           <div className="space-y-4 mt-10 text-left">
             {[
               { icon: Store, text: 'Publiez des annonces gratuitement' },
@@ -88,11 +88,11 @@ export default function RegisterPage() {
       </div>
 
       {/* Right - form */}
-      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-composte-50 via-white to-slate-50 px-6 py-12">
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-agrishop-50 via-white to-slate-50 px-6 py-12">
         <div className="w-full max-w-sm">
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center justify-center mb-4">
-              <Image src="/logo.png" alt="Composte" width={160} height={48} priority className="h-10 w-auto" />
+              <Image src="/logo.png" alt="AgriShop" width={160} height={48} priority className="h-10 w-auto" />
             </Link>
             <h1 className="text-xl font-bold text-slate-800">Créer un compte</h1>
             <p className="text-sm text-slate-500 mt-1">Étape {step} sur 2</p>
@@ -100,8 +100,8 @@ export default function RegisterPage() {
 
           {/* Progress */}
           <div className="flex gap-2 mb-6">
-            <div className={`h-1.5 flex-1 rounded-full transition ${step >= 1 ? 'bg-composte-500' : 'bg-slate-200'}`} />
-            <div className={`h-1.5 flex-1 rounded-full transition ${step >= 2 ? 'bg-composte-500' : 'bg-slate-200'}`} />
+            <div className={`h-1.5 flex-1 rounded-full transition ${step >= 1 ? 'bg-agrishop-500' : 'bg-slate-200'}`} />
+            <div className={`h-1.5 flex-1 rounded-full transition ${step >= 2 ? 'bg-agrishop-500' : 'bg-slate-200'}`} />
           </div>
 
           <form onSubmit={handleRegister} className="bg-white p-7 rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/50">
@@ -139,14 +139,14 @@ export default function RegisterPage() {
                   <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1.5">Nom complet *</label>
                   <div className="relative">
                     <input id="name" type="text" value={fullName} onChange={e => setFullName(e.target.value)} required
-                      className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-composte-400 focus:ring-2 focus:ring-composte-100 transition placeholder-slate-400"
+                      className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition placeholder-slate-400"
                       placeholder="Jean Dupont" autoComplete="name" />
                     <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   </div>
                 </div>
 
                 <button type="button" onClick={() => role && fullName ? setStep(2) : toast.error('Choisissez un rôle et votre nom')}
-                  className="w-full bg-composte-600 hover:bg-composte-700 text-white font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-composte-200">
+                  className="w-full bg-agrishop-600 hover:bg-agrishop-700 text-white font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200">
                   Continuer <ArrowRight size={16} />
                 </button>
               </div>
@@ -165,7 +165,7 @@ export default function RegisterPage() {
                   <label htmlFor="reg-email" className="block text-sm font-medium text-slate-700 mb-1.5">Email *</label>
                   <div className="relative">
                     <input id="reg-email" type="email" value={email} onChange={e => setEmail(e.target.value)} required
-                      className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-composte-400 focus:ring-2 focus:ring-composte-100 transition placeholder-slate-400"
+                      className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition placeholder-slate-400"
                       placeholder="votre@email.fr" autoComplete="email" />
                     <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                   </div>
@@ -175,7 +175,7 @@ export default function RegisterPage() {
                   <label htmlFor="reg-password" className="block text-sm font-medium text-slate-700 mb-1.5">Mot de passe *</label>
                   <div className="relative">
                     <input id="reg-password" type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} required minLength={6}
-                      className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-composte-400 focus:ring-2 focus:ring-composte-100 transition placeholder-slate-400"
+                      className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition placeholder-slate-400"
                       placeholder="Au moins 6 caractères" autoComplete="new-password" />
                     <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                     <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition">
@@ -194,7 +194,7 @@ export default function RegisterPage() {
                   <label htmlFor="confirm-password" className="block text-sm font-medium text-slate-700 mb-1.5">Confirmer le mot de passe *</label>
                   <input id="confirm-password" type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required
                     className={`w-full px-3 py-2.5 border rounded-xl text-sm outline-none focus:ring-2 transition placeholder-slate-400 ${
-                      confirmPassword && password !== confirmPassword ? 'border-red-400 focus:border-red-400 focus:ring-red-100' : 'border-slate-300 focus:border-composte-400 focus:ring-composte-100'
+                      confirmPassword && password !== confirmPassword ? 'border-red-400 focus:border-red-400 focus:ring-red-100' : 'border-slate-300 focus:border-agrishop-400 focus:ring-agrishop-100'
                     }`}
                     placeholder="Retaper votre mot de passe" autoComplete="new-password" />
                   {confirmPassword && password !== confirmPassword && (
@@ -206,7 +206,7 @@ export default function RegisterPage() {
                 </div>
 
                 <button disabled={loading || (confirmPassword.length > 0 && password !== confirmPassword)}
-                  className="w-full bg-composte-600 hover:bg-composte-700 disabled:bg-composte-400 text-white font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-composte-200">
+                  className="w-full bg-agrishop-600 hover:bg-agrishop-700 disabled:bg-agrishop-400 text-white font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200">
                   {loading ? (
                     <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Inscription...</span>
                   ) : (
@@ -222,7 +222,7 @@ export default function RegisterPage() {
             </div>
 
             <p className="text-center text-sm text-slate-500 mt-4">
-              Déjà un compte ? <Link href="/auth/login" className="text-composte-600 hover:text-composte-700 font-semibold inline-flex items-center gap-0.5">Se connecter <ArrowRight size={14} /></Link>
+              Déjà un compte ? <Link href="/auth/login" className="text-agrishop-600 hover:text-agrishop-700 font-semibold inline-flex items-center gap-0.5">Se connecter <ArrowRight size={14} /></Link>
             </p>
           </form>
         </div>

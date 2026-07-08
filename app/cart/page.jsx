@@ -76,7 +76,7 @@ export default function CartPage() {
       <div className="max-w-2xl mx-auto px-4 py-20 text-center">
         <ShoppingCart size={48} className="mx-auto text-slate-200 mb-4" />
         <h1 className="text-xl text-slate-400 font-medium mb-2">Votre panier est vide</h1>
-        <Link href="/" className="text-sm text-composte-600 hover:underline">Découvrir les annonces</Link>
+        <Link href="/" className="text-sm text-agrishop-600 hover:underline">Découvrir les annonces</Link>
       </div>
     )
   }
@@ -119,20 +119,20 @@ export default function CartPage() {
       <div className="bg-white border rounded-xl p-5 space-y-4 mb-6">
         <h2 className="font-semibold text-slate-700 text-sm">Informations de livraison</h2>
         <input name="nom_complet" placeholder="Nom complet *" value={form.nom_complet} onChange={e => setForm(p => ({ ...p, nom_complet: e.target.value }))}
-          className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200" />
+          className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200" />
         <input name="telephone" placeholder="Téléphone *" type="tel" value={form.telephone} onChange={e => setForm(p => ({ ...p, telephone: e.target.value }))}
-          className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200" />
+          className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200" />
         <input name="lieu_livraison" placeholder="Lieu de livraison *" value={form.lieu_livraison} onChange={e => setForm(p => ({ ...p, lieu_livraison: e.target.value }))}
-          className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200" />
+          className="w-full border border-slate-200 rounded-lg px-4 py-2.5 text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200" />
       </div>
 
       <div className="bg-white border rounded-xl p-5 space-y-4">
         <div className="flex justify-between text-sm">
           <span className="text-slate-500">Total</span>
-          <span className="font-bold text-lg text-composte-600">{formatPrice(total)}</span>
+          <span className="font-bold text-lg text-agrishop-600">{formatPrice(total)}</span>
         </div>
         <button onClick={handleSubmit} disabled={loading}
-          className="w-full bg-composte-600 hover:bg-composte-700 disabled:bg-slate-300 text-white font-medium py-3 rounded-lg transition text-sm">
+          className="w-full bg-agrishop-600 hover:bg-agrishop-700 disabled:bg-slate-300 text-white font-medium py-3 rounded-lg transition text-sm">
           {loading ? 'Envoi en cours...' : `Commander (${formatPrice(total)})`}
         </button>
         {!user && <p className="text-xs text-slate-400 text-center">Connectez-vous pour commander</p>}

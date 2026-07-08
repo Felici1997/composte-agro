@@ -32,7 +32,7 @@ export function UsersTable({ users }) {
             <tr key={user.id} className="border-b border-slate-50 hover:bg-slate-50 transition">
               <td className="py-3 px-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-composte-100 text-composte-700 flex items-center justify-center text-xs font-bold shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-agrishop-100 text-agrishop-700 flex items-center justify-center text-xs font-bold shrink-0">
                     {(user.nom_complet || '?').charAt(0).toUpperCase()}
                   </div>
                   <p className="font-medium text-slate-800">{user.nom_complet || 'Anonyme'}</p>

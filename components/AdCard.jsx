@@ -21,7 +21,7 @@ const AdCard = ({ ad }) => {
   const cat = getCategoryById(ad.category_id)
 
   return (
-    <div className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md hover:border-composte-200 transition-all duration-200">
+    <div className="group bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md hover:border-agrishop-200 transition-all duration-200">
       <div className="relative">
         <Link href={`/ad/${ad.id}`}>
           <div className="ad-card-img bg-slate-100 overflow-hidden relative">
@@ -44,7 +44,7 @@ const AdCard = ({ ad }) => {
         </button>
       </div>
       <Link href={`/ad/${ad.id}`} className="block p-3">
-        <p className="text-sm font-bold text-composte-600">{formatPrice(getAdPrice(ad))}</p>
+        <p className="text-sm font-bold text-agrishop-600">{formatPrice(getAdPrice(ad))}</p>
         {ad.unite_mesure && <p className="text-[10px] text-slate-400">/ {ad.unite_mesure}</p>}
         <h3 className="text-sm text-slate-800 font-medium mt-0.5 line-clamp-2 leading-snug">{getAdTitle(ad)}</h3>
         {cat && <p className="text-xs text-slate-400 mt-1">{cat.nom}</p>}

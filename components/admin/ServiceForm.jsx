@@ -53,44 +53,44 @@ export function ServiceForm({ initialData, serviceId }) {
     <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-slate-200 p-6 space-y-4 max-w-2xl">
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-1">Titre du service</label>
-        <input type="text" name="titre" value={form.titre} onChange={handleChange} required className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-composte-400" />
+        <input type="text" name="titre" value={form.titre} onChange={handleChange} required className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400" />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Type de service</label>
-          <select name="type_service" value={form.type_service} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-composte-400">
+          <select name="type_service" value={form.type_service} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400">
             <option value="">—</option>
             {typesService.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Tarif de base (FCFA)</label>
-          <input type="number" name="tarif_base" value={form.tarif_base} onChange={handleChange} min={0} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-composte-400" />
+          <input type="number" name="tarif_base" value={form.tarif_base} onChange={handleChange} min={0} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400" />
         </div>
       </div>
       <div>
         <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
-        <textarea name="description" value={form.description} onChange={handleChange} rows={3} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-composte-400" />
+        <textarea name="description" value={form.description} onChange={handleChange} rows={3} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400" />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Département</label>
-          <select name="departement" value={form.departement} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-composte-400">
+          <select name="departement" value={form.departement} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400">
             <option value="">—</option>
             {DEPARTEMENTS.map(d => <option key={d} value={d}>{d}</option>)}
           </select>
         </div>
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Localité</label>
-          <input type="text" name="localite" value={form.localite} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-composte-400" />
+          <input type="text" name="localite" value={form.localite} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400" />
         </div>
       </div>
       <label className="flex items-center gap-2 text-sm text-slate-700">
-        <input type="checkbox" name="est_disponible" checked={form.est_disponible} onChange={handleChange} className="rounded border-slate-300 text-composte-600 focus:ring-composte-400" />
+        <input type="checkbox" name="est_disponible" checked={form.est_disponible} onChange={handleChange} className="rounded border-slate-300 text-agrishop-600 focus:ring-agrishop-400" />
         Service disponible
       </label>
       <div className="flex items-center gap-3 pt-2">
-        <button type="submit" disabled={saving} className="inline-flex items-center gap-1.5 bg-composte-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-composte-700 transition disabled:opacity-50">
+        <button type="submit" disabled={saving} className="inline-flex items-center gap-1.5 bg-agrishop-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-agrishop-700 transition disabled:opacity-50">
           <Save size={16} />
           {saving ? 'Enregistrement...' : isEdit ? 'Enregistrer les modifications' : 'Ajouter le service'}
         </button>

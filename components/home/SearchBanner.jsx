@@ -20,9 +20,9 @@ export default function SearchBanner() {
   }
 
   return (
-    <section className="bg-gradient-to-br from-composte-800 via-composte-700 to-composte-900 rounded-2xl p-6 sm:p-10 text-white mt-4 shadow-lg">
+    <section className="bg-gradient-to-br from-agrishop-800 via-agrishop-700 to-agrishop-900 rounded-2xl p-6 sm:p-10 text-white mt-4 shadow-lg">
       <h1 className="text-2xl sm:text-3xl font-bold mb-2">Le marché agricole de proximité</h1>
-      <p className="text-composte-100 text-sm sm:text-base mb-6">Trouvez matériel, animaux, terrains et services près de chez vous</p>
+      <p className="text-agrishop-100 text-sm sm:text-base mb-6">Trouvez matériel, animaux, terrains et services près de chez vous</p>
 
       <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-3">
         <div className="flex-1 relative">
@@ -57,7 +57,7 @@ export default function SearchBanner() {
           </select>
           <MapPin size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
         </div>
-        <button type="submit" className="bg-white text-composte-700 font-semibold px-8 py-3 rounded-lg hover:bg-composte-50 transition text-sm border border-composte-200 shadow-sm">
+        <button type="submit" className="bg-white text-agrishop-700 font-semibold px-8 py-3 rounded-lg hover:bg-agrishop-50 transition text-sm border border-agrishop-200 shadow-sm">
           Rechercher
         </button>
       </form>

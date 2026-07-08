@@ -12,7 +12,7 @@ const roleConfig = {
     desc: 'Publiez une demande ou une offre agricole',
     icon: ShoppingBag,
     table: 'listings',
-    color: 'composte',
+    color: 'agrishop',
     fields: ['title', 'description', 'price', 'unit', 'category_id', 'image_url', 'is_pre_sale', 'harvest_date'],
   },
   vendeur: {
@@ -183,7 +183,7 @@ export default function CreateAdPage() {
               </div>
             ))}
             {images.length < 8 && (
-              <label className="w-20 h-20 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-composte-400 hover:bg-composte-50 text-slate-400 hover:text-composte-600 transition">
+              <label className="w-20 h-20 border-2 border-dashed border-slate-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-agrishop-400 hover:bg-agrishop-50 text-slate-400 hover:text-agrishop-600 transition">
                 <Upload size={20} />
                 <span className="text-[10px] mt-0.5">Ajouter</span>
                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} hidden />
@@ -198,7 +198,7 @@ export default function CreateAdPage() {
             {isService ? 'Titre du service *' : 'Titre *'}
           </label>
           <input name="title" value={form.title} onChange={handleChange} required maxLength={80}
-            className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition"
+            className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition"
             placeholder={isListing ? 'Ex: Recherche tracteur pour labour' : isProduct ? 'Ex: Foin de qualité, sac 25kg' : 'Ex: Service de labour mécanisé'} />
         </div>
 
@@ -206,7 +206,7 @@ export default function CreateAdPage() {
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">Description *</label>
           <textarea name="description" value={form.description} onChange={handleChange} required rows={5} maxLength={2000}
-            className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition resize-none"
+            className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition resize-none"
             placeholder="Décrivez votre annonce en détail..." />
         </div>
 
@@ -215,7 +215,7 @@ export default function CreateAdPage() {
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">Catégorie *</label>
             <select name="category_id" value={form.category_id} onChange={handleChange} required
-              className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 bg-white">
+              className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 bg-white">
               <option value="">Sélectionnez une catégorie</option>
               {categories.map(c => <option key={c.id} value={c.id}>{c.nom}</option>)}
             </select>
@@ -227,7 +227,7 @@ export default function CreateAdPage() {
             <div className="relative">
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">FCFA</span>
               <input type="number" name="price" value={form.price} onChange={handleChange} min={0} step={1}
-                className="w-full pl-8 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition" />
+                className="w-full pl-8 pr-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition" />
             </div>
           </div>
         </div>
@@ -238,7 +238,7 @@ export default function CreateAdPage() {
             Unité <span className="text-slate-400 font-normal">(optionnel)</span>
           </label>
           <input name="unit" value={form.unit} onChange={handleChange}
-            className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 transition"
+            className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 transition"
             placeholder={isProduct ? 'Ex: kg, sac 25kg, ballot, caisse...' : 'Ex: heure, jour, forfait...'} />
         </div>
 
@@ -248,7 +248,7 @@ export default function CreateAdPage() {
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">Stock initial</label>
               <input type="number" name="stock_actuel" value={form.stock_actuel} onChange={handleChange} min={1}
-                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition" />
+                className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition" />
             </div>
           </div>
         )}
@@ -277,17 +277,17 @@ export default function CreateAdPage() {
 
         {/* Listing-specific fields */}
         {isListing && (
-          <div className="p-4 bg-composte-50/50 rounded-lg border border-composte-100 space-y-4">
+          <div className="p-4 bg-agrishop-50/50 rounded-lg border border-agrishop-100 space-y-4">
             <div className="flex items-center gap-3">
               <input type="checkbox" name="is_pre_sale" checked={form.is_pre_sale} onChange={handleChange} id="is_pre_sale"
-                className="w-4 h-4 rounded border-slate-300 text-composte-600 focus:ring-composte-200" />
+                className="w-4 h-4 rounded border-slate-300 text-agrishop-600 focus:ring-agrishop-200" />
               <label htmlFor="is_pre_sale" className="text-sm text-slate-700">Il s'agit d'une pré-vente (récolte à venir)</label>
             </div>
             {form.is_pre_sale && (
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Date de récolte estimée</label>
                 <input type="date" name="harvest_date" value={form.harvest_date} onChange={handleChange}
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition" />
+                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition" />
               </div>
             )}
           </div>
@@ -300,11 +300,11 @@ export default function CreateAdPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <input name="city" value={form.city} onChange={handleChange} required={isListing || isProduct} placeholder="Commune *"
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 transition" />
+                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 transition" />
               </div>
               <div>
                 <select name="region" value={form.region} onChange={handleChange} required={isListing || isProduct}
-                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 bg-white">
+                  className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-agrishop-400 bg-white">
                   <option value="">Département *</option>
                   {regions.flatMap(r => r.departements).filter((d, i, a) => a.indexOf(d) === i).map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
@@ -314,7 +314,7 @@ export default function CreateAdPage() {
         )}
 
         <button disabled={loading}
-          className="w-full bg-composte-600 hover:bg-composte-700 disabled:bg-composte-400 text-white font-medium py-3 rounded-lg transition text-sm">
+          className="w-full bg-agrishop-600 hover:bg-agrishop-700 disabled:bg-agrishop-400 text-white font-medium py-3 rounded-lg transition text-sm">
           {loading ? 'Publication en cours...' : isListing ? 'Publier mon annonce' : isProduct ? 'Ajouter le produit' : 'Publier le service'}
         </button>
 

@@ -1,6 +1,6 @@
 {
-  "name": "Composte - Le marché agricole",
-  "short_name": "Composte",
+  "name": "AgriShop - Le marché agricole",
+  "short_name": "AgriShop",
   "description": "Le marché agricole : annonces de matériel, élevage, terrains, services et vente directe",
   "start_url": "/",
   "display": "standalone",

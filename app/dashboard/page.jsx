@@ -57,8 +57,8 @@ export default function DashboardPage() {
 
   const role = profile?.role || 'client'
   const uid = user?.id
-  const gradient = role === 'vendeur' ? 'from-emerald-500 via-emerald-600 to-green-700' : role === 'prestataire' ? 'from-purple-500 via-purple-600 to-indigo-700' : 'from-composte-500 via-composte-600 to-emerald-700'
-  const accentColor = role === 'vendeur' ? 'emerald' : role === 'prestataire' ? 'purple' : 'composte'
+  const gradient = role === 'vendeur' ? 'from-emerald-500 via-emerald-600 to-green-700' : role === 'prestataire' ? 'from-purple-500 via-purple-600 to-indigo-700' : 'from-agrishop-500 via-agrishop-600 to-emerald-700'
+  const accentColor = role === 'vendeur' ? 'emerald' : role === 'prestataire' ? 'purple' : 'agrishop'
   const roleLabel = role === 'vendeur' ? 'Vendeur' : role === 'prestataire' ? 'Prestataire' : 'Client'
 
   return (
@@ -266,7 +266,7 @@ export default function DashboardPage() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><ClipboardList size={18} /> Mes annonces</h2>
             {userDemandes.length > 0 && (
-              <Link href="/search" className="text-xs text-composte-600 hover:text-composte-700 font-medium flex items-center gap-1">
+              <Link href="/search" className="text-xs text-agrishop-600 hover:text-agrishop-700 font-medium flex items-center gap-1">
                 Tout voir <ChevronRight size={14} />
               </Link>
             )}
@@ -282,7 +282,7 @@ export default function DashboardPage() {
               </div>
               <p className="text-slate-500 font-medium">Vous n'avez pas encore d'annonce</p>
               <p className="text-xs text-slate-400 mt-1">Publiez votre première annonce gratuitement</p>
-              <Link href="/create-ad" className="inline-flex items-center gap-1.5 mt-4 bg-composte-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl hover:bg-composte-700 transition">
+              <Link href="/create-ad" className="inline-flex items-center gap-1.5 mt-4 bg-agrishop-600 text-white text-sm font-medium px-4 py-2.5 rounded-xl hover:bg-agrishop-700 transition">
                 <PlusCircle size={16} /> Publier une annonce
               </Link>
             </div>

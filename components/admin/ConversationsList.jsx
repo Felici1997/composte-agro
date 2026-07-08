@@ -28,7 +28,7 @@ export function ConversationsList({ conversations }) {
         >
           <div className="flex items-start justify-between mb-1">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-composte-100 text-composte-700 flex items-center justify-center text-xs font-bold shrink-0">
+              <div className="w-8 h-8 rounded-full bg-agrishop-100 text-agrishop-700 flex items-center justify-center text-xs font-bold shrink-0">
                 {(conv.nom_complet || '?').charAt(0).toUpperCase()}
               </div>
               <div>

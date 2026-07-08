@@ -14,7 +14,7 @@ export default async function AdminServicesPage({ searchParams }) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-slate-800">Services ({count})</h1>
-        <Link href="/admin/services/new" className="inline-flex items-center gap-1.5 bg-composte-600 text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-composte-700 transition">
+        <Link href="/admin/services/new" className="inline-flex items-center gap-1.5 bg-agrishop-600 text-white text-sm font-medium px-3 py-2 rounded-lg hover:bg-agrishop-700 transition">
           <Plus size={16} /> Nouveau service
         </Link>
       </div>

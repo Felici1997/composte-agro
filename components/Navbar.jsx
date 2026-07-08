@@ -80,7 +80,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-0 shrink-0">
-            <Image src="/logo.png" alt="Composte" width={80} height={80} priority className="h-10 w-auto" />
+            <Image src="/logo.png" alt="AgriShop" width={80} height={80} priority className="h-10 w-auto" />
           </Link>
 
           {/* Desktop nav */}
@@ -89,7 +89,7 @@ export default function Navbar() {
               <Link
                 key={link.href + link.label}
                 href={link.href}
-                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 hover:text-composte-600 hover:bg-composte-50 rounded-lg transition"
+                className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 rounded-lg transition"
               >
                 <link.icon size={16} />
                 {link.label}
@@ -106,19 +106,19 @@ export default function Navbar() {
             </form>
 
             {/* Cart */}
-            <Link href="/cart" className="relative p-2 text-slate-600 hover:text-composte-600 hover:bg-composte-50 rounded-lg transition">
+            <Link href="/cart" className="relative p-2 text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 rounded-lg transition">
               <ShoppingCart size={20} />
               {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 text-[10px] font-bold text-white bg-composte-600 size-4 flex items-center justify-center rounded-full">{cartCount}</span>
+                <span className="absolute -top-0.5 -right-0.5 text-[10px] font-bold text-white bg-agrishop-600 size-4 flex items-center justify-center rounded-full">{cartCount}</span>
               )}
             </Link>
 
             {/* User menu */}
             {user ? (
               <div className="relative" ref={menuRef}>
-                <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-composte-600 hover:bg-composte-50 rounded-lg transition">
-                  <div className="w-7 h-7 rounded-full bg-composte-100 flex items-center justify-center">
-                    <User size={14} className="text-composte-600" />
+                <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 rounded-lg transition">
+                  <div className="w-7 h-7 rounded-full bg-agrishop-100 flex items-center justify-center">
+                    <User size={14} className="text-agrishop-600" />
                   </div>
                   <span className="hidden lg:inline">{profile?.nom_complet || user.email?.split('@')[0]}</span>
                   <ChevronDown size={14} className={`hidden lg:block transition ${userMenuOpen ? 'rotate-180' : ''}`} />
@@ -143,7 +143,7 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <Link href="/auth/login" className="px-5 py-2 bg-composte-600 hover:bg-composte-700 text-white text-sm font-medium rounded-xl transition">
+              <Link href="/auth/login" className="px-5 py-2 bg-agrishop-600 hover:bg-agrishop-700 text-white text-sm font-medium rounded-xl transition">
                 Connexion
               </Link>
             )}
@@ -165,14 +165,14 @@ export default function Navbar() {
               <input className="w-full bg-transparent outline-none placeholder-slate-400 text-slate-700" type="text" placeholder="Rechercher..." value={search} onChange={e => setSearch(e.target.value)} />
             </form>
             {links.map(link => (
-              <Link key={link.href + link.label} href={link.href} onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-composte-50 hover:text-composte-600 rounded-lg transition">
+              <Link key={link.href + link.label} href={link.href} onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-agrishop-50 hover:text-agrishop-600 rounded-lg transition">
                 <link.icon size={18} /> {link.label}
               </Link>
             ))}
             {user && (
               <>
                 <hr className="my-1 border-slate-100" />
-                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-composte-50 hover:text-composte-600 rounded-lg transition">
+                <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-slate-600 hover:bg-agrishop-50 hover:text-agrishop-600 rounded-lg transition">
                   <LayoutDashboard size={18} /> Tableau de bord
                 </Link>
                 <button onClick={handleLogout} className="flex items-center gap-2 w-full px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition">
@@ -181,7 +181,7 @@ export default function Navbar() {
               </>
             )}
             {!user && (
-              <Link href="/auth/login" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-composte-600 hover:bg-composte-50 rounded-lg transition">
+              <Link href="/auth/login" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2.5 text-sm font-medium text-agrishop-600 hover:bg-agrishop-50 rounded-lg transition">
                 Connexion
               </Link>
             )}

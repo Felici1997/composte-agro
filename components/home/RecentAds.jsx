@@ -28,7 +28,7 @@ export default function RecentAds() {
     <section className="py-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-slate-700">Annonces récentes</h2>
-        <Link href="/search" className="text-sm text-composte-600 hover:text-composte-700 font-medium hover:underline transition">
+        <Link href="/search" className="text-sm text-agrishop-600 hover:text-agrishop-700 font-medium hover:underline transition">
           Voir tout →
         </Link>
       </div>

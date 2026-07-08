@@ -4,7 +4,7 @@ import { categories } from '@/lib/categories'
 import { getCategoryIcon } from '@/components/icons/StorysetIcons'
 
 const bgColors = [
-  'bg-composte-50 hover:bg-composte-100',
+  'bg-agrishop-50 hover:bg-agrishop-100',
   'bg-amber-50 hover:bg-amber-100',
   'bg-blue-50 hover:bg-blue-100',
   'bg-orange-50 hover:bg-orange-100',
@@ -19,7 +19,7 @@ const bgColors = [
 ]
 
 const iconColors = [
-  'text-composte-600', 'text-amber-600', 'text-blue-600', 'text-orange-600',
+  'text-agrishop-600', 'text-amber-600', 'text-blue-600', 'text-orange-600',
   'text-rose-600', 'text-teal-600', 'text-purple-600', 'text-cyan-600',
   'text-lime-600', 'text-yellow-600', 'text-sky-600', 'text-pink-600',
 ]

@@ -85,12 +85,12 @@ function SearchContent() {
             </div>
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-slate-700 text-sm flex items-center gap-1.5"><SlidersHorizontal size={15} /> Filtres</h3>
-              {hasFilters && <button onClick={clearFilters} className="text-xs text-composte-600 hover:underline">Tout effacer</button>}
+              {hasFilters && <button onClick={clearFilters} className="text-xs text-agrishop-600 hover:underline">Tout effacer</button>}
             </div>
 
             <div>
               <label className="text-xs font-medium text-slate-500 uppercase tracking-wider">Catégorie</label>
-              <select value={catFilter} onChange={e => updateFilter('cat', e.target.value)} className="w-full mt-1.5 px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-composte-400 bg-white">
+              <select value={catFilter} onChange={e => updateFilter('cat', e.target.value)} className="w-full mt-1.5 px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 bg-white">
                 <option value="">Toutes les catégories</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.nom}</option>)}
               </select>
@@ -98,7 +98,7 @@ function SearchContent() {
 
             <div>
               <label className="text-xs font-medium text-slate-500 uppercase tracking-wider">Département</label>
-              <select value={regionFilter} onChange={e => updateFilter('region', e.target.value)} className="w-full mt-1.5 px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-composte-400 bg-white">
+              <select value={regionFilter} onChange={e => updateFilter('region', e.target.value)} className="w-full mt-1.5 px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 bg-white">
                 <option value="">Tous les départements</option>
                 {regions.flatMap(r => r.departements).filter((d, i, a) => a.indexOf(d) === i).map(d => <option key={d} value={d}>{d}</option>)}
               </select>
@@ -107,14 +107,14 @@ function SearchContent() {
             <div>
               <label className="text-xs font-medium text-slate-500 uppercase tracking-wider">Prix</label>
               <div className="flex items-center gap-2 mt-1.5">
-                <input type="number" placeholder="Min" value={localMin} onChange={e => setLocalMin(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-composte-400" />
+                <input type="number" placeholder="Min" value={localMin} onChange={e => setLocalMin(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400" />
                 <span className="text-slate-300">-</span>
-                <input type="number" placeholder="Max" value={localMax} onChange={e => setLocalMax(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-composte-400" />
+                <input type="number" placeholder="Max" value={localMax} onChange={e => setLocalMax(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400" />
               </div>
             </div>
 
             {showFilters && (
-              <button onClick={() => setShowFilters(false)} className="w-full bg-composte-600 text-white py-2.5 rounded-lg text-sm font-medium lg:hidden">
+              <button onClick={() => setShowFilters(false)} className="w-full bg-agrishop-600 text-white py-2.5 rounded-lg text-sm font-medium lg:hidden">
                 Voir les résultats ({mounted ? filteredAds.length : 0})
               </button>
             )}
@@ -126,7 +126,7 @@ function SearchContent() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
             <div>
               <h1 className="text-lg font-semibold text-slate-700">
-                {q ? <>Résultats pour "<span className="text-composte-600">{q}</span>"</> : 'Toutes les annonces'}
+                {q ? <>Résultats pour "<span className="text-agrishop-600">{q}</span>"</> : 'Toutes les annonces'}
               </h1>
               <p className="text-sm text-slate-400">{mounted ? filteredAds.length : 0} annonce{(mounted ? filteredAds.length : 0) > 1 ? 's' : ''} trouvée{(mounted ? filteredAds.length : 0) > 1 ? 's' : ''}</p>
             </div>
@@ -135,7 +135,7 @@ function SearchContent() {
                 <SlidersHorizontal size={16} /> Filtres
               </button>
               <select value={sortBy} onChange={e => updateFilter('sort', e.target.value)}
-                className="text-sm border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-composte-400 bg-white">
+                className="text-sm border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-agrishop-400 bg-white">
                 <option value="date_desc">Plus récentes</option>
                 <option value="price_asc">Prix croissant</option>
                 <option value="price_desc">Prix décroissant</option>
@@ -145,10 +145,10 @@ function SearchContent() {
 
           {hasFilters && (
             <div className="flex flex-wrap gap-2 mb-4">
-              {catFilter && <span className="inline-flex items-center gap-1 text-xs bg-composte-50 text-composte-700 px-3 py-1 rounded-full font-medium">{categories.find(c => c.id === parseInt(catFilter))?.nom} <X size={12} className="cursor-pointer" onClick={() => updateFilter('cat', '')} /></span>}
-              {regionFilter && <span className="inline-flex items-center gap-1 text-xs bg-composte-50 text-composte-700 px-3 py-1 rounded-full font-medium">{regionFilter} <X size={12} className="cursor-pointer" onClick={() => updateFilter('region', '')} /></span>}
-              {minPrice && <span className="inline-flex items-center gap-1 text-xs bg-composte-50 text-composte-700 px-3 py-1 rounded-full font-medium">Min: {parseInt(minPrice).toLocaleString('fr-FR')} FCFA <X size={12} className="cursor-pointer" onClick={() => { setLocalMin(''); updateFilter('minPrice', '') }} /></span>}
-              {maxPrice && <span className="inline-flex items-center gap-1 text-xs bg-composte-50 text-composte-700 px-3 py-1 rounded-full font-medium">Max: {parseInt(maxPrice).toLocaleString('fr-FR')} FCFA <X size={12} className="cursor-pointer" onClick={() => { setLocalMax(''); updateFilter('maxPrice', '') }} /></span>}
+              {catFilter && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">{categories.find(c => c.id === parseInt(catFilter))?.nom} <X size={12} className="cursor-pointer" onClick={() => updateFilter('cat', '')} /></span>}
+              {regionFilter && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">{regionFilter} <X size={12} className="cursor-pointer" onClick={() => updateFilter('region', '')} /></span>}
+              {minPrice && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">Min: {parseInt(minPrice).toLocaleString('fr-FR')} FCFA <X size={12} className="cursor-pointer" onClick={() => { setLocalMin(''); updateFilter('minPrice', '') }} /></span>}
+              {maxPrice && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">Max: {parseInt(maxPrice).toLocaleString('fr-FR')} FCFA <X size={12} className="cursor-pointer" onClick={() => { setLocalMax(''); updateFilter('maxPrice', '') }} /></span>}
             </div>
           )}
 
@@ -174,7 +174,7 @@ function SearchContent() {
               <Search size={40} className="mx-auto text-slate-200 mb-3" />
               <p className="text-slate-400 text-lg font-medium">Aucune annonce trouvée</p>
               <p className="text-slate-300 text-sm mt-1">Essayez de modifier vos filtres ou d'élargir votre recherche</p>
-              {hasFilters && <button onClick={clearFilters} className="mt-4 text-sm text-composte-600 hover:underline font-medium">Effacer tous les filtres</button>}
+              {hasFilters && <button onClick={clearFilters} className="mt-4 text-sm text-agrishop-600 hover:underline font-medium">Effacer tous les filtres</button>}
             </div>
           )}
         </div>
