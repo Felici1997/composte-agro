@@ -2,7 +2,8 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Leaf, Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, LogIn, Sprout, ArrowRight, Shield, Mail } from 'lucide-react'
+import Image from 'next/image'
 import { supabase } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 
@@ -29,54 +30,94 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-composte-50 to-slate-100 px-4 py-12">
-      <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-1.5 mb-3">
-            <Leaf size={32} className="text-composte-600" />
-            <span className="text-2xl font-semibold text-slate-800">composte<span className="text-composte-600">.</span></span>
-          </Link>
-          <h1 className="text-xl font-semibold text-slate-700">Bienvenue</h1>
-          <p className="text-sm text-slate-500 mt-1">Connectez-vous à votre compte Composte</p>
+    <div className="min-h-screen flex">
+      {/* Left - decorative panel */}
+      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-600 via-composte-600 to-green-700 relative overflow-hidden items-center justify-center p-12">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
+        <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4" />
+        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 25% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <div className="relative z-10 text-center max-w-md">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/15 backdrop-blur-sm rounded-2xl mb-6">
+            <Sprout size={44} className="text-white" />
+          </div>
+          <h2 className="text-3xl font-bold text-white leading-tight">Bienvenue sur Composte</h2>
+          <p className="text-emerald-100 mt-4 leading-relaxed">Le marché agricole qui connecte producteurs, vendeurs et prestataires de services près de chez vous.</p>
+          <div className="flex items-center justify-center gap-8 mt-10">
+            <div className="text-center">
+              <p className="text-2xl font-bold text-white">100+</p>
+              <p className="text-xs text-emerald-200">Annonces</p>
+            </div>
+            <div className="w-px h-10 bg-white/20" />
+            <div className="text-center">
+              <p className="text-2xl font-bold text-white">50+</p>
+              <p className="text-xs text-emerald-200">Départements</p>
+            </div>
+            <div className="w-px h-10 bg-white/20" />
+            <div className="text-center">
+              <p className="text-2xl font-bold text-white">3</p>
+              <p className="text-xs text-emerald-200">Rôles</p>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <form onSubmit={handleLogin} className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4">
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
-            <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required
-              className="w-full px-3 py-2.5 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition"
-              placeholder="votre@email.fr" autoComplete="email" />
+      {/* Right - login form */}
+      <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-composte-50 via-white to-slate-50 px-6 py-12">
+        <div className="w-full max-w-sm">
+          <div className="text-center mb-8">
+            <Link href="/" className="inline-flex items-center justify-center mb-4">
+              <Image src="/logo.png" alt="Composte" width={160} height={48} priority className="h-10 w-auto" />
+            </Link>
+            <h1 className="text-xl font-bold text-slate-800">Heureux de vous revoir</h1>
+            <p className="text-sm text-slate-500 mt-1">Connectez-vous pour accéder à votre espace</p>
           </div>
 
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label htmlFor="password" className="block text-sm font-medium text-slate-700">Mot de passe</label>
-              <button type="button" onClick={() => toast.success('Réinitialisation bientôt disponible')}
-                className="text-xs text-composte-600 hover:underline">Mot de passe oublié ?</button>
+          <form onSubmit={handleLogin} className="bg-white p-7 rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/50 space-y-5">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">Email</label>
+              <div className="relative">
+                <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required
+                  className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-composte-400 focus:ring-2 focus:ring-composte-100 transition placeholder-slate-400"
+                  placeholder="votre@email.fr" autoComplete="email" />
+                <Mail size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              </div>
             </div>
+
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label htmlFor="password" className="block text-sm font-medium text-slate-700">Mot de passe</label>
+                <button type="button" onClick={() => toast.success('Réinitialisation bientôt disponible')}
+                  className="text-xs text-composte-600 hover:text-composte-700 font-medium">Mot de passe oublié ?</button>
+              </div>
+              <div className="relative">
+                <input id="password" type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} required
+                  className="w-full pl-10 pr-10 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-composte-400 focus:ring-2 focus:ring-composte-100 transition placeholder-slate-400"
+                  placeholder="••••••••" autoComplete="current-password" />
+                <Shield size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition" aria-label={showPassword ? 'Masquer' : 'Afficher'}>
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
+            </div>
+
+            <button disabled={loading} className="w-full bg-composte-600 hover:bg-composte-700 disabled:bg-composte-400 text-white font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-composte-200">
+              {loading ? (
+                <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Connexion...</span>
+              ) : (
+                <span className="flex items-center gap-2"><LogIn size={16} /> Se connecter</span>
+              )}
+            </button>
+
             <div className="relative">
-              <input id="password" type={showPassword ? 'text' : 'password'} value={password} onChange={e => setPassword(e.target.value)} required
-                className="w-full px-3 py-2.5 pr-10 border border-slate-300 rounded-lg text-sm outline-none focus:border-composte-400 focus:ring-1 focus:ring-composte-200 transition"
-                placeholder="••••••••" autoComplete="current-password" />
-              <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600" aria-label={showPassword ? 'Masquer' : 'Afficher'}>
-                {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-              </button>
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-200" /></div>
+              <div className="relative flex justify-center text-xs"><span className="bg-white px-3 text-slate-400">ou</span></div>
             </div>
-          </div>
 
-          <button disabled={loading} className="w-full bg-composte-600 hover:bg-composte-700 disabled:bg-composte-400 text-white font-medium py-2.5 rounded-lg transition text-sm">
-            {loading ? 'Connexion...' : 'Se connecter'}
-          </button>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-200" /></div>
-            <div className="relative flex justify-center text-xs"><span className="bg-white px-3 text-slate-400">ou</span></div>
-          </div>
-
-          <p className="text-center text-sm text-slate-500">
-            Pas encore de compte ? <Link href="/auth/register" className="text-composte-600 hover:underline font-medium">S'inscrire</Link>
-          </p>
-        </form>
+            <p className="text-center text-sm text-slate-500">
+              Pas encore de compte ? <Link href="/auth/register" className="text-composte-600 hover:text-composte-700 font-semibold inline-flex items-center gap-0.5">S'inscrire <ArrowRight size={14} /></Link>
+            </p>
+          </form>
+        </div>
       </div>
     </div>
   )

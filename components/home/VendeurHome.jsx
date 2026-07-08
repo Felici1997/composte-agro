@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
-import { Package, PlusCircle, ShoppingBag, MapPin, User, Tag, TrendingUp, Clock, Eye, ChevronRight } from 'lucide-react'
+import { Package, PlusCircle, ShoppingBag, MapPin, User, Tag, TrendingUp, Clock, Eye, ChevronRight, Sprout } from 'lucide-react'
 import { fetchListingsByCategoryIds } from '@/lib/supabase/queries'
 import { formatPrice, getCategoryById } from '@/lib/categories'
 import { supabase } from '@/lib/supabase/client'
@@ -171,6 +171,16 @@ export default function VendeurHome() {
                       {d._profile && (
                         <span className="flex items-center gap-1">
                           <User size={12} /> {d._profile.nom_complet || 'Anonyme'}
+                        </span>
+                      )}
+                      {d.localite && (
+                        <span className="flex items-center gap-1">
+                          <MapPin size={12} /> {d.localite}{d.departement ? ` (${d.departement})` : ''}
+                        </span>
+                      )}
+                      {d.is_pre_sale && (
+                        <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full font-medium">
+                          <Sprout size={10} /> Pré-vente
                         </span>
                       )}
                       {d.created_at && (
