@@ -1,16 +1,19 @@
 @import "tailwindcss";
 
 @theme {
-  --color-agrishop-50: #f0fdf4;
-  --color-agrishop-100: #dcfce7;
-  --color-agrishop-200: #bbf7d0;
-  --color-agrishop-300: #86efac;
-  --color-agrishop-400: #4ade80;
-  --color-agrishop-500: #22c55e;
-  --color-agrishop-600: #16a34a;
-  --color-agrishop-700: #15803d;
-  --color-agrishop-800: #166534;
-  --color-agrishop-900: #14532d;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+
+  --color-agrishop-50: #F2F9ED;
+  --color-agrishop-100: #DEF0D3;
+  --color-agrishop-200: #BDE1A7;
+  --color-agrishop-300: #9CD27B;
+  --color-agrishop-400: #7FC458;
+  --color-agrishop-500: #73BF44;
+  --color-agrishop-600: #53A132;
+  --color-agrishop-700: #357A2A;
+  --color-agrishop-800: #0D4926;
+  --color-agrishop-900: #083219;
 }
 
 @layer base {
@@ -18,9 +21,17 @@
     @apply outline-2 outline-offset-2 outline-agrishop-500;
   }
   button { cursor: pointer; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
 }
 
 html, body { overflow-x: hidden; }
+
+body {
+  font-family: var(--font-body);
+}
 
 @keyframes marqueeScroll {
   0% { transform: translateX(0%); }

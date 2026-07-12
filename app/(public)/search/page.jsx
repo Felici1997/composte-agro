@@ -2,7 +2,7 @@
 import { useState, useEffect, Suspense, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import { Search, SlidersHorizontal, X } from 'lucide-react'
+import { Search, SlidersHorizontal, X, ClipboardList, Package } from 'lucide-react'
 import AdCard from '@/components/AdCard'
 import { categories, regions } from '@/lib/categories'
 
@@ -10,6 +10,12 @@ function getAdTitle(ad) { return (ad.title || ad.titre || ad.nom || '').toLowerC
 function getAdDesc(ad) { return (ad.description || '').toLowerCase() }
 function getAdPrice(ad) { return ad.price ?? ad.prix_unitaire ?? ad.tarif_base ?? null }
 function getAdRegion(ad) { return ad._departement || ad.departement || '' }
+
+const typeOptions = [
+  { value: '', label: 'Tout', icon: null },
+  { value: 'listing', label: 'Demandes', icon: ClipboardList },
+  { value: 'product', label: 'Produits', icon: Package },
+]
 
 function SearchContent() {
   const searchParams = useSearchParams()
@@ -22,6 +28,7 @@ function SearchContent() {
   const minPrice = searchParams.get('minPrice') || ''
   const maxPrice = searchParams.get('maxPrice') || ''
   const sortBy = searchParams.get('sort') || 'date_desc'
+  const typeFilter = searchParams.get('type') || ''
 
   const [mounted, setMounted] = useState(false)
   const [showFilters, setShowFilters] = useState(false)
@@ -55,6 +62,7 @@ function SearchContent() {
 
   let filteredAds = allAds.filter(ad => {
     if (ad.status === 'inactive' || ad.is_active === false || ad.est_disponible === false) return false
+    if (typeFilter && ad.contentType !== typeFilter) return false
     const adTitle = getAdTitle(ad)
     const adDesc = getAdDesc(ad)
     if (q && !adTitle.includes(q.toLowerCase()) && !adDesc.includes(q.toLowerCase())) return false
@@ -72,7 +80,7 @@ function SearchContent() {
     default: filteredAds.sort((a, b) => new Date(b.created_at || b.createdAt) - new Date(a.created_at || a.createdAt)); break
   }
 
-  const hasFilters = catFilter || regionFilter || minPrice || maxPrice
+  const hasFilters = catFilter || regionFilter || minPrice || maxPrice || typeFilter
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
@@ -86,6 +94,23 @@ function SearchContent() {
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-slate-700 text-sm flex items-center gap-1.5"><SlidersHorizontal size={15} /> Filtres</h3>
               {hasFilters && <button onClick={clearFilters} className="text-xs text-agrishop-600 hover:underline">Tout effacer</button>}
+            </div>
+
+            <div>
+              <label className="text-xs font-medium text-slate-500 uppercase tracking-wider">Type</label>
+              <div className="flex gap-1 mt-1.5 bg-slate-100 rounded-lg p-0.5">
+                {typeOptions.map(opt => {
+                  const Icon = opt.icon
+                  const active = (typeFilter || '') === opt.value
+                  return (
+                    <button key={opt.value} onClick={() => updateFilter('type', opt.value)}
+                      className={`flex-1 flex items-center justify-center gap-1 text-xs font-medium py-1.5 rounded-md transition ${active ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                    >
+                      {Icon && <Icon size={13} />} {opt.label}
+                    </button>
+                  )
+                })}
+              </div>
             </div>
 
             <div>
@@ -128,9 +153,22 @@ function SearchContent() {
               <h1 className="text-lg font-semibold text-slate-700">
                 {q ? <>Résultats pour "<span className="text-agrishop-600">{q}</span>"</> : 'Toutes les annonces'}
               </h1>
-              <p className="text-sm text-slate-400">{mounted ? filteredAds.length : 0} annonce{(mounted ? filteredAds.length : 0) > 1 ? 's' : ''} trouvée{(mounted ? filteredAds.length : 0) > 1 ? 's' : ''}</p>
+              <p className="text-sm text-slate-400">{mounted ? filteredAds.length : '—'} résultat{filteredAds.length > 1 ? 's' : ''}</p>
             </div>
             <div className="flex items-center gap-2">
+              <div className="hidden md:flex gap-1 bg-slate-100 rounded-lg p-0.5">
+                {typeOptions.map(opt => {
+                  const Icon = opt.icon
+                  const active = (typeFilter || '') === opt.value
+                  return (
+                    <button key={opt.value} onClick={() => updateFilter('type', opt.value)}
+                      className={`flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-md transition ${active ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                    >
+                      {Icon && <Icon size={14} />} {opt.label}
+                    </button>
+                  )
+                })}
+              </div>
               <button onClick={() => setShowFilters(!showFilters)} className="lg:hidden flex items-center gap-1.5 text-sm text-slate-500 border px-3 py-1.5 rounded-lg hover:bg-slate-50 transition">
                 <SlidersHorizontal size={16} /> Filtres
               </button>
@@ -145,6 +183,7 @@ function SearchContent() {
 
           {hasFilters && (
             <div className="flex flex-wrap gap-2 mb-4">
+              {typeFilter && <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">{typeFilter === 'listing' ? 'Demandes' : 'Produits'} <X size={12} className="cursor-pointer" onClick={() => updateFilter('type', '')} /></span>}
               {catFilter && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">{categories.find(c => c.id === parseInt(catFilter))?.nom} <X size={12} className="cursor-pointer" onClick={() => updateFilter('cat', '')} /></span>}
               {regionFilter && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">{regionFilter} <X size={12} className="cursor-pointer" onClick={() => updateFilter('region', '')} /></span>}
               {minPrice && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">Min: {parseInt(minPrice).toLocaleString('fr-FR')} FCFA <X size={12} className="cursor-pointer" onClick={() => { setLocalMin(''); updateFilter('minPrice', '') }} /></span>}
@@ -166,9 +205,40 @@ function SearchContent() {
               ))}
             </div>
           ) : filteredAds.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
-              {filteredAds.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
-            </div>
+            typeFilter === 'listing' || (!typeFilter && filteredAds.every(a => a.contentType === 'listing')) ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+                {filteredAds.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+              </div>
+            ) : typeFilter === 'product' || (!typeFilter && filteredAds.every(a => a.contentType === 'product')) ? (
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+                {filteredAds.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {filteredAds.some(a => a.contentType === 'listing') && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <ClipboardList size={16} className="text-blue-500" />
+                      <h2 className="text-sm font-semibold text-slate-600">Demandes des clients</h2>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+                      {filteredAds.filter(a => a.contentType === 'listing').map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+                    </div>
+                  </div>
+                )}
+                {filteredAds.some(a => a.contentType === 'product') && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Package size={16} className="text-agrishop-600" />
+                      <h2 className="text-sm font-semibold text-slate-600">Produits</h2>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+                      {filteredAds.filter(a => a.contentType === 'product').map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
           ) : (
             <div className="text-center py-20 bg-slate-50 rounded-xl">
               <Search size={40} className="mx-auto text-slate-200 mb-3" />

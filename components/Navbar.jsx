@@ -80,7 +80,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-0 shrink-0">
-            <Image src="/logo.png" alt="AgriShop" width={80} height={80} priority className="h-10 w-auto" />
+            <Image src="/logo.svg" alt="Composte" width={80} height={80} priority className="h-10 w-auto" />
           </Link>
 
           {/* Desktop nav */}

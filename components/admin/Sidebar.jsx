@@ -24,7 +24,7 @@ export function Sidebar() {
       <Link href="/admin" className="flex items-center gap-1.5 px-5 h-14 border-b border-slate-100 shrink-0">
         <Leaf size={22} className="text-agrishop-600" />
         <span className="text-base font-semibold text-slate-800">
-          agri<span className="text-agrishop-600">shop</span>
+          composte
         </span>
         <span className="ml-auto text-[10px] font-medium text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">admin</span>
       </Link>

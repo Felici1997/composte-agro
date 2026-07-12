@@ -15,6 +15,7 @@ export default function CartPage() {
   const { items } = useSelector(state => state.cart)
   const [mounted, setMounted] = useState(false)
   const [user, setUser] = useState(null)
+  const [role, setRole] = useState(null)
   const [loading, setLoading] = useState(false)
   const [form, setForm] = useState({ nom_complet: '', telephone: '', lieu_livraison: '' })
 
@@ -24,12 +25,18 @@ export default function CartPage() {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user || null)
       if (session?.user) {
-        supabase.from('profiles').select('nom_complet, telephone').eq('id', session.user.id).single().then(({ data }) => {
-          if (data) setForm(prev => ({ ...prev, nom_complet: data.nom_complet || '', telephone: data.telephone || '' }))
+        supabase.from('profiles').select('nom_complet, telephone, role').eq('id', session.user.id).single().then(({ data }) => {
+          if (data) {
+            setForm(prev => ({ ...prev, nom_complet: data.nom_complet || '', telephone: data.telephone || '' }))
+            setRole(data.role)
+            if (data.role !== 'client') router.replace('/dashboard')
+          }
         })
       }
     })
   }, [])
+
+  if (role && role !== 'client') return null
 
   const total = items.reduce((sum, i) => sum + (i.price ?? 0) * i.quantity, 0)
 

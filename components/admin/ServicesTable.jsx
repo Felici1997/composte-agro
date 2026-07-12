@@ -17,6 +17,7 @@ export function ServicesTable({ services, onDelete }) {
             <th className="py-3 px-4 font-medium">Prestataire</th>
             <th className="py-3 px-4 font-medium">Type</th>
             <th className="py-3 px-4 font-medium">Tarif</th>
+            <th className="py-3 px-4 font-medium">Vues</th>
             <th className="py-3 px-4 font-medium">Disponible</th>
             <th className="py-3 px-4 font-medium text-right">Actions</th>
           </tr>
@@ -35,6 +36,7 @@ export function ServicesTable({ services, onDelete }) {
                 <span className="text-xs font-medium bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">{service.type_service}</span>
               </td>
               <td className="py-3 px-4 font-medium text-slate-800">{formatPrice(service.tarif_base)}</td>
+              <td className="py-3 px-4 text-slate-500">{service.views ?? 0}</td>
               <td className="py-3 px-4">
                 <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
                   service.est_disponible ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'

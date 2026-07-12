@@ -1,5 +1,5 @@
 'use client'
-import { Heart, MapPin, User, ImageIcon } from 'lucide-react'
+import { Heart, MapPin, User, ImageIcon, Eye, ClipboardList } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice, getRelativeTime, getCategoryById } from '@/lib/categories'
@@ -35,6 +35,11 @@ const AdCard = ({ ad }) => {
             )}
           </div>
         </Link>
+        {ad.contentType === 'listing' && (
+          <span className="absolute top-2 left-2 inline-flex items-center gap-1 text-[10px] font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 px-2 py-0.5 rounded-full shadow-sm z-10">
+            <ClipboardList size={10} /> Demande client
+          </span>
+        )}
         <button
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); dispatch(toggleFavorite(ad.id)) }}
           className="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition shadow-sm"
@@ -52,13 +57,20 @@ const AdCard = ({ ad }) => {
           <MapPin size={12} />
           <span className="truncate">{getAdCommune(ad) || getAdDepartement(ad) || 'Localisation non précisée'}</span>
         </div>
-        <div className="flex items-center justify-between mt-1.5">
-          <div className="flex items-center gap-1 text-xs text-slate-400">
-            <User size={12} />
-            <span className="truncate">{getAdVendeur(ad)}</span>
+          <div className="flex items-center justify-between mt-1.5">
+            <div className="flex items-center gap-1 text-xs text-slate-400">
+              <User size={12} />
+              <span className="truncate">{getAdVendeur(ad)}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {(ad.views ?? 0) > 0 && (
+                <span className="flex items-center gap-0.5 text-[11px] text-slate-400">
+                  <Eye size={11} /> {ad.views}
+                </span>
+              )}
+              <span className="text-[11px] text-slate-400 shrink-0">{getRelativeTime(getAdCreated(ad))}</span>
+            </div>
           </div>
-          <span className="text-[11px] text-slate-400 shrink-0">{getRelativeTime(getAdCreated(ad))}</span>
-        </div>
       </Link>
     </div>
   )

@@ -16,6 +16,7 @@ export function ProductsTable({ products, onToggleActive, onDelete }) {
             <th className="py-3 px-4 font-medium">Produit</th>
             <th className="py-3 px-4 font-medium">Vendeur</th>
             <th className="py-3 px-4 font-medium">Prix</th>
+            <th className="py-3 px-4 font-medium">Vues</th>
             <th className="py-3 px-4 font-medium">Département</th>
             <th className="py-3 px-4 font-medium">Statut</th>
             <th className="py-3 px-4 font-medium text-right">Actions</th>
@@ -41,6 +42,7 @@ export function ProductsTable({ products, onToggleActive, onDelete }) {
               </td>
               <td className="py-3 px-4 text-slate-600">{product.profiles?.nom_complet || '—'}</td>
               <td className="py-3 px-4 font-medium text-slate-800">{formatPrice(product.prix_unitaire || product.tarif)}</td>
+              <td className="py-3 px-4 text-slate-500">{product.views ?? 0}</td>
               <td className="py-3 px-4 text-slate-500">{product.departement || '—'}</td>
               <td className="py-3 px-4">
                 <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${

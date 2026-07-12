@@ -1,24 +1,34 @@
-import { Outfit } from "next/font/google";
+import { Outfit, Poppins } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import StoreProvider from "@/app/StoreProvider";
 import "./globals.css";
 
-const outfit = Outfit({ subsets: ["latin"], weight: ["400", "500", "600"] });
+const outfit = Outfit({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-heading",
+});
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-body",
+});
 
 export const metadata = {
-  title: "AgriShop - Le marché agricole",
-  description: "AgriShop - Le marché agricole : annonces de matériel agricole, élevage, terrains, services et vente directe producteur",
+  title: "Composte - Le marché agricole",
+  description: "Composte - Le marché agricole : annonces de matériel agricole, élevage, terrains, services et vente directe producteur",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
+    <html lang="fr" className={`${outfit.variable} ${poppins.variable}`}>
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#2d6a4f" />
+        <meta name="theme-color" content="#0D4926" />
         <link rel="apple-touch-icon" href="/logo.png" />
       </head>
-      <body className={`${outfit.className} antialiased`}>
+      <body className="antialiased">
         <StoreProvider>
           <Toaster />
           {children}

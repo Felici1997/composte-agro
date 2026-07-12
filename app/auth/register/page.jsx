@@ -69,7 +69,7 @@ export default function RegisterPage() {
             <UserPlus size={44} className="text-white" />
           </div>
           <h2 className="text-3xl font-bold text-white leading-tight">Rejoignez la communauté</h2>
-          <p className="text-emerald-100 mt-4 leading-relaxed">Créez votre compte en quelques clics et accédez à toutes les fonctionnalités d'AgriShop.</p>
+          <p className="text-emerald-100 mt-4 leading-relaxed">Créez votre compte en quelques clics et accédez à toutes les fonctionnalités de Composte.</p>
           <div className="space-y-4 mt-10 text-left">
             {[
               { icon: Store, text: 'Publiez des annonces gratuitement' },
@@ -92,7 +92,7 @@ export default function RegisterPage() {
         <div className="w-full max-w-sm">
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center justify-center mb-4">
-              <Image src="/logo.png" alt="AgriShop" width={160} height={48} priority className="h-10 w-auto" />
+              <Image src="/logo.svg" alt="Composte" width={160} height={48} priority className="h-10 w-auto" />
             </Link>
             <h1 className="text-xl font-bold text-slate-800">Créer un compte</h1>
             <p className="text-sm text-slate-500 mt-1">Étape {step} sur 2</p>

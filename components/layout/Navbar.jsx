@@ -1,11 +1,12 @@
 'use client'
-import { Search, Heart, PlusCircle, Menu, X, User, LogOut, LayoutDashboard, ShoppingCart, Package, Store, Wrench, ClipboardList, Star, ChevronDown } from "lucide-react";
+import { Search, Heart, PlusCircle, Menu, X, User, LogOut, LayoutDashboard, ShoppingCart, Package, Store, Wrench, ClipboardList, Star, ChevronDown, Settings } from "lucide-react"
+import LocationSelector from "./LocationSelector"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { supabase } from "@/lib/supabase/client";
-import CategoryMenu from "./CategoryMenu";
+import MegaMenu from "./MegaMenu"
 import { categories } from "@/lib/categories";
 
 const roleLinks = {
@@ -85,9 +86,9 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 gap-2 sm:gap-4">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-0 shrink-0" aria-label="Accueil AgriShop">
+          <Link href="/" className="flex items-center gap-0 shrink-0" aria-label="Accueil Composte">
             <span className="text-xl font-semibold text-slate-800">
-              agri<span className="text-agrishop-600">shop</span>
+              composte
             </span>
           </Link>
 
@@ -106,11 +107,13 @@ const Navbar = () => {
               ))}
             </div>
           ) : (
-            <CategoryMenu />
+            <MegaMenu />
           )}
 
-          {/* Search (desktop) */}
-          <form onSubmit={handleSearch} className="hidden md:flex items-center flex-1 max-w-md gap-2 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full focus-within:border-agrishop-400 focus-within:ring-1 focus-within:ring-agrishop-200 transition">
+          {/* Location + Search (desktop) */}
+          <div className="hidden md:flex items-center flex-1 max-w-md gap-2">
+            <LocationSelector />
+            <form onSubmit={handleSearch} className="flex items-center flex-1 gap-2 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full focus-within:border-agrishop-400 focus-within:ring-1 focus-within:ring-agrishop-200 transition">
             <Search size={18} className="text-slate-400 shrink-0" />
             <input
               className="w-full bg-transparent outline-none text-sm placeholder-slate-400"
@@ -121,16 +124,19 @@ const Navbar = () => {
               aria-label="Rechercher une annonce"
             />
           </form>
+          </div>
 
           {/* Actions */}
           <div className="flex items-center gap-1 sm:gap-2">
 
-            <Link href="/cart" className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-full transition" aria-label="Panier">
-              <ShoppingCart size={20} />
-              <span className={`absolute -top-0.5 -right-0.5 bg-agrishop-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center transition-opacity ${cartCount > 0 && mounted ? 'opacity-100' : 'opacity-0'}`}>
-                {mounted ? cartCount : 0}
-              </span>
-            </Link>
+            {(!user || profile?.role === 'client') && (
+              <Link href="/cart" className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-full transition" aria-label="Panier">
+                <ShoppingCart size={20} />
+                <span className={`absolute -top-0.5 -right-0.5 bg-agrishop-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center transition-opacity ${cartCount > 0 && mounted ? 'opacity-100' : 'opacity-0'}`}>
+                  {mounted ? cartCount : 0}
+                </span>
+              </Link>
+            )}
 
             <Link href="/favorites" className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-full transition" aria-label="Mes favoris">
               <Heart size={20} />
@@ -159,6 +165,9 @@ const Navbar = () => {
                       </div>
                       <Link href="/dashboard" onClick={() => setUserMenu(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
                         <LayoutDashboard size={16} /> Tableau de bord
+                      </Link>
+                      <Link href="/profile" onClick={() => setUserMenu(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
+                        <Settings size={16} /> Mon profil
                       </Link>
                       <Link href="/favorites" onClick={() => setUserMenu(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
                         <Heart size={16} /> Mes favoris

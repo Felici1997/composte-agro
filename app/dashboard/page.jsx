@@ -57,6 +57,11 @@ export default function DashboardPage() {
 
   const role = profile?.role || 'client'
   const uid = user?.id
+  const totalViews = role === 'client'
+    ? userDemandes.reduce((s, a) => s + (a.views || 0), 0)
+    : role === 'vendeur'
+    ? userProducts.reduce((s, a) => s + (a.views || 0), 0)
+    : userServices.reduce((s, a) => s + (a.views || 0), 0)
   const gradient = role === 'vendeur' ? 'from-emerald-500 via-emerald-600 to-green-700' : role === 'prestataire' ? 'from-purple-500 via-purple-600 to-indigo-700' : 'from-agrishop-500 via-agrishop-600 to-emerald-700'
   const accentColor = role === 'vendeur' ? 'emerald' : role === 'prestataire' ? 'purple' : 'agrishop'
   const roleLabel = role === 'vendeur' ? 'Vendeur' : role === 'prestataire' ? 'Prestataire' : 'Client'
@@ -104,9 +109,11 @@ export default function DashboardPage() {
         <Link href="/favorites" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition">
           <Star size={18} /> Favoris
         </Link>
-        <Link href="/cart" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition">
-          <ShoppingBag size={18} /> Panier
-        </Link>
+        {role === 'client' && (
+          <Link href="/cart" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition">
+            <ShoppingBag size={18} /> Panier
+          </Link>
+        )}
       </div>
 
       {/* Stats */}
@@ -215,7 +222,7 @@ export default function DashboardPage() {
               <Eye size={20} className="text-slate-500" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-slate-800">—</p>
+              <p className="text-2xl font-bold text-slate-800">{totalViews > 0 ? totalViews : '—'}</p>
               <p className="text-xs text-slate-400">Vues</p>
             </div>
           </div>

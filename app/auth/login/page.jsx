@@ -40,7 +40,7 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-20 h-20 bg-white/15 backdrop-blur-sm rounded-2xl mb-6">
             <Sprout size={44} className="text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-white leading-tight">Bienvenue sur AgriShop</h2>
+          <h2 className="text-3xl font-bold text-white leading-tight">Bienvenue sur Composte</h2>
           <p className="text-emerald-100 mt-4 leading-relaxed">Le marché agricole qui connecte producteurs, vendeurs et prestataires de services près de chez vous.</p>
           <div className="flex items-center justify-center gap-8 mt-10">
             <div className="text-center">
@@ -66,7 +66,7 @@ export default function LoginPage() {
         <div className="w-full max-w-sm">
           <div className="text-center mb-8">
             <Link href="/" className="inline-flex items-center justify-center mb-4">
-              <Image src="/logo.png" alt="AgriShop" width={160} height={48} priority className="h-10 w-auto" />
+              <Image src="/logo.svg" alt="Composte" width={160} height={48} priority className="h-10 w-auto" />
             </Link>
             <h1 className="text-xl font-bold text-slate-800">Heureux de vous revoir</h1>
             <p className="text-sm text-slate-500 mt-1">Connectez-vous pour accéder à votre espace</p>

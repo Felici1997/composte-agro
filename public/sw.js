@@ -1,4 +1,4 @@
-const CACHE = 'agrishop-v1'
+const CACHE = 'composte-v1'
 const URLS = ['/', '/offline']
 
 self.addEventListener('install', (e) => {

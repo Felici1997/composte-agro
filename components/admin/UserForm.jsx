@@ -21,8 +21,7 @@ export function UserForm({ user }) {
     telephone: user?.telephone || '',
     role: user?.role || 'acheteur',
     departement: user?.departement || '',
-    localite: user?.localite || '',
-    bio: user?.bio || '',
+    commune: user?.commune || '',
   })
 
   const handleChange = (e) => {
@@ -82,14 +81,11 @@ export function UserForm({ user }) {
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">Localité</label>
-          <input type="text" name="localite" value={form.localite} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400" />
+          <label className="block text-sm font-medium text-slate-700 mb-1">Commune</label>
+           <input type="text" name="commune" value={form.commune} onChange={handleChange} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400" />
         </div>
       </div>
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Bio</label>
-        <textarea name="bio" value={form.bio} onChange={handleChange} rows={3} className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-agrishop-400" />
-      </div>
+
       <div className="flex items-center gap-3 pt-2">
         <button type="submit" disabled={saving} className="inline-flex items-center gap-1.5 bg-agrishop-600 text-white text-sm font-medium px-4 py-2 rounded-lg hover:bg-agrishop-700 transition disabled:opacity-50">
           <Save size={16} />

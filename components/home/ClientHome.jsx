@@ -31,7 +31,7 @@ export default function ClientHome() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="bg-gradient-to-r from-agrishop-600 to-agrishop-700 rounded-xl p-6 mb-8 text-white">
-        <h1 className="text-xl font-semibold">Bienvenue sur AgriShop</h1>
+        <h1 className="text-xl font-semibold">Bienvenue sur Composte</h1>
         <p className="text-sm text-white/80 mt-1">Trouvez les meilleurs produits et services agricoles près de chez vous</p>
         <Link href="/create-ad" className="inline-flex items-center gap-1.5 bg-white text-agrishop-700 font-medium px-5 py-2.5 rounded-lg mt-4 text-sm hover:bg-agrishop-50 transition">
           <PlusCircle size={18} /> Déposer une annonce

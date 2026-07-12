@@ -2,7 +2,7 @@ import { getAdminClient } from '@/lib/supabase/admin'
 import { requireAdmin } from '@/lib/supabase/admin-guard'
 import { NextResponse } from 'next/server'
 
-const ALLOWED_COLS = ['nom_complet', 'telephone', 'departement', 'localite', 'bio']
+const ALLOWED_COLS = ['nom_complet', 'telephone', 'departement', 'commune', 'email', 'role']
 
 function sanitize(body) {
   const clean = {}
