@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { PlusCircle, Package, ShoppingBag, Wrench, TrendingUp, Eye, Clock, ChevronRight, User, MapPin, Store, ClipboardList, Star, Settings } from 'lucide-react'
 import AdCard from '@/components/AdCard'
 import { formatPrice } from '@/lib/categories'
+import PromoDashboard from '@/components/ads/PromoDashboard'
 
 const statusLabel = { pending: 'En attente', confirmed: 'Confirmée', processing: 'En cours', shipped: 'Expédiée', delivered: 'Livrée', cancelled: 'Annulée' }
 const statusColor = { pending: 'bg-amber-50 text-amber-600', confirmed: 'bg-blue-50 text-blue-600', processing: 'bg-indigo-50 text-indigo-600', shipped: 'bg-purple-50 text-purple-600', delivered: 'bg-green-50 text-green-600', cancelled: 'bg-red-50 text-red-600' }
@@ -115,6 +116,8 @@ export default function DashboardPage() {
           </Link>
         )}
       </div>
+
+      <PromoDashboard role={role} />
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">

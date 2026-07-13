@@ -15,6 +15,7 @@ import Breadcrumb from '@/components/ad/Breadcrumb'
 import SellerCard from '@/components/ad/SellerCard'
 import SafetyTips from '@/components/ad/SafetyTips'
 import ShareButtons from '@/components/ad/ShareButtons'
+import PromoSidebar from '@/components/ads/PromoSidebar'
 import toast from 'react-hot-toast'
 
 function adTitle(ad) { return ad.title || ad.titre || ad.nom || '' }
@@ -251,6 +252,8 @@ export default function AdDetailPage() {
             >
               <Flag size={14} /> Signaler cette annonce
             </button>
+
+            <PromoSidebar role={userRole} />
 
             <SafetyTips />
           </div>

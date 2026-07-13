@@ -1,5 +1,5 @@
 'use client'
-import { Heart, MapPin, User, ImageIcon, Eye, ClipboardList } from 'lucide-react'
+import { Heart, MapPin, User, ImageIcon, Eye, ClipboardList, Sparkles } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { formatPrice, getRelativeTime, getCategoryById } from '@/lib/categories'
@@ -35,11 +35,18 @@ const AdCard = ({ ad }) => {
             )}
           </div>
         </Link>
-        {ad.contentType === 'listing' && (
-          <span className="absolute top-2 left-2 inline-flex items-center gap-1 text-[10px] font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 px-2 py-0.5 rounded-full shadow-sm z-10">
-            <ClipboardList size={10} /> Demande client
-          </span>
-        )}
+        <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
+          {(ad.sponsored || ad.featured) && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700 bg-amber-100 border border-amber-200 px-2 py-0.5 rounded-full shadow-sm">
+              <Sparkles size={10} /> Sponsorisé
+            </span>
+          )}
+          {ad.contentType === 'listing' && (
+            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 px-2 py-0.5 rounded-full shadow-sm">
+              <ClipboardList size={10} /> Demande client
+            </span>
+          )}
+        </div>
         <button
           onClick={(e) => { e.preventDefault(); e.stopPropagation(); dispatch(toggleFavorite(ad.id)) }}
           className="absolute top-2 right-2 p-1.5 bg-white/80 backdrop-blur-sm rounded-full hover:bg-white transition shadow-sm"

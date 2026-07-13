@@ -4,10 +4,6 @@ import Link from 'next/link'
 import { categories } from '@/lib/categories'
 import { ChevronDown } from 'lucide-react'
 
-const categoryIcons = {
-  1: '🐄', 2: '🌱', 6: '🔧', 7: '🌾', 42: '🏭', 43: '🔨',
-}
-
 const categoryDesc = {
   1: 'Bovins, ovins, caprins, volailles et équidés',
   2: 'Semences, engrais, pesticides et aliments',
@@ -39,7 +35,6 @@ export default function MegaMenu() {
                 href={`/c/${cat.id}`}
                 className="flex items-start gap-3 px-5 py-3 hover:bg-agrishop-50 transition group"
               >
-                <span className="text-xl leading-none mt-0.5">{categoryIcons[cat.id] || '📦'}</span>
                 <div>
                   <p className="text-sm font-medium text-slate-700 group-hover:text-agrishop-600">
                     {cat.nom}

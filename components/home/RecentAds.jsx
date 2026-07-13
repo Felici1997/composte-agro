@@ -2,6 +2,7 @@
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
 import AdCard from '@/components/AdCard'
+import FeaturedAds from '@/components/ads/FeaturedAds'
 
 function SkeletonCards() {
   return (
@@ -32,6 +33,8 @@ export default function RecentAds() {
           Voir tout →
         </Link>
       </div>
+      <FeaturedAds ads={activeAds} />
+
       {loading && activeAds.length === 0 ? (
         <SkeletonCards />
       ) : activeAds.length > 0 ? (

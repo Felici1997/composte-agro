@@ -52,7 +52,12 @@ export default function Home() {
       <RecentAds />
       <FAQSection />
       <section className="pb-12 text-center">
-        <div className="bg-gradient-to-br from-agrishop-600 to-emerald-700 rounded-2xl p-8 md:p-12 text-white shadow-lg">
+        <div className="relative overflow-hidden bg-gradient-to-br from-agrishop-600 to-emerald-700 rounded-2xl p-8 md:p-12 text-white shadow-lg min-h-[320px] flex items-center justify-center">
+          <div className="absolute inset-0">
+            <img src="/images/cta-bg.jpg" alt="" className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-agrishop-900/85 via-agrishop-800/75 to-emerald-900/85" />
+          </div>
+          <div className="relative z-10">
           <h2 className="text-xl md:text-2xl font-bold">Vous avez quelque chose à vendre ?</h2>
           <p className="text-sm text-white/80 mt-2 max-w-md mx-auto">
             Publiez votre annonce gratuitement et touchez des milliers d&apos;acheteurs près de chez vous
@@ -67,6 +72,7 @@ export default function Home() {
           </div>
           <p className="text-xs text-white/50 mt-4">Déjà un compte ? <Link href="/auth/login" className="text-white/80 hover:text-white underline">Connectez-vous</Link></p>
         </div>
+      </div>
       </section>
     </div>
   )
