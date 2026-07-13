@@ -4,8 +4,9 @@ import LocationSelector from "./LocationSelector"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { supabase } from "@/lib/supabase/client";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser, setProfile, logout as reduxLogout } from "@/lib/features/auth/authSlice";
+import { supabase, fetchWithTimeout } from "@/lib/supabase/client";
 import MegaMenu from "./MegaMenu"
 import { categories } from "@/lib/categories";
 
@@ -32,11 +33,12 @@ const roleLinks = {
 
 const Navbar = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [search, setSearch] = useState('');
   const [mobileMenu, setMobileMenu] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
-  const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null);
+  const [user, setLocalUser] = useState(null);
+  const [profile, setLocalProfile] = useState(null);
   const [mounted, setMounted] = useState(false);
   const favoriteCount = useSelector(state => state.favorites.ids.length);
   const cartCount = useSelector(state => state.cart.items.reduce((sum, i) => sum + i.quantity, 0));
@@ -44,26 +46,47 @@ const Navbar = () => {
   useEffect(() => { setMounted(true) }, []);
 
   useEffect(() => {
+    let cancelled = false
     const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      setUser(session?.user || null)
-      if (session?.user) {
-        const { data: p } = await supabase.from('profiles').select('role, nom_complet').eq('id', session.user.id).maybeSingle()
-        setProfile(p)
+      try {
+        const { data: { session } } = await fetchWithTimeout(supabase.auth.getSession(), 10000)
+        if (cancelled) return
+        setLocalUser(session?.user || null)
+        dispatch(setUser(session?.user || null))
+        if (session?.user) {
+          const { data: p } = await fetchWithTimeout(supabase.from('profiles').select('role, nom_complet').eq('id', session.user.id).maybeSingle(), 10000)
+          if (!cancelled) {
+            setLocalProfile(p)
+            dispatch(setProfile(p))
+          }
+        }
+      } catch {
+        if (!cancelled) {
+          setLocalUser(null)
+          dispatch(setUser(null))
+        }
       }
     }
     getSession()
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user || null)
+      setLocalUser(session?.user || null)
+      dispatch(setUser(session?.user || null))
       if (session?.user) {
-        const { data: p } = await supabase.from('profiles').select('role, nom_complet').eq('id', session.user.id).maybeSingle()
-        setProfile(p)
+        try {
+          const { data: p } = await fetchWithTimeout(supabase.from('profiles').select('role, nom_complet').eq('id', session.user.id).maybeSingle(), 10000)
+          setLocalProfile(p)
+          dispatch(setProfile(p))
+        } catch {
+          setLocalProfile(null)
+          dispatch(setProfile(null))
+        }
       } else {
-        setProfile(null)
+        setLocalProfile(null)
+        dispatch(setProfile(null))
       }
     })
-    return () => subscription?.unsubscribe()
-  }, [])
+    return () => { cancelled = true; subscription?.unsubscribe() }
+  }, [dispatch])
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -71,7 +94,14 @@ const Navbar = () => {
   }
 
   const handleLogout = async () => {
-    await supabase.auth.signOut()
+    try {
+      await fetchWithTimeout(supabase.auth.signOut(), 5000)
+    } catch {
+      // continue regardless of timeout
+    }
+    setLocalUser(null)
+    setLocalProfile(null)
+    dispatch(reduxLogout())
     setUserMenu(false)
     setMobileMenu(false)
     router.push('/')

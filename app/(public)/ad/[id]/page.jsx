@@ -36,7 +36,7 @@ export default function AdDetailPage() {
   const favIds = useSelector(state => state.favorites.ids)
   const [directAd, setDirectAd] = useState(null)
   const [fetching, setFetching] = useState(false)
-  const adsLoaded = useSelector(state => !state.ads.loading)
+  const adsLoaded = useSelector(state => !state.ads.loading || state.ads.loaded)
   let ad = ads.find(a => a.id === id) || directAd
   const cat = ad ? getCategoryById(ad.category_id) : null
   const isFav = favIds.includes(id)

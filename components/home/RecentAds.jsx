@@ -1,8 +1,10 @@
 'use client'
-import { useSelector } from 'react-redux'
+import { useState, useEffect, useRef } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Link from 'next/link'
 import AdCard from '@/components/AdCard'
 import FeaturedAds from '@/components/ads/FeaturedAds'
+import { loadAds } from '@/lib/features/ads/adsSlice'
 
 function SkeletonCards() {
   return (
@@ -22,8 +24,21 @@ function SkeletonCards() {
 }
 
 export default function RecentAds() {
+  const dispatch = useDispatch()
   const { list: ads, loading, error } = useSelector(state => state.ads)
   const activeAds = ads.filter(a => a.status === 'disponible' || a.is_active || a.est_disponible).slice(0, 8)
+  const [stuck, setStuck] = useState(false)
+  const timerRef = useRef(null)
+
+  useEffect(() => {
+    if (loading && activeAds.length === 0) {
+      timerRef.current = setTimeout(() => setStuck(true), 15000)
+    } else {
+      setStuck(false)
+      if (timerRef.current) clearTimeout(timerRef.current)
+    }
+    return () => { if (timerRef.current) clearTimeout(timerRef.current) }
+  }, [loading, activeAds.length])
 
   return (
     <section className="py-6">
@@ -35,8 +50,19 @@ export default function RecentAds() {
       </div>
       <FeaturedAds ads={activeAds} />
 
-      {loading && activeAds.length === 0 ? (
+      {loading && activeAds.length === 0 && !stuck ? (
         <SkeletonCards />
+      ) : stuck ? (
+        <div className="text-center py-12 text-slate-400 bg-slate-50 rounded-xl">
+          <p className="text-sm font-medium text-slate-500">Le chargement prend plus de temps que prévu</p>
+          <p className="text-xs mt-1">Vérifiez votre connexion internet</p>
+          <button
+            onClick={() => { setStuck(false); dispatch(loadAds()) }}
+            className="mt-4 inline-flex items-center gap-1.5 bg-agrishop-600 hover:bg-agrishop-700 text-white text-sm font-medium px-5 py-2.5 rounded-lg transition"
+          >
+            Réessayer
+          </button>
+        </div>
       ) : activeAds.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {activeAds.map((ad) => (
