@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
-import { User, Mail, Phone, Shield, Save, ArrowLeft, Eye, Package, ShoppingBag, ClipboardList } from 'lucide-react'
+import { User, Mail, Phone, Shield, Save, ArrowLeft, Eye, Package, ShoppingBag, ClipboardList, RefreshCw } from 'lucide-react'
 import toast from 'react-hot-toast'
 
 export default function ProfilePage() {
@@ -152,6 +152,14 @@ export default function ProfilePage() {
           className="w-full flex items-center justify-center gap-1.5 bg-agrishop-600 hover:bg-agrishop-700 text-white font-medium px-6 py-3 rounded-xl text-sm transition disabled:opacity-50"
         >
           <Save size={16} /> {saving ? 'Sauvegarde...' : 'Enregistrer les modifications'}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => window.dispatchEvent(new CustomEvent('restart-tour'))}
+          className="w-full flex items-center justify-center gap-1.5 text-sm text-slate-400 hover:text-agrishop-600 transition py-2"
+        >
+          <RefreshCw size={14} /> Revoir le tutoriel
         </button>
       </form>
     </div>
