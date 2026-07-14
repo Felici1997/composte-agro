@@ -21,7 +21,7 @@ export default function SearchBanner() {
   }
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-agrishop-800 via-agrishop-700 to-emerald-800 rounded-2xl p-6 sm:p-10 text-white mt-4 shadow-lg min-h-[420px] flex items-center">
+    <section data-joyride="hero-search" className="relative overflow-hidden bg-gradient-to-br from-agrishop-800 via-agrishop-700 to-emerald-800 rounded-2xl p-6 sm:p-10 text-white mt-4 shadow-lg min-h-[420px] flex items-center">
       <div className="absolute inset-0 z-0">
         <img src="/images/hero-bg.jpg" alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-r from-agrishop-900/90 via-agrishop-800/80 to-emerald-900/80" />
@@ -44,6 +44,7 @@ export default function SearchBanner() {
               onChange={e => setQuery(e.target.value)}
               placeholder="Que cherchez-vous ? (tracteur, semences...)"
               className="w-full pl-10 pr-4 py-3 rounded-lg text-slate-800 text-sm bg-white outline-none"
+              data-joyride="hero-search-input"
             />
           </div>
           <div className="relative">

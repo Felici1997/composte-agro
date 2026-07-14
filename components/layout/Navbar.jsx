@@ -125,16 +125,25 @@ const Navbar = () => {
           {/* Nav links (desktop) */}
           {user ? (
             <div className="hidden lg:flex items-center gap-1">
-              {links.map(link => (
-                <Link
-                  key={link.href + link.label}
-                  href={link.href}
-                  className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 rounded-lg transition whitespace-nowrap"
-                >
-                  <link.icon size={16} />
-                  {link.label}
-                </Link>
-              ))}
+              {links.map(link => {
+                const joyrideAttr = (
+                  link.label === 'Explorer' ? 'explore' :
+                  link.label === 'Déposer une annonce' || link.label === 'Nouveau produit' || link.label === 'Nouveau service' ? 'create-ad' :
+                  link.label === 'Mes annonces' || link.label === 'Mes produits' || link.label === 'Mes services' ? 'my-items' :
+                  null
+                )
+                return (
+                  <Link
+                    key={link.href + link.label}
+                    href={link.href}
+                    {...(joyrideAttr ? { 'data-joyride': joyrideAttr } : {})}
+                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 rounded-lg transition whitespace-nowrap"
+                  >
+                    <link.icon size={16} />
+                    {link.label}
+                  </Link>
+                )
+              })}
             </div>
           ) : (
             <MegaMenu />
@@ -152,6 +161,7 @@ const Navbar = () => {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               aria-label="Rechercher une annonce"
+              data-joyride="nav-search"
             />
           </form>
           </div>
@@ -193,7 +203,7 @@ const Navbar = () => {
                         <p className="font-medium text-slate-800 truncate">{profile?.nom_complet || 'Utilisateur'}</p>
                         <p className="text-xs text-slate-400 capitalize">{role}</p>
                       </div>
-                      <Link href="/dashboard" onClick={() => setUserMenu(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
+                      <Link href="/dashboard" onClick={() => setUserMenu(false)} data-joyride="dashboard-link" className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
                         <LayoutDashboard size={16} /> Tableau de bord
                       </Link>
                       <Link href="/profile" onClick={() => setUserMenu(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
