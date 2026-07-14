@@ -154,7 +154,7 @@ export default function OnboardingTour() {
           zIndex: 1000,
         },
         spotlight: {
-          borderRadius: 12,
+          borderradius: 12,
         },
         tooltip: {
           borderRadius: 16,
