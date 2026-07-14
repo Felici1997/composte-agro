@@ -53,6 +53,8 @@ export async function POST(request) {
       })
       error = e
     } else if (role === 'prestataire') {
+      if (!city || city.length > 100) return NextResponse.json({ error: 'Localité invalide' }, { status: 400 })
+      if (!region || !VALID_DEPARTEMENTS.includes(region)) return NextResponse.json({ error: 'Département invalide' }, { status: 400 })
       const { error: e } = await supabase.from('services').insert({
         prestataire_id: user.id,
         type_service: type_service || 'prestation',
@@ -61,6 +63,8 @@ export async function POST(request) {
         tarif_base: priceNum,
         est_disponible: true,
         unite: unit?.trim() || null,
+        localite: city.trim(),
+        departement: region,
       })
       error = e
     } else {

@@ -60,31 +60,11 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-600 via-agrishop-600 to-green-700 relative overflow-hidden items-center justify-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
+        <img src="/images/register-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-br from-agrishop-900/85 via-agrishop-800/75 to-emerald-900/85" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4" />
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 25% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="relative z-10 text-center max-w-md">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/15 backdrop-blur-sm rounded-2xl mb-6">
-            <UserPlus size={44} className="text-white" />
-          </div>
-          <h2 className="text-3xl font-bold text-white leading-tight">Rejoignez la communauté</h2>
-          <p className="text-emerald-100 mt-4 leading-relaxed">Créez votre compte en quelques clics et accédez à toutes les fonctionnalités de Composte.</p>
-          <div className="space-y-4 mt-10 text-left">
-            {[
-              { icon: Store, text: 'Publiez des annonces gratuitement' },
-              { icon: User, text: 'Achetez en direct aux producteurs' },
-              { icon: Wrench, text: 'Trouvez des prestataires près de chez vous' },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 text-white/90">
-                <div className="w-8 h-8 bg-white/10 rounded-lg flex items-center justify-center shrink-0">
-                  <item.icon size={16} className="text-white" />
-                </div>
-                <span className="text-sm">{item.text}</span>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
       {/* Right - form */}

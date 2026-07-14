@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff, LogIn, Sprout, ArrowRight, Shield, Mail } from 'lucide-react'
+import { Eye, EyeOff, LogIn, ArrowRight, Shield, Mail } from 'lucide-react'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
@@ -32,33 +32,11 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left - decorative panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-emerald-600 via-agrishop-600 to-green-700 relative overflow-hidden items-center justify-center p-12">
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center p-12">
+        <img src="/images/hero-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-br from-agrishop-900/85 via-agrishop-800/75 to-emerald-900/85" />
         <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
         <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/5 rounded-full translate-y-1/3 -translate-x-1/4" />
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 25% 50%, white 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-        <div className="relative z-10 text-center max-w-md">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/15 backdrop-blur-sm rounded-2xl mb-6">
-            <Sprout size={44} className="text-white" />
-          </div>
-          <h2 className="text-3xl font-bold text-white leading-tight">Bienvenue sur Composte</h2>
-          <p className="text-emerald-100 mt-4 leading-relaxed">Le marché agricole qui connecte producteurs, vendeurs et prestataires de services près de chez vous.</p>
-          <div className="flex items-center justify-center gap-8 mt-10">
-            <div className="text-center">
-              <p className="text-2xl font-bold text-white">100+</p>
-              <p className="text-xs text-emerald-200">Annonces</p>
-            </div>
-            <div className="w-px h-10 bg-white/20" />
-            <div className="text-center">
-              <p className="text-2xl font-bold text-white">50+</p>
-              <p className="text-xs text-emerald-200">Départements</p>
-            </div>
-            <div className="w-px h-10 bg-white/20" />
-            <div className="text-center">
-              <p className="text-2xl font-bold text-white">3</p>
-              <p className="text-xs text-emerald-200">Rôles</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Right - login form */}
