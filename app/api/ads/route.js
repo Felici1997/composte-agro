@@ -68,8 +68,6 @@ export async function POST(request) {
       })
       error = e
     } else {
-      if (!city || city.length > 100) return NextResponse.json({ error: 'Localité invalide' }, { status: 400 })
-      if (!region || !VALID_DEPARTEMENTS.includes(region)) return NextResponse.json({ error: 'Département invalide' }, { status: 400 })
       const { error: e } = await supabase.from('listings').insert({
         seller_id: user.id,
         category_id: catId,
@@ -78,8 +76,6 @@ export async function POST(request) {
         price: priceNum,
         unit: unit?.trim() || null,
         image_url: image_url || null,
-        localite: city.trim(),
-        departement: region,
         is_pre_sale: is_pre_sale || false,
         harvest_date: harvest_date || null,
         status: 'disponible',
