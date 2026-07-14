@@ -138,8 +138,8 @@ export default function CreateAdPage() {
   if (isListing) return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <div className="w-14 h-14 bg-agrishop-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-          <ShoppingBag size={24} className="text-agrishop-600" />
+        <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+          <ShoppingBag size={24} className="text-emerald-600" />
         </div>
         <h1 className="text-2xl font-bold text-slate-800">Déposer une annonce</h1>
         <p className="text-sm text-slate-400 mt-1">Publiez une offre ou une demande agricole</p>
@@ -161,7 +161,7 @@ export default function CreateAdPage() {
               </div>
             ))}
             {images.length < 8 && (
-              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-agrishop-400 hover:bg-agrishop-50 text-slate-400 hover:text-agrishop-600 transition">
+              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
                 <Upload size={22} />
                 <span className="text-[10px] mt-1">Ajouter</span>
                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} hidden />
@@ -174,7 +174,7 @@ export default function CreateAdPage() {
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Titre de l&apos;annonce *</label>
           <input name="title" value={form.title} onChange={handleChange} required maxLength={80}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition"
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
             placeholder="Ex: Recherche tracteur pour labour, Vente de poulets de chair..." />
         </div>
 
@@ -182,7 +182,7 @@ export default function CreateAdPage() {
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Description *</label>
           <textarea name="description" value={form.description} onChange={handleChange} required rows={5} maxLength={2000}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition resize-none"
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition resize-none"
             placeholder="Décrivez votre annonce en détail : quantité, qualité, disponibilité..." />
         </div>
 
@@ -192,7 +192,7 @@ export default function CreateAdPage() {
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Catégorie *</label>
               <select name="category_id" value={form.category_id} onChange={handleChange} required
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 bg-white">
+                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
                 <option value="">Sélectionnez</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.nom}</option>)}
               </select>
@@ -204,7 +204,7 @@ export default function CreateAdPage() {
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">FCFA</span>
                 <input type="number" name="price" value={form.price} onChange={handleChange} min={0} step={1}
-                  className="w-full pl-16 pr-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition" placeholder="0" />
+                  className="w-full pl-16 pr-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" placeholder="0" />
               </div>
             </div>
           </div>
@@ -214,7 +214,7 @@ export default function CreateAdPage() {
               Unité <span className="text-slate-400 font-normal">(optionnel)</span>
             </label>
             <input name="unit" value={form.unit} onChange={handleChange}
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition"
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
               placeholder="Ex: kg, sac 25kg, tête, caisse..." />
           </div>
         </div>
@@ -226,7 +226,7 @@ export default function CreateAdPage() {
               <input type="checkbox" name="is_pre_sale" checked={form.is_pre_sale} onChange={handleChange} id="is_pre_sale"
                 className="sr-only" />
               <div onClick={() => setForm(prev => ({ ...prev, is_pre_sale: !prev.is_pre_sale }))}
-                className={`w-11 h-6 rounded-full cursor-pointer transition-colors relative ${form.is_pre_sale ? 'bg-agrishop-500' : 'bg-slate-300'}`}>
+                className={`w-11 h-6 rounded-full cursor-pointer transition-colors relative ${form.is_pre_sale ? 'bg-emerald-500' : 'bg-slate-300'}`}>
                 <div className={`w-5 h-5 bg-white rounded-full shadow-sm absolute top-0.5 transition-transform ${form.is_pre_sale ? 'translate-x-5.5' : 'translate-x-0.5'}`} style={{left: 0}} />
               </div>
             </div>
@@ -241,7 +241,7 @@ export default function CreateAdPage() {
                 <Calendar size={14} className="inline mr-1" /> Date de récolte estimée
               </label>
               <input type="date" name="harvest_date" value={form.harvest_date} onChange={handleChange}
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition" />
+                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" />
             </div>
           )}
         </div>
@@ -254,9 +254,9 @@ export default function CreateAdPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition" />
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" />
             <select name="region" value={form.region} onChange={handleChange} required
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 bg-white">
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
               <option value="">Département *</option>
               {regions.flatMap(r => r.departements).filter((d, i, a) => a.indexOf(d) === i).map(d => <option key={d} value={d}>{d}</option>)}
             </select>
@@ -264,7 +264,7 @@ export default function CreateAdPage() {
         </div>
 
         <button disabled={loading}
-          className="w-full bg-agrishop-600 hover:bg-agrishop-700 disabled:bg-agrishop-400 text-white font-semibold py-3.5 rounded-xl transition text-sm shadow-lg shadow-agrishop-200 flex items-center justify-center gap-2">
+          className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3.5 rounded-xl transition text-sm shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
           {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Publication...</span> : <><ShoppingBag size={16} /> Publier mon annonce</>}
         </button>
 
@@ -421,8 +421,8 @@ export default function CreateAdPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="text-center mb-8">
-        <div className="w-14 h-14 bg-violet-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-          <Wrench size={24} className="text-violet-600" />
+        <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+          <Wrench size={24} className="text-emerald-600" />
         </div>
         <h1 className="text-2xl font-bold text-slate-800">Proposer un service</h1>
         <p className="text-sm text-slate-400 mt-1">Offrez vos compétences aux agriculteurs et professionnels</p>
@@ -442,14 +442,14 @@ export default function CreateAdPage() {
               return (
                 <button key={t.value} type="button" onClick={() => setForm(prev => ({ ...prev, type_service: t.value }))}
                   className={`flex items-start gap-3 p-4 rounded-xl border text-left transition ${
-                    isActive ? 'border-violet-500 bg-violet-50 ring-2 ring-violet-200' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                    isActive ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-200' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                   }`}>
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-violet-100 text-violet-600' : 'bg-slate-50 text-slate-400'}`}>
+                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-50 text-slate-400'}`}>
                     <Icon size={20} />
                   </div>
                   <div>
-                    <p className={`text-sm font-semibold ${isActive ? 'text-violet-700' : 'text-slate-700'}`}>{t.label}</p>
-                    <p className={`text-xs mt-0.5 ${isActive ? 'text-violet-500' : 'text-slate-400'}`}>{t.desc}</p>
+                    <p className={`text-sm font-semibold ${isActive ? 'text-emerald-700' : 'text-slate-700'}`}>{t.label}</p>
+                    <p className={`text-xs mt-0.5 ${isActive ? 'text-emerald-500' : 'text-slate-400'}`}>{t.desc}</p>
                   </div>
                 </button>
               )
@@ -461,7 +461,7 @@ export default function CreateAdPage() {
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Titre du service *</label>
           <input name="title" value={form.title} onChange={handleChange} required maxLength={80}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
             placeholder={form.type_service === 'recherche' ? 'Ex: Recherche un tractoriste pour labour' : 'Ex: Service de labour mécanisé'} />
         </div>
 
@@ -469,7 +469,7 @@ export default function CreateAdPage() {
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Description *</label>
           <textarea name="description" value={form.description} onChange={handleChange} required rows={5} maxLength={2000}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition resize-none"
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition resize-none"
             placeholder="Décrivez votre service : compétences, expérience, disponibilités, zone d'intervention..." />
         </div>
 
@@ -483,7 +483,7 @@ export default function CreateAdPage() {
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">FCFA</span>
                 <input type="number" name="price" value={form.price} onChange={handleChange} min={0} step={1}
-                  className="w-full pl-16 pr-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition" placeholder="0" />
+                  className="w-full pl-16 pr-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" placeholder="0" />
               </div>
             </div>
             <div>
@@ -491,7 +491,7 @@ export default function CreateAdPage() {
                 Unité <span className="text-slate-400 font-normal">(optionnel)</span>
               </label>
               <input name="unit" value={form.unit} onChange={handleChange}
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition"
+                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
                 placeholder="Ex: heure, jour, forfait..." />
             </div>
           </div>
@@ -505,9 +505,9 @@ export default function CreateAdPage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 transition" />
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" />
             <select name="region" value={form.region} onChange={handleChange} required
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-100 bg-white">
+              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
               <option value="">Département *</option>
               {regions.flatMap(r => r.departements).filter((d, i, a) => a.indexOf(d) === i).map(d => <option key={d} value={d}>{d}</option>)}
             </select>
@@ -529,7 +529,7 @@ export default function CreateAdPage() {
               </div>
             ))}
             {images.length < 8 && (
-              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-violet-400 hover:bg-violet-50 text-slate-400 hover:text-violet-600 transition">
+              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
                 <Upload size={22} />
                 <span className="text-[10px] mt-1">Ajouter</span>
                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} hidden />
@@ -539,7 +539,7 @@ export default function CreateAdPage() {
         </div>
 
         <button disabled={loading}
-          className="w-full bg-violet-600 hover:bg-violet-700 disabled:bg-violet-400 text-white font-semibold py-3.5 rounded-xl transition text-sm shadow-lg shadow-violet-200 flex items-center justify-center gap-2">
+          className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3.5 rounded-xl transition text-sm shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
           {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Publication...</span> : <><Wrench size={16} /> Publier le service</>}
         </button>
 
