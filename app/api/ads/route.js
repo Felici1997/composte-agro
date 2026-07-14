@@ -78,6 +78,8 @@ export async function POST(request) {
         price: priceNum,
         unit: unit?.trim() || null,
         image_url: image_url || null,
+        localite: city.trim(),
+        departement: region,
         is_pre_sale: is_pre_sale || false,
         harvest_date: harvest_date || null,
         status: 'disponible',
