@@ -88,6 +88,12 @@ const Navbar = () => {
     return () => { cancelled = true; subscription?.unsubscribe() }
   }, [dispatch])
 
+  useEffect(() => {
+    const handler = () => setMobileMenu(true)
+    window.addEventListener('open-mobile-menu', handler)
+    return () => window.removeEventListener('open-mobile-menu', handler)
+  }, [])
+
   const handleSearch = (e) => {
     e.preventDefault()
     if (search.trim()) router.push(`/search?q=${encodeURIComponent(search)}`)
@@ -248,11 +254,19 @@ const Navbar = () => {
               <>
                 {/* Role-based mobile links */}
                 <div className="space-y-1">
-                  {links.map(link => (
-                    <Link key={link.href + link.label} href={link.href} onClick={() => setMobileMenu(false)} className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 py-2.5 px-2 rounded-lg transition">
-                      <link.icon size={18} /> {link.label}
-                    </Link>
-                  ))}
+                  {links.map(link => {
+                    const joyrideAttr = (
+                      link.label === 'Explorer' ? 'explore' :
+                      link.label === 'Déposer une annonce' || link.label === 'Nouveau produit' || link.label === 'Nouveau service' ? 'create-ad' :
+                      link.label === 'Mes annonces' || link.label === 'Mes produits' || link.label === 'Mes services' ? 'my-items' :
+                      null
+                    )
+                    return (
+                      <Link key={link.href + link.label} href={link.href} onClick={() => setMobileMenu(false)} {...(joyrideAttr ? { 'data-joyride': joyrideAttr } : {})} className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 py-2.5 px-2 rounded-lg transition">
+                        <link.icon size={18} /> {link.label}
+                      </Link>
+                    )
+                  })}
                 </div>
 
                 <hr />

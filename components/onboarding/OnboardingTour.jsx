@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { Joyride } from 'react-joyride'
 import { supabase } from '@/lib/supabase/client'
 
-const clientSteps = [
+const desktopClient = [
   {
     target: 'body',
     placement: 'center',
@@ -31,7 +31,7 @@ const clientSteps = [
   },
 ]
 
-const vendeurSteps = [
+const desktopVendeur = [
   {
     target: 'body',
     placement: 'center',
@@ -58,7 +58,7 @@ const vendeurSteps = [
   },
 ]
 
-const prestataireSteps = [
+const desktopPrestataire = [
   {
     target: 'body',
     placement: 'center',
@@ -85,13 +85,127 @@ const prestataireSteps = [
   },
 ]
 
+const mobileClient = [
+  {
+    target: 'body',
+    placement: 'center',
+    title: '🌱 Bienvenue sur Composte',
+    content: 'Plateforme agricole numero 1 au Congo. Trouvez produits, materiel et services pres de chez vous.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📋 Ouvrez le menu',
+    content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites de Composte.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '🔍 Parcourir les annonces',
+    content: 'Dans le menu, appuyez sur "Explorer" pour decouvrir des milliers d\'annonces pres de chez vous.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📝 Deposer une annonce',
+    content: 'Appuyez sur "Deposer une annonce" dans le menu pour publier gratuitement votre demande.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📋 Suivre vos annonces',
+    content: 'Retrouvez et gerez toutes vos annonces depuis "Mes annonces" dans le menu.',
+  },
+]
+
+const mobileVendeur = [
+  {
+    target: 'body',
+    placement: 'center',
+    title: '🌱 Bienvenue sur Composte',
+    content: 'Plateforme agricole numero 1 au Congo. Vendez vos produits directement aux acheteurs.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📋 Ouvrez le menu',
+    content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📦 Ajouter un produit',
+    content: 'Dans le menu, appuyez sur "Nouveau produit" pour creer votre catalogue en quelques clics.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📋 Gerer mes produits',
+    content: 'Appuyez sur "Mes produits" dans le menu pour consulter et mettre a jour votre catalogue.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📊 Suivre le marche',
+    content: 'Utilisez "Explorer" dans le menu pour parcourir les annonces et trouver des opportunites.',
+  },
+]
+
+const mobilePrestataire = [
+  {
+    target: 'body',
+    placement: 'center',
+    title: '🌱 Bienvenue sur Composte',
+    content: 'Plateforme agricole numero 1 au Congo. Proposez vos services aux agriculteurs.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📋 Ouvrez le menu',
+    content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '🔧 Creer un service',
+    content: 'Dans le menu, appuyez sur "Nouveau service" pour creer votre carte de service.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📋 Gerer mes services',
+    content: 'Appuyez sur "Mes services" dans le menu pour suivre vos demandes et prestations.',
+  },
+  {
+    target: 'button[aria-label="Menu"]',
+    placement: 'bottom',
+    title: '📊 Decouvrir le marche',
+    content: 'Utilisez "Explorer" dans le menu pour trouver de nouveaux clients et partenaires.',
+  },
+]
+
+function useMedia(breakpoint) {
+  const [matches, setMatches] = useState(false)
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${breakpoint}px)`)
+    setMatches(mq.matches)
+    const handler = (e) => setMatches(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [breakpoint])
+  return matches
+}
+
 export default function OnboardingTour() {
   const { user, profile } = useSelector(state => state.auth)
   const [run, setRun] = useState(false)
   const [key, setKey] = useState(0)
+  const isMobile = useMedia(1023)
   const role = profile?.role || 'client'
 
-  const steps = role === 'vendeur' ? vendeurSteps : role === 'prestataire' ? prestataireSteps : clientSteps
+  const steps = isMobile
+    ? (role === 'vendeur' ? mobileVendeur : role === 'prestataire' ? mobilePrestataire : mobileClient)
+    : (role === 'vendeur' ? desktopVendeur : role === 'prestataire' ? desktopPrestataire : desktopClient)
 
   useEffect(() => {
     if (!user) return
