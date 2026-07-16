@@ -56,7 +56,6 @@ const makeSteps = (role, isMobile) => {
 
   return raw.map((s, i) => ({
     ...s,
-    disableBeacon: true,
     hideOverlay: s.target === 'body',
     data: { icon: s.icon, total },
   }))
@@ -126,7 +125,7 @@ export default function OnboardingTour() {
         close: 'Fermer',
         last: 'Terminer',
         next: 'Suivant',
-        nextWithProgress: 'Suivant ({step}/{steps})',
+        nextWithProgress: 'Suivant ({current}/{total})',
         skip: 'Passer',
       }}
       options={{

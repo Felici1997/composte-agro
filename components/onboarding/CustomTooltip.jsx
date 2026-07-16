@@ -32,8 +32,8 @@ export default function CustomTooltip({
 
   return (
     <div
-      {...tooltipProps}
       key="JoyrideTooltip"
+      {...tooltipProps}
       className="react-joyride__tooltip"
       data-joyride-step={index}
       style={{
