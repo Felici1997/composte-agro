@@ -3,186 +3,64 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSelector } from 'react-redux'
 import { Joyride } from 'react-joyride'
 import { supabase } from '@/lib/supabase/client'
+import CustomTooltip from './CustomTooltip'
 
-const desktopClient = [
-  {
-    target: 'body',
-    placement: 'center',
-    title: '🌱 Bienvenue sur Composte',
-    content: 'Plateforme agricole numero 1 au Congo. Trouvez produits, materiel et services pres de chez vous.',
-  },
-  {
-    target: '[data-joyride="explore"]',
-    placement: 'bottom',
-    title: '🔍 Parcourir les annonces',
-    content: 'Explorez des milliers d\'annonces de produits et services agricoles pres de chez vous.',
-  },
-  {
-    target: '[data-joyride="create-ad"]',
-    placement: 'bottom',
-    title: '📝 Deposer une annonce',
-    content: 'Publiez gratuitement votre demande en quelques clics pour toucher des milliers de vendeurs.',
-  },
-  {
-    target: '[data-joyride="my-items"]',
-    placement: 'bottom',
-    title: '📋 Suivre vos annonces',
-    content: 'Retrouvez et gerez toutes vos annonces depuis votre tableau de bord.',
-  },
-]
+const makeSteps = (role, isMobile) => {
+  const desktop = {
+    client: [
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Trouvez produits, materiel et services pres de chez vous.' },
+      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '🔍', title: 'Parcourir les annonces', content: 'Des milliers d\'annonces de produits et services agricoles pres de chez vous.' },
+      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '📝', title: 'Deposer une annonce', content: 'Publiez gratuitement votre demande en quelques clics pour toucher des milliers de vendeurs.' },
+      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Suivre vos annonces', content: 'Retrouvez et gerez toutes vos annonces depuis votre tableau de bord.' },
+    ],
+    vendeur: [
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Vendez vos produits directement aux acheteurs.' },
+      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '📦', title: 'Ajouter un produit', content: 'Creez votre catalogue en quelques clics : photo, prix, stock et localisation.' },
+      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Gerer mes produits', content: 'Consultez et mettez a jour votre catalogue depuis votre tableau de bord.' },
+      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '📊', title: 'Suivre le marche', content: 'Explorez les annonces pour suivre la concurrence et trouver de nouvelles opportunites.' },
+    ],
+    prestataire: [
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Proposez vos services aux agriculteurs.' },
+      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '🔧', title: 'Creer un service', content: 'Creez votre carte de service : prestation, tarif, zone d\'intervention.' },
+      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Gerer mes services', content: 'Suivez les demandes de service et gerez vos prestations.' },
+      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '📊', title: 'Decouvrir le marche', content: 'Parcourez les annonces pour trouver de nouveaux clients et partenaires.' },
+    ],
+  }
 
-const desktopVendeur = [
-  {
-    target: 'body',
-    placement: 'center',
-    title: '🌱 Bienvenue sur Composte',
-    content: 'Plateforme agricole numero 1 au Congo. Vendez vos produits directement aux acheteurs.',
-  },
-  {
-    target: '[data-joyride="create-ad"]',
-    placement: 'bottom',
-    title: '📦 Ajouter un produit',
-    content: 'Creez votre catalogue en quelques clics : photo, prix, stock et localisation.',
-  },
-  {
-    target: '[data-joyride="my-items"]',
-    placement: 'bottom',
-    title: '📋 Gerer mes produits',
-    content: 'Consultez et mettez a jour votre catalogue depuis votre tableau de bord.',
-  },
-  {
-    target: '[data-joyride="explore"]',
-    placement: 'bottom',
-    title: '📊 Suivre le marche',
-    content: 'Explorez les annonces pour suivre la concurrence et trouver de nouvelles opportunites.',
-  },
-]
+  const mobile = {
+    client: [
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Trouvez produits, materiel et services pres de chez vous.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '🔍', title: 'Parcourir les annonces', content: 'Dans le menu, appuyez sur "Explorer" pour decouvrir des milliers d\'annonces.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📝', title: 'Deposer une annonce', content: 'Appuyez sur "Deposer une annonce" dans le menu pour publier gratuitement.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Suivre vos annonces', content: 'Retrouvez vos annonces depuis "Mes annonces" dans le menu.' },
+    ],
+    vendeur: [
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Vendez vos produits directement aux acheteurs.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📦', title: 'Ajouter un produit', content: 'Dans le menu, appuyez sur "Nouveau produit" pour creer votre catalogue.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Gerer mes produits', content: 'Appuyez sur "Mes produits" dans le menu pour gerer votre catalogue.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📊', title: 'Suivre le marche', content: 'Utilisez "Explorer" dans le menu pour trouver des opportunites.' },
+    ],
+    prestataire: [
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Proposez vos services aux agriculteurs.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '🔧', title: 'Creer un service', content: 'Dans le menu, appuyez sur "Nouveau service" pour creer votre carte.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Gerer mes services', content: 'Appuyez sur "Mes services" dans le menu pour suivre vos prestations.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📊', title: 'Decouvrir le marche', content: 'Utilisez "Explorer" dans le menu pour trouver de nouveaux clients.' },
+    ],
+  }
 
-const desktopPrestataire = [
-  {
-    target: 'body',
-    placement: 'center',
-    title: '🌱 Bienvenue sur Composte',
-    content: 'Plateforme agricole numero 1 au Congo. Proposez vos services aux agriculteurs.',
-  },
-  {
-    target: '[data-joyride="create-ad"]',
-    placement: 'bottom',
-    title: '🔧 Creer un service',
-    content: 'Creez votre carte de service : prestation, tarif, zone d\'intervention.',
-  },
-  {
-    target: '[data-joyride="my-items"]',
-    placement: 'bottom',
-    title: '📋 Gerer mes services',
-    content: 'Suivez les demandes de service et gerez vos prestations.',
-  },
-  {
-    target: '[data-joyride="explore"]',
-    placement: 'bottom',
-    title: '📊 Decouvrir le marche',
-    content: 'Parcourez les annonces pour trouver de nouveaux clients et partenaires.',
-  },
-]
+  const raw = isMobile ? mobile[role] || mobile.client : desktop[role] || desktop.client
+  const total = raw.length
 
-const mobileClient = [
-  {
-    target: 'body',
-    placement: 'center',
-    title: '🌱 Bienvenue sur Composte',
-    content: 'Plateforme agricole numero 1 au Congo. Trouvez produits, materiel et services pres de chez vous.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📋 Ouvrez le menu',
-    content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites de Composte.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '🔍 Parcourir les annonces',
-    content: 'Dans le menu, appuyez sur "Explorer" pour decouvrir des milliers d\'annonces pres de chez vous.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📝 Deposer une annonce',
-    content: 'Appuyez sur "Deposer une annonce" dans le menu pour publier gratuitement votre demande.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📋 Suivre vos annonces',
-    content: 'Retrouvez et gerez toutes vos annonces depuis "Mes annonces" dans le menu.',
-  },
-]
-
-const mobileVendeur = [
-  {
-    target: 'body',
-    placement: 'center',
-    title: '🌱 Bienvenue sur Composte',
-    content: 'Plateforme agricole numero 1 au Congo. Vendez vos produits directement aux acheteurs.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📋 Ouvrez le menu',
-    content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📦 Ajouter un produit',
-    content: 'Dans le menu, appuyez sur "Nouveau produit" pour creer votre catalogue en quelques clics.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📋 Gerer mes produits',
-    content: 'Appuyez sur "Mes produits" dans le menu pour consulter et mettre a jour votre catalogue.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📊 Suivre le marche',
-    content: 'Utilisez "Explorer" dans le menu pour parcourir les annonces et trouver des opportunites.',
-  },
-]
-
-const mobilePrestataire = [
-  {
-    target: 'body',
-    placement: 'center',
-    title: '🌱 Bienvenue sur Composte',
-    content: 'Plateforme agricole numero 1 au Congo. Proposez vos services aux agriculteurs.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📋 Ouvrez le menu',
-    content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '🔧 Creer un service',
-    content: 'Dans le menu, appuyez sur "Nouveau service" pour creer votre carte de service.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📋 Gerer mes services',
-    content: 'Appuyez sur "Mes services" dans le menu pour suivre vos demandes et prestations.',
-  },
-  {
-    target: 'button[aria-label="Menu"]',
-    placement: 'bottom',
-    title: '📊 Decouvrir le marche',
-    content: 'Utilisez "Explorer" dans le menu pour trouver de nouveaux clients et partenaires.',
-  },
-]
+  return raw.map((s, i) => ({
+    ...s,
+    disableBeacon: true,
+    hideOverlay: s.target === 'body',
+    data: { icon: s.icon, total },
+  }))
+}
 
 function useMedia(breakpoint) {
   const [matches, setMatches] = useState(false)
@@ -202,10 +80,7 @@ export default function OnboardingTour() {
   const [key, setKey] = useState(0)
   const isMobile = useMedia(1023)
   const role = profile?.role || 'client'
-
-  const steps = isMobile
-    ? (role === 'vendeur' ? mobileVendeur : role === 'prestataire' ? mobilePrestataire : mobileClient)
-    : (role === 'vendeur' ? desktopVendeur : role === 'prestataire' ? desktopPrestataire : desktopClient)
+  const steps = makeSteps(role, isMobile)
 
   useEffect(() => {
     if (!user) return
@@ -243,98 +118,73 @@ export default function OnboardingTour() {
       steps={steps}
       run={run}
       callback={handleCallback}
+      tooltipComponent={CustomTooltip}
       continuous
-      showSkipButton
-      showProgress
-      spotlightClicks
-      hideBackButton={false}
-      disableOverlayClose
+      scrollToFirstStep
       locale={{
         back: 'Précédent',
         close: 'Fermer',
         last: 'Terminer',
         next: 'Suivant',
+        nextWithProgress: 'Suivant ({step}/{steps})',
         skip: 'Passer',
+      }}
+      options={{
+        arrowColor: '#ffffff',
+        arrowSize: 14,
+        arrowSpacing: 8,
+        backgroundColor: '#ffffff',
+        beaconSize: 28,
+        overlayColor: 'rgba(13,73,38,0.55)',
+        primaryColor: '#73BF44',
+        showProgress: true,
+        skipBeacon: true,
+        spotlightPadding: 6,
+        spotlightRadius: 12,
+        width: isMobile ? '90vw' : 380,
+        zIndex: 1000,
+        overlayClickAction: false,
+        dismissKeyAction: false,
+        scrollDuration: 500,
+        scrollOffset: 80,
       }}
       styles={{
         options: {
           arrowColor: '#ffffff',
           backgroundColor: '#ffffff',
-          overlayColor: 'rgba(0,0,0,0.55)',
+          overlayColor: 'rgba(13,73,38,0.55)',
           primaryColor: '#73BF44',
           textColor: '#1e293b',
-          spotlightShadow: '0 0 0 4px rgba(115,191,68,0.3)',
-          width: 380,
+          width: isMobile ? '90vw' : 380,
           zIndex: 1000,
+          spotlightShadow: '0 0 0 4px rgba(115,191,68,0.25)',
         },
         spotlight: {
-          borderradius: 12,
+          stroke: '#73BF44',
+          strokeWidth: 2,
+          strokeOpacity: 0.4,
         },
         tooltip: {
           borderRadius: 16,
-          padding: 24,
-          boxShadow: '0 12px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.08)',
+          boxShadow: '0 16px 48px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.08)',
         },
         tooltipContainer: {
-          textAlign: 'left',
+          textAlign: 'center',
         },
-        title: {
-          fontSize: 18,
-          fontWeight: 700,
-          marginBottom: 8,
-          color: '#0D4926',
+        tooltipFooter: {
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          padding: '16px 24px',
         },
-        content: {
-          fontSize: 14,
-          lineHeight: 1.6,
-          color: '#475569',
-          margin: 0,
-        },
-        buttonNext: {
-          backgroundColor: '#73BF44',
-          color: '#ffffff',
-          borderRadius: 12,
-          padding: '8px 20px',
-          fontSize: 14,
-          fontWeight: 600,
-          border: 'none',
-          cursor: 'pointer',
-          transition: 'all 0.15s ease',
-        },
-        buttonBack: {
-          color: '#64748b',
-          fontSize: 13,
-          fontWeight: 500,
-          padding: '8px 12px',
-          marginRight: 4,
-          borderRadius: 8,
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-        },
-        buttonSkip: {
-          color: '#94a3b8',
-          fontSize: 13,
-          fontWeight: 500,
-          padding: '8px 12px',
-          borderRadius: 8,
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-        },
-        progress: {
-          color: '#94a3b8',
-          fontSize: 12,
-          fontWeight: 600,
+        floater: {
+          filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.12))',
         },
       }}
-      floaterProps={{
-        disableAnimation: false,
-        styles: {
-          arrow: {
-            length: 12,
-            spread: 20,
-          },
+      floatingOptions={{
+        offset: 14,
+        flipOptions: {
+          padding: 16,
         },
       }}
     />
