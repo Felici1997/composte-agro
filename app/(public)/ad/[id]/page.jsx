@@ -62,7 +62,7 @@ export default function AdDetailPage() {
 
   useEffect(() => {
     if (!ad) return
-    const contentType = ad.contentType || (ad.seller_id ? 'listing' : ad.vendeur_id ? 'product' : ad.prestataire_id ? 'service' : null)
+    const contentType = ad.contentType || (ad.client_id ? 'listing' : ad.vendeur_id ? 'product' : ad.prestataire_id ? 'service' : null)
     if (contentType) {
       fetch('/api/ads/view', {
         method: 'POST',
@@ -70,7 +70,7 @@ export default function AdDetailPage() {
         body: JSON.stringify({ id: ad.id, contentType }),
       }).catch(() => {})
     }
-    setSellerId(ad._profile?.id || ad.seller_id || ad.vendeur_id || ad.prestataire_id || null)
+    setSellerId(ad._profile?.id || ad.client_id || ad.vendeur_id || ad.prestataire_id || null)
   }, [ad])
 
   if (fetching || (!adsLoaded && !ad)) {

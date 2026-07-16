@@ -8,7 +8,7 @@ import {
 
 const navItems = [
   { href: '/admin', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/admin/produits', label: 'Produits', icon: Package },
+  { href: '/admin/produits', label: 'Producteurs', icon: Package },
   { href: '/admin/services', label: 'Services', icon: Wrench },
   { href: '/admin/utilisateurs', label: 'Utilisateurs', icon: Users },
   { href: '/admin/commandes', label: 'Commandes', icon: ShoppingCart },

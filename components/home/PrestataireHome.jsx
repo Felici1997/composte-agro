@@ -46,7 +46,7 @@ export default function PrestataireHome() {
         </div>
         <div className="bg-white border rounded-xl p-4">
           <p className="text-2xl font-bold text-slate-700">{demandes.length}</p>
-          <p className="text-xs text-slate-400">Demandes de services</p>
+          <p className="text-xs text-slate-400">Clients</p>
         </div>
       </div>
 
@@ -63,7 +63,7 @@ export default function PrestataireHome() {
         </div>
       )}
 
-      <h2 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-1.5"><ShoppingBag size={16} /> Demandes de services</h2>
+      <h2 className="text-sm font-semibold text-slate-700 mb-3 flex items-center gap-1.5"><ShoppingBag size={16} /> Clients</h2>
       {demandes.length > 0 ? (
         <div className="space-y-2">
           {demandes.map(d => (

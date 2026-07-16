@@ -2,7 +2,7 @@ import { getAdminStats } from '@/lib/supabase/admin-queries'
 import { Package, Wrench, Users, ShoppingCart, MessageSquare } from 'lucide-react'
 
 const cards = [
-  { key: 'productsCount', label: 'Produits', icon: Package, color: 'text-blue-600 bg-blue-100', link: '/admin/produits' },
+  { key: 'productsCount', label: 'Producteurs', icon: Package, color: 'text-blue-600 bg-blue-100', link: '/admin/produits' },
   { key: 'servicesCount', label: 'Services', icon: Wrench, color: 'text-amber-600 bg-amber-100', link: '/admin/services' },
   { key: 'usersCount', label: 'Utilisateurs', icon: Users, color: 'text-green-600 bg-green-100', link: '/admin/utilisateurs' },
   { key: 'ordersCount', label: 'Commandes', icon: ShoppingCart, color: 'text-purple-600 bg-purple-100', link: '/admin/commandes' },

@@ -3,7 +3,7 @@ import { getAdminClient } from '@/lib/supabase/admin'
 import { NextResponse } from 'next/server'
 
 const TABLE_MAP = { listing: 'listings', product: 'products', service: 'services' }
-const OWNER_COL = { listings: 'seller_id', products: 'vendeur_id', services: 'prestataire_id' }
+const OWNER_COL = { listings: 'client_id', products: 'vendeur_id', services: 'prestataire_id' }
 
 export async function POST(request) {
   try {

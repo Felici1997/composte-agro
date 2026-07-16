@@ -2,7 +2,7 @@ const steps = [
   {
     src: '/images/illustrations/online-groceries-bro.svg',
     title: 'Publiez gratuitement',
-    desc: 'Déposez votre annonce en 2 minutes. Produits, services ou demandes — tout le monde peut publier.',
+    desc: 'Déposez votre annonce en 2 minutes. Producteurs, services ou clients — tout le monde peut publier.',
     bg: 'bg-emerald-50',
   },
   {

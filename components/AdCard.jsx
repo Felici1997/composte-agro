@@ -35,15 +35,15 @@ const AdCard = ({ ad }) => {
             )}
           </div>
         </Link>
-        <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10">
+        <div className="absolute top-2 left-2 flex flex-wrap gap-1 z-10 max-w-[75%]">
           {(ad.sponsored || ad.featured) && (
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700 bg-amber-100 border border-amber-200 px-2 py-0.5 rounded-full shadow-sm">
-              <Sparkles size={10} /> Sponsorisé
+            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-amber-700 bg-amber-100 border border-amber-200 px-2 py-0.5 rounded-full shadow-sm truncate">
+              <Sparkles size={10} className="shrink-0" /> Sponsorisé
             </span>
           )}
           {ad.contentType === 'listing' && (
             <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-white bg-gradient-to-r from-blue-500 to-blue-600 px-2 py-0.5 rounded-full shadow-sm">
-              <ClipboardList size={10} /> Demande client
+              <ClipboardList size={10} /> Client
             </span>
           )}
         </div>
@@ -56,26 +56,26 @@ const AdCard = ({ ad }) => {
         </button>
       </div>
       <Link href={`/ad/${ad.id}`} className="block p-3">
-        <p className="text-sm font-bold text-agrishop-600">{formatPrice(getAdPrice(ad))}</p>
+        <p className="text-sm font-bold text-agrishop-600 truncate">{formatPrice(getAdPrice(ad))}</p>
         {ad.unite_mesure && <p className="text-[10px] text-slate-400">/ {ad.unite_mesure}</p>}
-        <h3 className="text-sm text-slate-800 font-medium mt-0.5 line-clamp-2 leading-snug">{getAdTitle(ad)}</h3>
-        {cat && <p className="text-xs text-slate-400 mt-1">{cat.nom}</p>}
-        <div className="flex items-center gap-1 mt-2 text-xs text-slate-400">
-          <MapPin size={12} />
+        <h3 className="text-sm text-slate-800 font-medium mt-0.5 line-clamp-2 leading-snug break-words">{getAdTitle(ad)}</h3>
+        {cat && <p className="text-xs text-slate-400 mt-1 truncate">{cat.nom}</p>}
+        <div className="flex items-center gap-1 mt-2 text-xs text-slate-400 min-w-0">
+          <MapPin size={12} className="shrink-0" />
           <span className="truncate">{getAdCommune(ad) || getAdDepartement(ad) || 'Localisation non précisée'}</span>
         </div>
-          <div className="flex items-center justify-between mt-1.5">
-            <div className="flex items-center gap-1 text-xs text-slate-400">
-              <User size={12} />
+          <div className="flex items-center justify-between mt-1.5 gap-2">
+            <div className="flex items-center gap-1 text-xs text-slate-400 min-w-0">
+              <User size={12} className="shrink-0" />
               <span className="truncate">{getAdVendeur(ad)}</span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 shrink-0">
               {(ad.views ?? 0) > 0 && (
-                <span className="flex items-center gap-0.5 text-[11px] text-slate-400">
-                  <Eye size={11} /> {ad.views}
+                <span className="flex items-center gap-0.5 text-[11px] text-slate-400 whitespace-nowrap">
+                  <Eye size={11} className="shrink-0" /> {ad.views}
                 </span>
               )}
-              <span className="text-[11px] text-slate-400 shrink-0">{getRelativeTime(getAdCreated(ad))}</span>
+              <span className="text-[11px] text-slate-400 whitespace-nowrap">{getRelativeTime(getAdCreated(ad))}</span>
             </div>
           </div>
       </Link>

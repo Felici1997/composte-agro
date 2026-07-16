@@ -40,7 +40,7 @@ export default function ClientHome() {
 
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-700">Produits agricoles</h2>
+          <h2 className="text-lg font-semibold text-slate-700">Producteurs</h2>
           <Link href="/search?type=product" className="text-sm text-agrishop-600 hover:underline font-medium">Voir tout →</Link>
         </div>
         {loading && products.length === 0 ? <SkeletonCards /> : products.length > 0 ? (

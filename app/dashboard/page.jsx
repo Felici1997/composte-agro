@@ -41,7 +41,7 @@ export default function DashboardPage() {
       setProfile(p)
       const [ords, listings, products, services] = await Promise.all([
         supabase.from('orders').select('*').eq('buyer_id', session.user.id).order('created_at', { ascending: false }).limit(10),
-        supabase.from('listings').select('*').eq('seller_id', session.user.id).order('created_at', { ascending: false }).limit(50),
+        supabase.from('listings').select('*').eq('client_id', session.user.id).order('created_at', { ascending: false }).limit(50),
         supabase.from('products').select('*').eq('vendeur_id', session.user.id).order('created_at', { ascending: false }).limit(50),
         supabase.from('services').select('*').eq('prestataire_id', session.user.id).order('created_at', { ascending: false }).limit(50),
       ])
@@ -143,7 +143,7 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-slate-800">{userProducts.length}</p>
-                  <p className="text-xs text-slate-400">Produits</p>
+                  <p className="text-xs text-slate-400">Producteurs</p>
                 </div>
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-slate-800">{userDemandes.length}</p>
-                  <p className="text-xs text-slate-400">Demandes reçues</p>
+                  <p className="text-xs text-slate-400">Clients</p>
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@ export default function DashboardPage() {
                 </div>
                 <div>
                   <p className="text-2xl font-bold text-slate-800">{userDemandes.length}</p>
-                  <p className="text-xs text-slate-400">Demandes</p>
+                  <p className="text-xs text-slate-400">Clients</p>
                 </div>
               </div>
             </div>
@@ -304,7 +304,7 @@ export default function DashboardPage() {
         <>
           <div className="mb-8">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><Package size={18} /> Mes produits</h2>
+              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><Package size={18} /> Mon catalogue</h2>
               {userProducts.length > 0 && (
                 <Link href="/admin/produits" className="text-xs text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-1">
                   Gérer <ChevronRight size={14} />
@@ -330,7 +330,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><ShoppingBag size={18} /> Demandes des clients</h2>
+              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><ShoppingBag size={18} /> Clients</h2>
               <span className="text-xs bg-blue-50 text-blue-600 font-medium px-2 py-0.5 rounded-full">{userDemandes.length} nouvelle{userDemandes.length > 1 ? 's' : ''}</span>
             </div>
             {userDemandes.length > 0 ? (
@@ -359,8 +359,8 @@ export default function DashboardPage() {
                 <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-blue-50 mb-3">
                   <ShoppingBag size={28} className="text-blue-400" />
                 </div>
-                <p className="text-slate-500 font-medium">Aucune demande pour le moment</p>
-                <p className="text-xs text-slate-400 mt-1">Les demandes des clients apparaîtront ici</p>
+                <p className="text-slate-500 font-medium">Aucun client pour le moment</p>
+                <p className="text-xs text-slate-400 mt-1">Les clients apparaîtront ici</p>
               </div>
             )}
           </div>
@@ -397,7 +397,7 @@ export default function DashboardPage() {
           </div>
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><ShoppingBag size={18} /> Demandes de services</h2>
+              <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><ShoppingBag size={18} /> Clients</h2>
             </div>
             {userDemandes.length > 0 ? (
               <div className="space-y-2">

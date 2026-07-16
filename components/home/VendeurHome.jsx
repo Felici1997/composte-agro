@@ -61,7 +61,7 @@ export default function VendeurHome() {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-800">{mesProduits.length}</p>
-              <p className="text-xs text-slate-400">Produits en vente</p>
+              <p className="text-xs text-slate-400">En vente</p>
             </div>
           </div>
         </div>
@@ -72,7 +72,7 @@ export default function VendeurHome() {
             </div>
             <div>
               <p className="text-2xl font-bold text-slate-800">{demandes.length}</p>
-              <p className="text-xs text-slate-400">Demandes clients</p>
+              <p className="text-xs text-slate-400">Clients</p>
             </div>
           </div>
         </div>
@@ -103,10 +103,10 @@ export default function VendeurHome() {
       {/* Quick actions */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         <Link href="/create-ad" className="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl p-3 text-sm font-medium text-emerald-700 transition">
-          <PlusCircle size={18} /> Nouveau produit
+          <PlusCircle size={18} /> Nouveau producteur
         </Link>
         <Link href="/dashboard" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition">
-          <Package size={18} /> Mes produits
+          <Package size={18} /> Mon catalogue
         </Link>
         <Link href="/dashboard" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition">
           <Clock size={18} /> Commandes
@@ -119,7 +119,7 @@ export default function VendeurHome() {
       {/* Mes produits */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-slate-800">Mes produits</h2>
+          <h2 className="text-base font-semibold text-slate-800">Mon catalogue</h2>
           {mesProduits.length > 0 && (
             <Link href="/dashboard" className="text-xs text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-1">
               Tout voir <ChevronRight size={14} />
@@ -147,7 +147,7 @@ export default function VendeurHome() {
       {/* Demandes clients récentes */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-slate-800">Demandes récentes des clients</h2>
+          <h2 className="text-base font-semibold text-slate-800">Clients</h2>
           <span className="text-xs bg-emerald-50 text-emerald-600 font-medium px-2 py-0.5 rounded-full">{demandes.length} nouvelle{demandes.length > 1 ? 's' : ''}</span>
         </div>
         {loading ? (

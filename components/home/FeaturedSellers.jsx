@@ -13,7 +13,7 @@ export default function FeaturedSellers() {
     ads.forEach(ad => {
       const profile = ad._profile
       if (!profile) return
-      const id = profile.id || ad.seller_id || ad.vendeur_id || ad.prestataire_id
+      const id = profile.id || ad.client_id || ad.vendeur_id || ad.prestataire_id
       if (!id) return
       if (!sellerMap[id]) {
         sellerMap[id] = {

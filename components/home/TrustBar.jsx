@@ -9,8 +9,8 @@ export default function TrustBar() {
 
   const stats = [
     { value: mounted ? ads.length : 0, label: 'Annonces en ligne', suffix: '', src: '/images/illustrations/marketplace-bro.svg' },
-    { value: mounted ? ads.filter(a => a.contentType === 'product').length : 0, label: 'Produits agricoles', suffix: '', src: '/images/illustrations/peach-bro.svg' },
-    { value: mounted ? new Set(ads.map(a => a._profile?.id || a.seller_id || a.vendeur_id || a.prestataire_id)).size : 0, label: 'Vendeurs actifs', suffix: '+', src: '/images/illustrations/self-confidence-bro.svg' },
+    { value: mounted ? ads.filter(a => a.contentType === 'product').length : 0, label: 'Producteurs', suffix: '', src: '/images/illustrations/peach-bro.svg' },
+    { value: mounted ? new Set(ads.map(a => a._profile?.id || a.client_id || a.vendeur_id || a.prestataire_id)).size : 0, label: 'Vendeurs actifs', suffix: '+', src: '/images/illustrations/self-confidence-bro.svg' },
     { value: 11, label: 'Départements couverts', suffix: '', src: '/images/illustrations/directions-bro.svg' },
   ]
 

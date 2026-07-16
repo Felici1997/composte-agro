@@ -2,7 +2,7 @@
 import { useState, useEffect, Suspense, useCallback } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import { Search, SlidersHorizontal, X, ClipboardList, Package } from 'lucide-react'
+import { Search, SlidersHorizontal, X, ClipboardList, Package, Wrench } from 'lucide-react'
 import AdCard from '@/components/AdCard'
 import { categories, regions } from '@/lib/categories'
 
@@ -13,8 +13,9 @@ function getAdRegion(ad) { return ad._departement || ad.departement || '' }
 
 const typeOptions = [
   { value: '', label: 'Tout', icon: null },
-  { value: 'listing', label: 'Demandes', icon: ClipboardList },
-  { value: 'product', label: 'Produits', icon: Package },
+  { value: 'listing', label: 'Clients', icon: ClipboardList },
+  { value: 'product', label: 'Producteurs', icon: Package },
+  { value: 'service', label: 'Services', icon: Wrench },
 ]
 
 function SearchContent() {
@@ -86,7 +87,7 @@ function SearchContent() {
     <div className="max-w-7xl mx-auto px-4 py-6">
       <div className="flex items-start gap-8">
         <div className={`${showFilters ? 'fixed inset-0 z-50 bg-black/40 flex' : 'hidden'} lg:relative lg:flex lg:w-64 shrink-0`}>
-          <div className={`${showFilters ? 'w-80 bg-white h-full overflow-y-auto p-6' : 'w-full'} lg:bg-white lg:border lg:rounded-xl lg:p-4 lg:sticky lg:top-24 space-y-4`}>
+          <div className={`${showFilters ? 'w-full max-w-sm bg-white h-full overflow-y-auto p-6' : 'w-full'} lg:bg-white lg:border lg:rounded-xl lg:p-4 lg:sticky lg:top-24 space-y-4`}>
             <div className="flex items-center justify-between lg:hidden mb-4">
               <h3 className="font-semibold text-slate-700">Filtres</h3>
               <button onClick={() => setShowFilters(false)}><X size={20} /></button>
@@ -98,15 +99,15 @@ function SearchContent() {
 
             <div>
               <label className="text-xs font-medium text-slate-500 uppercase tracking-wider">Type</label>
-              <div className="flex gap-1 mt-1.5 bg-slate-100 rounded-lg p-0.5">
+              <div className="flex gap-1 mt-1.5 bg-slate-100 rounded-lg p-0.5 overflow-x-auto no-scrollbar">
                 {typeOptions.map(opt => {
                   const Icon = opt.icon
                   const active = (typeFilter || '') === opt.value
                   return (
                     <button key={opt.value} onClick={() => updateFilter('type', opt.value)}
-                      className={`flex-1 flex items-center justify-center gap-1 text-xs font-medium py-1.5 rounded-md transition ${active ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                      className={`flex-1 flex items-center justify-center gap-1 text-xs font-medium py-1.5 px-2 rounded-md transition whitespace-nowrap ${active ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
-                      {Icon && <Icon size={13} />} {opt.label}
+                      {Icon && <Icon size={13} className="shrink-0" />} {opt.label}
                     </button>
                   )
                 })}
@@ -132,9 +133,9 @@ function SearchContent() {
             <div>
               <label className="text-xs font-medium text-slate-500 uppercase tracking-wider">Prix</label>
               <div className="flex items-center gap-2 mt-1.5">
-                <input type="number" placeholder="Min" value={localMin} onChange={e => setLocalMin(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400" />
-                <span className="text-slate-300">-</span>
-                <input type="number" placeholder="Max" value={localMax} onChange={e => setLocalMax(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400" />
+                <input type="number" inputMode="numeric" placeholder="Min" value={localMin} onChange={e => setLocalMin(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
+                <span className="text-slate-300 shrink-0">-</span>
+                <input type="number" inputMode="numeric" placeholder="Max" value={localMax} onChange={e => setLocalMax(e.target.value)} className="w-full px-3 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none" />
               </div>
             </div>
 
@@ -150,21 +151,21 @@ function SearchContent() {
         <div className="flex-1 min-w-0">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
             <div>
-              <h1 className="text-lg font-semibold text-slate-700">
-                {q ? <>Résultats pour "<span className="text-agrishop-600">{q}</span>"</> : 'Toutes les annonces'}
+              <h1 className="text-lg font-semibold text-slate-700 truncate">
+                {q ? <>Résultats pour "<span className="text-agrishop-600 break-all">{q}</span>"</> : 'Toutes les annonces'}
               </h1>
               <p className="text-sm text-slate-400">{mounted ? filteredAds.length : '—'} résultat{filteredAds.length > 1 ? 's' : ''}</p>
             </div>
             <div className="flex items-center gap-2">
-              <div className="hidden md:flex gap-1 bg-slate-100 rounded-lg p-0.5">
+              <div className="hidden md:flex gap-1 bg-slate-100 rounded-lg p-0.5 overflow-x-auto no-scrollbar">
                 {typeOptions.map(opt => {
                   const Icon = opt.icon
                   const active = (typeFilter || '') === opt.value
                   return (
                     <button key={opt.value} onClick={() => updateFilter('type', opt.value)}
-                      className={`flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-md transition ${active ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                      className={`flex items-center gap-1 text-xs font-medium px-3 py-1.5 rounded-md transition whitespace-nowrap ${active ? 'bg-white text-slate-800 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
                     >
-                      {Icon && <Icon size={14} />} {opt.label}
+                      {Icon && <Icon size={14} className="shrink-0" />} {opt.label}
                     </button>
                   )
                 })}
@@ -183,7 +184,7 @@ function SearchContent() {
 
           {hasFilters && (
             <div className="flex flex-wrap gap-2 mb-4">
-              {typeFilter && <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">{typeFilter === 'listing' ? 'Demandes' : 'Produits'} <X size={12} className="cursor-pointer" onClick={() => updateFilter('type', '')} /></span>}
+              {typeFilter && <span className="inline-flex items-center gap-1 text-xs bg-blue-50 text-blue-700 px-3 py-1 rounded-full font-medium">{typeFilter === 'listing' ? 'Clients' : typeFilter === 'product' ? 'Producteurs' : 'Services'} <X size={12} className="cursor-pointer" onClick={() => updateFilter('type', '')} /></span>}
               {catFilter && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">{categories.find(c => c.id === parseInt(catFilter))?.nom} <X size={12} className="cursor-pointer" onClick={() => updateFilter('cat', '')} /></span>}
               {regionFilter && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">{regionFilter} <X size={12} className="cursor-pointer" onClick={() => updateFilter('region', '')} /></span>}
               {minPrice && <span className="inline-flex items-center gap-1 text-xs bg-agrishop-50 text-agrishop-700 px-3 py-1 rounded-full font-medium">Min: {parseInt(minPrice).toLocaleString('fr-FR')} FCFA <X size={12} className="cursor-pointer" onClick={() => { setLocalMin(''); updateFilter('minPrice', '') }} /></span>}
@@ -192,7 +193,7 @@ function SearchContent() {
           )}
 
           {!mounted || (adsLoading && filteredAds.length === 0) ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {Array.from({ length: 6 }).map((_, i) => (
                 <div key={i} className="bg-white rounded-xl border border-slate-200 overflow-hidden animate-pulse">
                   <div className="aspect-[4/3] bg-slate-200" />
@@ -206,11 +207,15 @@ function SearchContent() {
             </div>
           ) : filteredAds.length > 0 ? (
             typeFilter === 'listing' || (!typeFilter && filteredAds.every(a => a.contentType === 'listing')) ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {filteredAds.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
               </div>
             ) : typeFilter === 'product' || (!typeFilter && filteredAds.every(a => a.contentType === 'product')) ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {filteredAds.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+              </div>
+            ) : typeFilter === 'service' || (!typeFilter && filteredAds.every(a => a.contentType === 'service')) ? (
+              <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
                 {filteredAds.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
               </div>
             ) : (
@@ -219,9 +224,9 @@ function SearchContent() {
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <ClipboardList size={16} className="text-blue-500" />
-                      <h2 className="text-sm font-semibold text-slate-600">Demandes des clients</h2>
+                      <h2 className="text-sm font-semibold text-slate-600">Clients</h2>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {filteredAds.filter(a => a.contentType === 'listing').map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
                     </div>
                   </div>
@@ -230,21 +235,34 @@ function SearchContent() {
                   <div>
                     <div className="flex items-center gap-2 mb-3">
                       <Package size={16} className="text-agrishop-600" />
-                      <h2 className="text-sm font-semibold text-slate-600">Produits</h2>
+                      <h2 className="text-sm font-semibold text-slate-600">Producteurs</h2>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
                       {filteredAds.filter(a => a.contentType === 'product').map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+                    </div>
+                  </div>
+                )}
+                {filteredAds.some(a => a.contentType === 'service') && (
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Wrench size={16} className="text-amber-600" />
+                      <h2 className="text-sm font-semibold text-slate-600">Services</h2>
+                    </div>
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                      {filteredAds.filter(a => a.contentType === 'service').map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
                     </div>
                   </div>
                 )}
               </div>
             )
           ) : (
-            <div className="text-center py-20 bg-slate-50 rounded-xl">
-              <Search size={40} className="mx-auto text-slate-200 mb-3" />
-              <p className="text-slate-400 text-lg font-medium">Aucune annonce trouvée</p>
-              <p className="text-slate-300 text-sm mt-1">Essayez de modifier vos filtres ou d'élargir votre recherche</p>
-              {hasFilters && <button onClick={clearFilters} className="mt-4 text-sm text-agrishop-600 hover:underline font-medium">Effacer tous les filtres</button>}
+            <div className="text-center py-16 sm:py-20 bg-gradient-to-b from-slate-50 to-white rounded-xl border border-slate-100">
+              <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Search size={28} className="text-slate-300" />
+              </div>
+              <p className="text-slate-500 text-lg font-medium">Aucune annonce trouvée</p>
+              <p className="text-slate-400 text-sm mt-1 max-w-xs mx-auto">Essayez de modifier vos filtres ou d'élargir votre recherche</p>
+              {hasFilters && <button onClick={clearFilters} className="mt-5 text-sm bg-agrishop-600 text-white px-5 py-2.5 rounded-xl font-medium hover:bg-agrishop-700 transition shadow-sm">Effacer tous les filtres</button>}
             </div>
           )}
         </div>

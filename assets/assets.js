@@ -16,7 +16,7 @@ export const dummyProfiles = [
 
 export const dummyListings = [
   {
-    id: "a0000000-0001-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000001",
+    id: "a0000000-0001-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000001",
     category_id: 1, title: "Tracteur John Deere 6120M - 2020",
     description: "Vends tracteur John Deere 6120M année 2020, 1200 heures, état impeccable. Entretien régulier fait chez concessionnaire. Pneus avant 90%, arrière 70%. Climatisation, GPS, relevage avant. Disponible immédiatement. Possibilité de venir l'essayer sur rendez-vous.",
     price: 85000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-28T10:30:00Z",
@@ -25,7 +25,7 @@ export const dummyListings = [
     _commune: "Chartres", _departement: "Eure-et-Loir",
   },
   {
-    id: "a0000000-0002-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000002",
+    id: "a0000000-0002-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000002",
     category_id: 2, title: "Vaches Charolaises prêtes à vêler",
     description: "Lot de 10 vaches Charolaises inscrites au herd-book, prêtes à vêler de juillet à septembre. Excellentes mères, bonne morphologie. Vaccination à jour. Possibilité de voir sur place dans le Cantal.",
     price: 18000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-30T14:00:00Z",
@@ -34,7 +34,7 @@ export const dummyListings = [
     _commune: "Saint-Flour", _departement: "Cantal",
   },
   {
-    id: "a0000000-0003-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000003",
+    id: "a0000000-0003-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000003",
     category_id: 1, title: "Pulvérisateur traîné 24m - Berthoud",
     description: "Pulvérisateur traîné Berthoud Vantage 3000L, rampe 24m, année 2019, 800 ha. Très bon état, cuve inox, régulation ISOBUS. Prix à débattre.",
     price: 18500, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-25T16:45:00Z",
@@ -43,7 +43,7 @@ export const dummyListings = [
     _commune: "La Roche-sur-Yon", _departement: "Vendée",
   },
   {
-    id: "a0000000-0004-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000008",
+    id: "a0000000-0004-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000008",
     category_id: 8, title: "Pneus arrière tracteur 520/85R42 - occasion",
     description: "Vends pneus arrière 520/85R42 pour tracteur. Michelin Multibib, usure 40%. Bon état général, pas de réparation. Idéal pour remplacement économique. Prix pour la paire.",
     price: 1500, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-07-01T15:00:00Z",
@@ -52,7 +52,7 @@ export const dummyListings = [
     _commune: "Tours", _departement: "Indre-et-Loire",
   },
   {
-    id: "a0000000-0005-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000009",
+    id: "a0000000-0005-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000009",
     category_id: 10, title: "Enrouleur d'irrigation Bauer 65/300m",
     description: "Enrouleur Bauer Rainstar 65, tuyau 300m, année 2018, bon état. Turbine hydraulique, régulation électronique. Prix : 8500€. Visible dans le Vaucluse.",
     price: 8500, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-29T09:30:00Z",
@@ -61,7 +61,7 @@ export const dummyListings = [
     _commune: "Avignon", _departement: "Vaucluse",
   },
   {
-    id: "a0000000-0006-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000010",
+    id: "a0000000-0006-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000010",
     category_id: 11, title: "Hangar agricole 500m2 + stabulation",
     description: "Hangar agricole 500m² avec stabulation attenante 200m². Structure métallique, toiture bac acier refaite en 2022. Électricité aux normes. Idéal élevage ou stockage. Terrain de 2ha inclus.",
     price: 180000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-06-20T08:00:00Z",
@@ -70,7 +70,7 @@ export const dummyListings = [
     _commune: "Limoges", _departement: "Haute-Vienne",
   },
   {
-    id: "a0000000-0007-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000011",
+    id: "a0000000-0007-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000011",
     category_id: 12, title: "Pick-up double cabine pour exploitation",
     description: "Vends pick-up double cabine Isuzu D-Max 2021, 85000km, boîte manuelle. Très bon état, entretien suivi. Utilisé pour tournée d'exploitation. Benne amovible. Vendu avec galerie et treuil.",
     price: 26000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-07-03T16:00:00Z",
@@ -79,7 +79,7 @@ export const dummyListings = [
     _commune: "Montpellier", _departement: "Hérault",
   },
   {
-    id: "a0000000-0008-0000-0000-000000000001", seller_id: "00000000-0000-0000-0000-000000000013",
+    id: "a0000000-0008-0000-0000-000000000001", client_id: "00000000-0000-0000-0000-000000000013",
     category_id: 2, title: "Moutons Suffolk - lot de 20 brebis",
     description: "Lot de 20 brebis Suffolk, excellent état sanitaire. Herd-book. Programmées pour agnelage de septembre. TRES BONNE ORIGINE. Voir sur place dans le Puy-de-Dôme.",
     price: 4000, unit: "HT", image_url: "", is_pre_sale: false, harvest_date: null, status: "active", created_at: "2026-07-05T09:00:00Z",
