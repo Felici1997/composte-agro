@@ -2,9 +2,10 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff, Check, X, User, Store, Wrench, ArrowLeft, ArrowRight, UserPlus, Mail, Lock } from 'lucide-react'
+import { Eye, EyeOff, Check, X, User, Store, Wrench, ArrowLeft, ArrowRight, UserPlus, Mail, Lock, Phone, MapPin } from 'lucide-react'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase/client'
+import { DEPARTEMENTS } from '@/lib/categories'
 import toast from 'react-hot-toast'
 
 export default function RegisterPage() {
@@ -16,6 +17,10 @@ export default function RegisterPage() {
   const [fullName, setFullName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [role, setRole] = useState('')
+  const [telephone, setTelephone] = useState('')
+  const [adresse, setAdresse] = useState('')
+  const [localite, setLocalite] = useState('')
+  const [departement, setDepartement] = useState('')
   const [loading, setLoading] = useState(false)
 
   const roles = [
@@ -34,6 +39,7 @@ export default function RegisterPage() {
     if (!fullName || !email || !password) return toast.error('Veuillez remplir tous les champs')
     if (password !== confirmPassword) return toast.error('Les mots de passe ne correspondent pas')
     if (password.length < 6) return toast.error('Le mot de passe doit contenir au moins 6 caractères')
+    if (!telephone.trim()) return toast.error('Le numéro de téléphone est obligatoire')
 
     setLoading(true)
     const { data, error } = await supabase.auth.signUp({
@@ -43,6 +49,10 @@ export default function RegisterPage() {
     if (!error && data?.user) {
       await supabase.from('profiles').upsert({
         id: data.user.id, email, nom_complet: fullName, role,
+        telephone: telephone.trim(),
+        adresse: adresse.trim(),
+        localite: localite.trim(),
+        departement: departement.trim(),
       }, { onConflict: 'id' })
     }
     setLoading(false)
@@ -75,13 +85,14 @@ export default function RegisterPage() {
               <Image src="/logo.svg" alt="Composte" width={160} height={48} priority className="h-10 w-auto" />
             </Link>
             <h1 className="text-xl font-bold text-slate-800">Créer un compte</h1>
-            <p className="text-sm text-slate-500 mt-1">Étape {step} sur 2</p>
+            <p className="text-sm text-slate-500 mt-1">Étape {step} sur 3</p>
           </div>
 
           {/* Progress */}
           <div className="flex gap-2 mb-6">
             <div className={`h-1.5 flex-1 rounded-full transition ${step >= 1 ? 'bg-agrishop-500' : 'bg-slate-200'}`} />
             <div className={`h-1.5 flex-1 rounded-full transition ${step >= 2 ? 'bg-agrishop-500' : 'bg-slate-200'}`} />
+            <div className={`h-1.5 flex-1 rounded-full transition ${step >= 3 ? 'bg-agrishop-500' : 'bg-slate-200'}`} />
           </div>
 
           <form onSubmit={handleRegister} className="bg-white p-7 rounded-2xl border border-slate-200 shadow-lg shadow-slate-200/50">
@@ -185,7 +196,63 @@ export default function RegisterPage() {
                   )}
                 </div>
 
-                <button disabled={loading || (confirmPassword.length > 0 && password !== confirmPassword)}
+                <button type="button" onClick={() => setStep(3)}
+                  disabled={!email || !password || (confirmPassword.length > 0 && password !== confirmPassword)}
+                  className="w-full bg-agrishop-600 hover:bg-agrishop-700 disabled:bg-agrishop-400 text-white font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200">
+                  Continuer <ArrowRight size={16} />
+                </button>
+              </div>
+            )}
+
+            {step === 3 && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <button type="button" onClick={() => setStep(2)} className="p-1 text-slate-400 hover:text-slate-600 transition"><ArrowLeft size={18} /></button>
+                  <p className="text-sm text-slate-500">
+                    <span className="font-medium text-slate-700">{selectedRole?.label}</span> · {fullName}
+                  </p>
+                </div>
+
+                <div>
+                  <label htmlFor="tel" className="block text-sm font-medium text-slate-700 mb-1.5">Téléphone *</label>
+                  <div className="relative">
+                    <input id="tel" type="tel" value={telephone} onChange={e => setTelephone(e.target.value)} required
+                      className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition placeholder-slate-400"
+                      placeholder="+242 XX XXX XXXX" autoComplete="tel" />
+                    <Phone size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="adresse" className="block text-sm font-medium text-slate-700 mb-1.5">Adresse</label>
+                  <input id="adresse" type="text" value={adresse} onChange={e => setAdresse(e.target.value)}
+                    className="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition placeholder-slate-400"
+                    placeholder="Numéro, rue, quartier" />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label htmlFor="localite" className="block text-sm font-medium text-slate-700 mb-1.5">Commune / Ville</label>
+                    <div className="relative">
+                      <input id="localite" type="text" value={localite} onChange={e => setLocalite(e.target.value)}
+                        className="w-full pl-10 pr-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition placeholder-slate-400"
+                        placeholder="Ex : Makélékélé" />
+                      <MapPin size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="departement" className="block text-sm font-medium text-slate-700 mb-1.5">Département</label>
+                    <select id="departement" value={departement} onChange={e => setDepartement(e.target.value)}
+                      className="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-sm outline-none focus:border-agrishop-400 focus:ring-2 focus:ring-agrishop-100 transition bg-white">
+                      <option value="">Sélectionner</option>
+                      {DEPARTEMENTS.map(d => (
+                        <option key={d} value={d}>{d}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <button disabled={loading}
                   className="w-full bg-agrishop-600 hover:bg-agrishop-700 disabled:bg-agrishop-400 text-white font-semibold py-2.5 rounded-xl transition text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200">
                   {loading ? (
                     <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Inscription...</span>

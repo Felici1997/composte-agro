@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabase/client'
-import { User, Mail, Phone, Shield, Save, ArrowLeft, Eye, Package, ShoppingBag, ClipboardList, RefreshCw } from 'lucide-react'
+import { User, Mail, Phone, MapPin, Shield, Save, ArrowLeft, Eye, Package, ShoppingBag, ClipboardList, RefreshCw } from 'lucide-react'
+import { DEPARTEMENTS } from '@/lib/categories'
 import toast from 'react-hot-toast'
 
 export default function ProfilePage() {
@@ -14,6 +15,9 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false)
   const [nomComplet, setNomComplet] = useState('')
   const [telephone, setTelephone] = useState('')
+  const [adresse, setAdresse] = useState('')
+  const [localite, setLocalite] = useState('')
+  const [departement, setDepartement] = useState('')
 
   useEffect(() => {
     const load = async () => {
@@ -24,6 +28,9 @@ export default function ProfilePage() {
       setProfile(p)
       setNomComplet(p?.nom_complet || '')
       setTelephone(p?.telephone || '')
+      setAdresse(p?.adresse || '')
+      setLocalite(p?.localite || '')
+      setDepartement(p?.departement || '')
       setLoading(false)
     }
     load()
@@ -35,6 +42,9 @@ export default function ProfilePage() {
     const { error } = await supabase.from('profiles').update({
       nom_complet: nomComplet.trim(),
       telephone: telephone.trim(),
+      adresse: adresse.trim(),
+      localite: localite.trim(),
+      departement: departement.trim(),
     }).eq('id', user.id)
     setSaving(false)
     if (error) return toast.error('Erreur lors de la sauvegarde')
@@ -134,6 +144,47 @@ export default function ProfilePage() {
             placeholder="+242 XX XXX XXXX"
             className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition"
           />
+        </div>
+
+        <div>
+          <label className="flex items-center gap-1.5 text-sm font-medium text-slate-600 mb-1.5">Adresse</label>
+          <input
+            type="text"
+            value={adresse}
+            onChange={e => setAdresse(e.target.value)}
+            placeholder="Numéro, rue, quartier"
+            className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition"
+          />
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="flex items-center gap-1.5 text-sm font-medium text-slate-600 mb-1.5">
+              <MapPin size={14} /> Commune / Ville
+            </label>
+            <input
+              type="text"
+              value={localite}
+              onChange={e => setLocalite(e.target.value)}
+              placeholder="Ex : Makélékélé"
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition"
+            />
+          </div>
+          <div>
+            <label className="flex items-center gap-1.5 text-sm font-medium text-slate-600 mb-1.5">
+              <MapPin size={14} /> Département
+            </label>
+            <select
+              value={departement}
+              onChange={e => setDepartement(e.target.value)}
+              className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm outline-none focus:border-agrishop-400 focus:ring-1 focus:ring-agrishop-200 transition bg-white"
+            >
+              <option value="">Sélectionner</option>
+              {DEPARTEMENTS.map(d => (
+                <option key={d} value={d}>{d}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         <div>
