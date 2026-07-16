@@ -2,12 +2,11 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import { MapPin, User, Calendar, Heart, Flag, ImageIcon, ShoppingCart, Package, Scale, Tag, MessageCircle } from 'lucide-react'
+import { MapPin, User, Calendar, Heart, Flag, ImageIcon, Package, Scale, Tag, MessageCircle } from 'lucide-react'
 import Image from 'next/image'
 import { formatPrice, getRelativeTime, getCategoryById } from '@/lib/categories'
 import { useDispatch } from 'react-redux'
 import { toggleFavorite } from '@/lib/features/favorites/favoritesSlice'
-import { addItem } from '@/lib/features/cart/cartSlice'
 import { fetchAdById } from '@/lib/supabase/queries'
 import { supabase } from '@/lib/supabase/client'
 import AdCard from '@/components/AdCard'
@@ -217,15 +216,6 @@ export default function AdDetailPage() {
         <div className="lg:col-span-2">
           <div className="lg:sticky lg:top-24 space-y-4">
             <SellerCard ad={ad} sellerId={sellerId} />
-
-            {!isService && (userRole === null || userRole === 'client') && (
-              <button
-                onClick={() => { dispatch(addItem({ id: ad.id, title: adTitle(ad), price: price })); toast.success('Ajouté au panier') }}
-                className="flex items-center justify-center gap-2 w-full bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 rounded-lg transition text-sm"
-              >
-                <ShoppingCart size={16} /> Ajouter au panier
-              </button>
-            )}
 
             <div className="bg-white border rounded-xl p-4 text-xs text-slate-400 space-y-1.5">
               <p className="flex justify-between">
