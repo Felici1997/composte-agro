@@ -18,7 +18,7 @@ export default function FeaturedAds({ ads, title = 'Annonces sponsorisées' }) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {featured.map(ad => {
           const cat = getCategoryById(ad.category_id)
-          const img = ad.image_url || ''
+          const img = ad.images?.[0] || ad.image_url || ''
           const titleText = ad.title || ad.titre || ad.nom || ''
           const price = ad.price ?? ad.prix_unitaire ?? ad.tarif_base ?? null
           return (

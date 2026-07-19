@@ -16,7 +16,8 @@ export async function POST(request) {
     const role = profile?.role || 'client'
 
     const body = await request.json()
-    const { title, description, price, unit, category_id, city, region, image_url, is_pre_sale, harvest_date, stock_actuel, type_service } = body
+    const { title, description, price, unit, category_id, city, region, image_url, images, is_pre_sale, harvest_date, stock_actuel, type_service } = body
+    const imagesJson = Array.isArray(images) && images.length > 0 ? images : null
 
     if (!title || title.length > 80) {
       return NextResponse.json({ error: 'Titre invalide (max 80 caractères)' }, { status: 400 })
@@ -47,6 +48,7 @@ export async function POST(request) {
         unite_mesure: unit?.trim() || null,
         stock_actuel: stock_actuel || 1,
         image_url: image_url || null,
+        images: imagesJson,
         localite: city.trim(),
         departement: region,
         is_active: true,
@@ -63,6 +65,8 @@ export async function POST(request) {
         tarif_base: priceNum,
         est_disponible: true,
         unite: unit?.trim() || null,
+        image_url: image_url || null,
+        images: imagesJson,
         localite: city.trim(),
         departement: region,
       })
@@ -78,6 +82,7 @@ export async function POST(request) {
         price: priceNum,
         unit: unit?.trim() || null,
         image_url: image_url || null,
+        images: imagesJson,
         localite: city.trim(),
         departement: region,
         is_pre_sale: is_pre_sale || false,

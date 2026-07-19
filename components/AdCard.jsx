@@ -8,7 +8,7 @@ import { toggleFavorite } from '@/lib/features/favorites/favoritesSlice'
 
 function getAdTitle(ad) { return ad.title || ad.titre || ad.nom || '' }
 function getAdPrice(ad) { return ad.price ?? ad.prix_unitaire ?? ad.tarif_base ?? null }
-function getAdImg(ad) { return ad.image_url || '' }
+function getAdImg(ad) { return ad.images?.[0] || ad.image_url || '' }
 function getAdCommune(ad) { return ad._commune || ad.localite || '' }
 function getAdDepartement(ad) { return ad._departement || ad.departement || '' }
 function getAdVendeur(ad) { return ad._profile?.nom_complet || 'Particulier' }

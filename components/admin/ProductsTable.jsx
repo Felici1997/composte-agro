@@ -28,8 +28,8 @@ export function ProductsTable({ products, onToggleActive, onDelete }) {
               <td className="py-3 px-4">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-lg bg-slate-100 overflow-hidden shrink-0">
-                    {product.image_url ? (
-                      <img src={product.image_url} alt="" className="w-full h-full object-cover" />
+                    {(product.images?.[0] || product.image_url) ? (
+                      <img src={product.images?.[0] || product.image_url} alt="" className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-slate-300 text-xs">N/A</div>
                     )}

@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
-import { MapPin, User, Calendar, Heart, Flag, ImageIcon, Package, Scale, Tag, MessageCircle } from 'lucide-react'
+import { MapPin, User, Calendar, Heart, Flag, ImageIcon, Package, Scale, Tag, MessageCircle, ChevronLeft, ChevronRight } from 'lucide-react'
 import Image from 'next/image'
 import { formatPrice, getRelativeTime, getCategoryById } from '@/lib/categories'
 import { useDispatch } from 'react-redux'
@@ -19,7 +19,8 @@ import toast from 'react-hot-toast'
 
 function adTitle(ad) { return ad.title || ad.titre || ad.nom || '' }
 function adPrice(ad) { return ad.price ?? ad.prix_unitaire ?? ad.tarif_base ?? null }
-function adImg(ad) { return ad.image_url || '' }
+function adImages(ad) { return ad.images?.length > 0 ? ad.images : (ad.image_url ? [ad.image_url] : []) }
+function adImg(ad) { return adImages(ad)[0] || '' }
 function adCommune(ad) { return ad._commune || ad.localite || '' }
 function adDepartement(ad) { return ad._departement || ad.departement || '' }
 function adVendeur(ad) { return ad._profile?.nom_complet || 'Particulier' }
@@ -41,6 +42,9 @@ export default function AdDetailPage() {
   const isFav = favIds.includes(id)
   const [userRole, setUserRole] = useState(null)
   const [sellerId, setSellerId] = useState(null)
+  const [imgIndex, setImgIndex] = useState(0)
+  const allImages = ad ? adImages(ad) : []
+  const currentImg = allImages[imgIndex] || ''
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -124,13 +128,35 @@ export default function AdDetailPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3 space-y-6">
-          <div className="relative w-full h-80 bg-slate-50 rounded-xl flex items-center justify-center overflow-hidden group">
-            {adImg(ad) ? (
-              <Image src={adImg(ad)} alt={adTitle(ad)} width={800} height={400} className="w-full h-full object-cover group-hover:scale-105 transition duration-500" />
-            ) : (
-              <div className="flex flex-col items-center justify-center text-slate-300">
-                <ImageIcon size={48} className="mb-2" />
-                <span className="text-sm">Pas d'image disponible</span>
+          <div className="relative w-full bg-slate-50 rounded-xl overflow-hidden group">
+            <div className="relative h-80 flex items-center justify-center">
+              {currentImg ? (
+                <Image src={currentImg} alt={adTitle(ad)} width={800} height={400} className="w-full h-full object-cover" />
+              ) : (
+                <div className="flex flex-col items-center justify-center text-slate-300">
+                  <ImageIcon size={48} className="mb-2" />
+                  <span className="text-sm">Pas d'image disponible</span>
+                </div>
+              )}
+              {allImages.length > 1 && (
+                <>
+                  <button type="button" onClick={() => setImgIndex(i => i > 0 ? i - 1 : allImages.length - 1)}
+                    className="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow transition opacity-0 group-hover:opacity-100">
+                    <ChevronLeft size={18} />
+                  </button>
+                  <button type="button" onClick={() => setImgIndex(i => i < allImages.length - 1 ? i + 1 : 0)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow transition opacity-0 group-hover:opacity-100">
+                    <ChevronRight size={18} />
+                  </button>
+                </>
+              )}
+            </div>
+            {allImages.length > 1 && (
+              <div className="flex justify-center gap-1.5 py-2 bg-white/5">
+                {allImages.map((_, i) => (
+                  <button key={i} type="button" onClick={() => setImgIndex(i)}
+                    className={`w-2 h-2 rounded-full transition ${i === imgIndex ? 'bg-agrishop-600 w-4' : 'bg-slate-300 hover:bg-slate-400'}`} />
+                ))}
               </div>
             )}
             <button

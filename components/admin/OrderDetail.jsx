@@ -94,8 +94,8 @@ export function OrderDetail({ order }) {
             {(order.order_items || []).map((item, i) => (
               <div key={i} className="flex items-center gap-3 text-sm">
                 <div className="w-10 h-10 rounded bg-slate-100 overflow-hidden shrink-0">
-                  {item.product?.image_url ? (
-                    <img src={item.product.image_url} alt="" className="w-full h-full object-cover" />
+                  {(item.product?.images?.[0] || item.product?.image_url) ? (
+                    <img src={item.product.images?.[0] || item.product.image_url} alt="" className="w-full h-full object-cover" />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-slate-300 text-xs">N/A</div>
                   )}

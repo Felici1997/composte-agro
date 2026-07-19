@@ -57,7 +57,7 @@ export default function CreateAdPage() {
       if (f.size > maxSize) { toast.error(`${f.name} : trop volumineux (max 5 Mo)`); return false }
       return true
     })
-    setImages(prev => [...prev, ...filtered].slice(0, 8))
+    setImages(prev => [...prev, ...filtered].slice(0, 5))
   }
 
   const removeImage = (idx) => setImages(prev => prev.filter((_, i) => i !== idx))
@@ -71,20 +71,21 @@ export default function CreateAdPage() {
     setLoading(true)
 
     try {
-      let uploadedUrl = ''
+      let uploadedUrls = []
       if (images.length > 0) {
-        const ext = images[0].name.split('.').pop()
-        const fileName = `${user.id}/${Date.now()}.${ext}`
-        const { error: uploadError } = await supabase.storage
-          .from('listing')
-          .upload(fileName, images[0])
-        if (uploadError) {
-          toast.error(`Upload échoué : ${uploadError.message}`)
-          setLoading(false)
-          return
-        } else {
+        for (const img of images.slice(0, 5)) {
+          const ext = img.name.split('.').pop()
+          const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+          const { error: uploadError } = await supabase.storage
+            .from('listing')
+            .upload(fileName, img)
+          if (uploadError) {
+            toast.error(`Upload échoué : ${uploadError.message}`)
+            setLoading(false)
+            return
+          }
           const { data: { publicUrl } } = supabase.storage.from('listing').getPublicUrl(fileName)
-          uploadedUrl = publicUrl
+          uploadedUrls.push(publicUrl)
         }
       }
 
@@ -100,7 +101,8 @@ export default function CreateAdPage() {
           category_id: form.category_id,
           city: form.city,
           region: form.region,
-          image_url: uploadedUrl,
+          image_url: uploadedUrls[0] || '',
+          images: uploadedUrls,
           is_pre_sale: form.is_pre_sale,
           harvest_date: form.harvest_date,
           stock_actuel: form.stock_actuel ? parseInt(form.stock_actuel) : 1,
@@ -151,7 +153,7 @@ export default function CreateAdPage() {
         {/* Images */}
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Photos <span className="text-slate-400 font-normal">({images.length}/8 max)</span>
+            Photos <span className="text-slate-400 font-normal">({images.length}/5 max)</span>
           </label>
           <div className="flex flex-wrap gap-3">
             {images.map((img, i) => (
@@ -162,7 +164,7 @@ export default function CreateAdPage() {
                 </button>
               </div>
             ))}
-            {images.length < 8 && (
+            {images.length < 5 && (
               <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
                 <Upload size={22} />
                 <span className="text-[10px] mt-1">Ajouter</span>
@@ -294,7 +296,7 @@ export default function CreateAdPage() {
         {/* Images */}
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Photos <span className="text-slate-400 font-normal">({images.length}/8 max)</span>
+            Photos <span className="text-slate-400 font-normal">({images.length}/5 max)</span>
           </label>
           <div className="flex flex-wrap gap-3">
             {images.map((img, i) => (
@@ -305,7 +307,7 @@ export default function CreateAdPage() {
                 </button>
               </div>
             ))}
-            {images.length < 8 && (
+            {images.length < 5 && (
               <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
                 <Upload size={22} />
                 <span className="text-[10px] mt-1">Ajouter</span>
@@ -519,7 +521,7 @@ export default function CreateAdPage() {
         {/* Images */}
         <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
           <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Photos <span className="text-slate-400 font-normal">({images.length}/8 max, optionnel)</span>
+            Photos <span className="text-slate-400 font-normal">({images.length}/5 max, optionnel)</span>
           </label>
           <div className="flex flex-wrap gap-3">
             {images.map((img, i) => (
@@ -530,7 +532,7 @@ export default function CreateAdPage() {
                 </button>
               </div>
             ))}
-            {images.length < 8 && (
+            {images.length < 5 && (
               <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
                 <Upload size={22} />
                 <span className="text-[10px] mt-1">Ajouter</span>
