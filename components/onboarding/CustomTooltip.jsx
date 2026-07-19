@@ -234,7 +234,7 @@ export default function CustomTooltip({
             onMouseEnter={(e) => { e.currentTarget.style.color = '#64748b' }}
             onMouseLeave={(e) => { e.currentTarget.style.color = '#94a3b8' }}
           >
-            {skipProps.children || 'Passer'}
+            {skipProps.children || 'Ne plus afficher'}
           </button>
         </div>
       )}

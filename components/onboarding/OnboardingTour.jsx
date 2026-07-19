@@ -126,7 +126,7 @@ export default function OnboardingTour() {
         last: 'Terminer',
         next: 'Suivant',
         nextWithProgress: 'Suivant ({current}/{total})',
-        skip: 'Passer',
+        skip: 'Ne plus afficher',
       }}
       options={{
         arrowColor: '#ffffff',
