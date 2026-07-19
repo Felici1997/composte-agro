@@ -79,7 +79,9 @@ export default function CreateAdPage() {
           .from('listing')
           .upload(fileName, images[0])
         if (uploadError) {
-          toast.error(`Upload échoué : ${uploadError.message}. Vérifiez les permissions du bucket.`)
+          toast.error(`Upload échoué : ${uploadError.message}`)
+          setLoading(false)
+          return
         } else {
           const { data: { publicUrl } } = supabase.storage.from('listing').getPublicUrl(fileName)
           uploadedUrl = publicUrl
