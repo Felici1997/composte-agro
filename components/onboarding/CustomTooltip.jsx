@@ -177,6 +177,10 @@ export default function CustomTooltip({
           {/* Primary (Next / Finish) */}
           <button
             {...primaryProps}
+            onClick={(e) => {
+              if (isLastStep) localStorage.setItem('has_seen_onboarding', 'true')
+              primaryProps.onClick?.(e)
+            }}
             type="button"
             data-testid="button-primary"
             style={{
@@ -214,6 +218,10 @@ export default function CustomTooltip({
         <div style={{ textAlign: 'center', padding: '0 24px 16px' }}>
           <button
             {...skipProps}
+            onClick={(e) => {
+              localStorage.setItem('has_seen_onboarding', 'true')
+              skipProps.onClick?.(e)
+            }}
             type="button"
             data-testid="button-skip"
             aria-live="off"
