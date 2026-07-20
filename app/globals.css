@@ -4,48 +4,86 @@
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Poppins', sans-serif;
 
-  --color-agrishop-50: #F2F9ED;
-  --color-agrishop-100: #DEF0D3;
-  --color-agrishop-200: #BDE1A7;
-  --color-agrishop-300: #9CD27B;
-  --color-agrishop-400: #7FC458;
-  --color-agrishop-500: #73BF44;
-  --color-agrishop-600: #53A132;
-  --color-agrishop-700: #357A2A;
-  --color-agrishop-800: #0D4926;
-  --color-agrishop-900: #083219;
+  --color-agrishop-50: #F0FDF4;
+  --color-agrishop-100: #DCFCE7;
+  --color-agrishop-200: #BBF7D0;
+  --color-agrishop-300: #86EFAC;
+  --color-agrishop-400: #4ADE80;
+  --color-agrishop-500: #22C55E;
+  --color-agrishop-600: #16A34A;
+  --color-agrishop-700: #15803D;
+  --color-agrishop-800: #166534;
+  --color-agrishop-900: #14532D;
+  --color-agrishop-950: #052E16;
+
+  --color-earth-50: #FFFBEB;
+  --color-earth-100: #FEF3C7;
+  --color-earth-200: #FDE68A;
+  --color-earth-300: #FCD34D;
+  --color-earth-400: #FBBF24;
+  --color-earth-500: #A16207;
+  --color-earth-600: #92400E;
+  --color-earth-700: #78350F;
 }
 
 @layer base {
   *:focus-visible {
-    @apply outline-2 outline-offset-2 outline-agrishop-500;
+    outline: 2px solid var(--color-agrishop-500);
+    outline-offset: 2px;
   }
+  ::selection { background-color: var(--color-agrishop-200); color: var(--color-agrishop-900); }
   button { cursor: pointer; }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-  }
+  h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); }
 }
 
+html { scroll-behavior: smooth; }
 html, body { overflow-x: hidden; }
-
 body {
   font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1E293B;
 }
 
-@keyframes marqueeScroll {
-  0% { transform: translateX(0%); }
-  100% { transform: translateX(-50%); }
-}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(22, 163, 74, 0); } }
+@keyframes marqueeScroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-50%); } }
+@keyframes floatSlow { 0%, 100% { transform: translateY(0) rotate(0deg); } 33% { transform: translateY(-12px) rotate(3deg); } 66% { transform: translateY(-6px) rotate(-2deg); } }
+@keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-18px) rotate(6deg); } }
+@keyframes blob { 0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; transform: translate(0, 0) rotate(0deg); } 25% { border-radius: 58% 42% 30% 70% / 55% 55% 45% 45%; transform: translate(10px, -15px) rotate(5deg); } 50% { border-radius: 50% 50% 50% 50% / 60% 40% 60% 40%; transform: translate(-5px, 10px) rotate(-3deg); } 75% { border-radius: 35% 65% 55% 45% / 50% 60% 40% 50%; transform: translate(8px, 5px) rotate(4deg); } }
+
+.animate-fade-in-up { animation: fadeInUp 0.6s ease-out both; }
+.animate-fade-in { animation: fadeIn 0.4s ease-out both; }
+.animate-scale-in { animation: scaleIn 0.3s ease-out both; }
+.animate-slide-down { animation: slideDown 0.3s ease-out both; }
+.animate-pulse-glow { animation: pulseGlow 2s infinite; }
+.animate-float-slow { animation: floatSlow 6s ease-in-out infinite; }
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-blob { animation: blob 12s ease-in-out infinite; }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
 
-.ad-card-img {
-  aspect-ratio: 4/3;
-  overflow: hidden;
+.ad-card-img { aspect-ratio: 4/3; overflow: hidden; }
+.ad-card-img img { width: 100%; height: 100%; object-fit: cover; }
+
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
-.ad-card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.glass-dark {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.text-gradient {
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

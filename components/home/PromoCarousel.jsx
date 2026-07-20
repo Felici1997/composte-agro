@@ -19,7 +19,7 @@ const slides = [
     desc: 'Mettez vos annonces en avant et augmentez vos ventes avec nos options de promotion.',
     cta: 'En savoir plus',
     href: '/help',
-    gradient: 'from-amber-600 to-orange-600',
+    gradient: 'from-earth-600 to-orange-600',
     iconBg: 'bg-white/20',
   },
   {
@@ -45,40 +45,39 @@ export default function PromoCarousel() {
   return (
     <section className="py-8">
       <div className="relative overflow-hidden rounded-2xl">
-        <div className={`bg-gradient-to-br ${s.gradient} p-6 sm:p-8 text-white`}>
-          <div className="flex items-start gap-4">
-            <div className={`w-14 h-14 ${s.iconBg} rounded-2xl flex items-center justify-center shrink-0 hidden sm:flex`}>
-              <Icon size={28} />
+        <div className={`bg-gradient-to-br ${s.gradient} p-8 sm:p-10 text-white`}>
+          <div className="flex items-start gap-5">
+            <div className={`w-16 h-16 ${s.iconBg} rounded-2xl flex items-center justify-center shrink-0 hidden sm:flex backdrop-blur-sm`}>
+              <Icon size={32} />
             </div>
             <div className="flex-1">
-              <h3 className="text-lg sm:text-xl font-bold mb-1.5">{s.title}</h3>
-              <p className="text-sm text-white/80 max-w-md mb-4">{s.desc}</p>
+              <h3 className="text-xl sm:text-2xl font-bold mb-2">{s.title}</h3>
+              <p className="text-sm sm:text-base text-white/80 max-w-lg mb-5">{s.desc}</p>
               <Link
                 href={s.href}
-                className="inline-flex items-center gap-1.5 bg-white text-sm font-semibold px-5 py-2.5 rounded-lg text-slate-800 hover:bg-slate-50 transition shadow"
+                className="inline-flex items-center gap-1.5 bg-white text-sm font-semibold px-6 py-3 rounded-xl text-slate-800 hover:bg-slate-50 transition shadow-lg group"
               >
-                {s.cta} <ArrowRight size={15} />
+                {s.cta} <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Dots + arrows */}
-        <div className="absolute bottom-3 right-3 flex items-center gap-2">
-          <button onClick={prev} className="w-7 h-7 rounded-full bg-black/20 hover:bg-black/30 flex items-center justify-center text-white transition">
-            <ChevronLeft size={15} />
+        <div className="absolute bottom-4 right-4 flex items-center gap-2">
+          <button onClick={prev} className="w-8 h-8 rounded-full bg-black/20 hover:bg-black/30 backdrop-blur-sm flex items-center justify-center text-white transition">
+            <ChevronLeft size={16} />
           </button>
           <div className="flex gap-1.5">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`w-2 h-2 rounded-full transition ${i === current ? 'bg-white' : 'bg-white/40'}`}
+                className={`w-2 h-2 rounded-full transition-all ${i === current ? 'bg-white w-5' : 'bg-white/40'}`}
               />
             ))}
           </div>
-          <button onClick={next} className="w-7 h-7 rounded-full bg-black/20 hover:bg-black/30 flex items-center justify-center text-white transition">
-            <ChevronRight size={15} />
+          <button onClick={next} className="w-8 h-8 rounded-full bg-black/20 hover:bg-black/30 backdrop-blur-sm flex items-center justify-center text-white transition">
+            <ChevronRight size={16} />
           </button>
         </div>
       </div>

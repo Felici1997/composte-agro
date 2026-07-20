@@ -26,7 +26,7 @@ function QuickFiltersInner() {
   }
 
   return (
-    <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+    <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
       {filters.map((f, i) => {
         const Icon = f.icon
         const active = isActive(f.params)
@@ -34,10 +34,10 @@ function QuickFiltersInner() {
           <button
             key={i}
             onClick={() => handleClick(f.params)}
-            className={`flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-full border whitespace-nowrap transition shrink-0 ${
+            className={`flex items-center gap-1.5 text-xs font-medium px-4 py-2 rounded-full border whitespace-nowrap transition-all shrink-0 ${
               active
-                ? 'bg-agrishop-600 text-white border-agrishop-600 shadow-sm'
-                : 'bg-white text-slate-600 border-slate-200 hover:border-agrishop-300 hover:text-agrishop-600'
+                ? 'bg-agrishop-700 text-white border-agrishop-700 shadow-sm'
+                : 'bg-white text-slate-600 border-slate-200 hover:border-agrishop-300 hover:text-agrishop-700 hover:bg-agrishop-50'
             }`}
           >
             <Icon size={14} />

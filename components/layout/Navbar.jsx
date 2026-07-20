@@ -40,10 +40,17 @@ const Navbar = () => {
   const [user, setLocalUser] = useState(null);
   const [profile, setLocalProfile] = useState(null);
   const [mounted, setMounted] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const favoriteCount = useSelector(state => state.favorites.ids.length);
   const cartCount = useSelector(state => state.cart.items.reduce((sum, i) => sum + i.quantity, 0));
 
   useEffect(() => { setMounted(true) }, []);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
 
   useEffect(() => {
     let cancelled = false
@@ -103,7 +110,6 @@ const Navbar = () => {
     try {
       await fetchWithTimeout(supabase.auth.signOut(), 5000)
     } catch {
-      // continue regardless of timeout
     }
     setLocalUser(null)
     setLocalProfile(null)
@@ -117,20 +123,24 @@ const Navbar = () => {
   const links = user ? roleLinks[role] || roleLinks.client : []
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-200">
+    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+      scrolled
+        ? 'bg-white/85 backdrop-blur-xl border-b border-slate-200/60 shadow-sm'
+        : 'bg-white/95 border-b border-slate-200'
+    }`}>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16 gap-2 sm:gap-4">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-0 shrink-0" aria-label="Accueil Composte">
-            <span className="text-xl font-semibold text-slate-800">
+          <Link href="/" className="flex items-center gap-1.5 shrink-0 group" aria-label="Accueil Composte">
+            <span className="text-xl font-bold text-agrishop-700 group-hover:text-agrishop-600 transition">
               composte
             </span>
           </Link>
 
           {/* Nav links (desktop) */}
           {user ? (
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-0.5">
               {links.map(link => {
                 const joyrideAttr = (
                   link.label === 'Explorer' ? 'explore' :
@@ -143,7 +153,7 @@ const Navbar = () => {
                     key={link.href + link.label}
                     href={link.href}
                     {...(joyrideAttr ? { 'data-joyride': joyrideAttr } : {})}
-                    className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 rounded-lg transition whitespace-nowrap"
+                    className="flex items-center gap-1.5 px-3.5 py-2 text-sm font-medium text-slate-600 hover:text-agrishop-700 hover:bg-agrishop-50 rounded-lg transition-all"
                   >
                     <link.icon size={16} />
                     {link.label}
@@ -158,10 +168,10 @@ const Navbar = () => {
           {/* Location + Search (desktop) */}
           <div className="hidden md:flex items-center flex-1 max-w-md gap-2">
             <LocationSelector />
-            <form onSubmit={handleSearch} className="flex items-center flex-1 gap-2 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full focus-within:border-agrishop-400 focus-within:ring-1 focus-within:ring-agrishop-200 transition">
+            <form onSubmit={handleSearch} className="flex items-center flex-1 gap-2 bg-slate-50 border border-slate-200 px-4 py-2 rounded-full focus-within:border-agrishop-400 focus-within:ring-2 focus-within:ring-agrishop-100 transition-all">
             <Search size={18} className="text-slate-400 shrink-0" />
             <input
-              className="w-full bg-transparent outline-none text-sm placeholder-slate-400"
+              className="w-full bg-transparent outline-none text-sm placeholder:text-slate-400"
               type="text"
               placeholder="Rechercher matériel, animaux, services..."
               value={search}
@@ -173,21 +183,21 @@ const Navbar = () => {
           </div>
 
           {/* Actions */}
-          <div className="flex items-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-1">
 
             {(!user || profile?.role === 'client') && (
-              <Link href="/cart" className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-full transition" aria-label="Panier">
+              <Link href="/cart" className="relative p-2.5 text-slate-500 hover:text-agrishop-700 hover:bg-agrishop-50 rounded-xl transition" aria-label="Panier">
                 <ShoppingCart size={20} />
-                <span className={`absolute -top-0.5 -right-0.5 bg-agrishop-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center transition-opacity ${cartCount > 0 && mounted ? 'opacity-100' : 'opacity-0'}`}>
+                <span className={`absolute top-1 right-1 bg-agrishop-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center transition-opacity ${cartCount > 0 && mounted ? 'opacity-100' : 'opacity-0'}`}>
                   {mounted ? cartCount : 0}
                 </span>
               </Link>
             )}
 
-            <Link href="/favorites" className="relative p-2 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-full transition" aria-label="Mes favoris">
+            <Link href="/favorites" className="relative p-2.5 text-slate-500 hover:text-agrishop-700 hover:bg-agrishop-50 rounded-xl transition" aria-label="Mes favoris">
               <Heart size={20} />
               {favoriteCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                <span className="absolute top-1 right-1 bg-red-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
                   {favoriteCount}
                 </span>
               )}
@@ -195,45 +205,53 @@ const Navbar = () => {
 
             {user ? (
               <div className="relative">
-                <button onClick={() => setUserMenu(!userMenu)} className="flex items-center gap-2 p-1.5 text-slate-500 hover:text-slate-700 hover:bg-slate-100 rounded-full transition" aria-label="Menu utilisateur">
+                <button onClick={() => setUserMenu(!userMenu)} className="flex items-center gap-2 p-1.5 text-slate-500 hover:text-agrishop-700 hover:bg-agrishop-50 rounded-xl transition" aria-label="Menu utilisateur">
                   <div className="w-8 h-8 bg-agrishop-100 text-agrishop-700 rounded-full flex items-center justify-center text-sm font-semibold">
                     {user.email?.[0]?.toUpperCase() || 'U'}
                   </div>
-                  <ChevronDown size={14} className={`hidden sm:block text-slate-400 transition ${userMenu ? 'rotate-180' : ''}`} />
+                  <ChevronDown size={14} className={`hidden sm:block text-slate-400 transition-transform ${userMenu ? 'rotate-180' : ''}`} />
                 </button>
                 {userMenu && (
                   <>
                     <div className="fixed inset-0 z-10" onClick={() => setUserMenu(false)} />
-                    <div className="absolute right-0 top-full mt-2 bg-white shadow-lg border rounded-xl py-2 min-w-52 z-20">
-                      <div className="px-4 py-2 text-sm border-b border-slate-100">
-                        <p className="font-medium text-slate-800 truncate">{profile?.nom_complet || 'Utilisateur'}</p>
-                        <p className="text-xs text-slate-400 capitalize">{role}</p>
+                    <div className="absolute right-0 top-full mt-2 bg-white shadow-lg border border-slate-200 rounded-2xl py-2 min-w-52 z-20 animate-scale-in">
+                      <div className="px-4 py-2.5 border-b border-slate-100">
+                        <p className="font-medium text-slate-800 text-sm truncate">{profile?.nom_complet || 'Utilisateur'}</p>
+                        <p className="text-xs text-slate-400 capitalize mt-0.5">{role}</p>
                       </div>
-                      <Link href="/dashboard" onClick={() => setUserMenu(false)} data-joyride="dashboard-link" className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
-                        <LayoutDashboard size={16} /> Tableau de bord
-                      </Link>
-                      <Link href="/profile" onClick={() => setUserMenu(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
-                        <Settings size={16} /> Mon profil
-                      </Link>
-                      <Link href="/favorites" onClick={() => setUserMenu(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-slate-700 hover:bg-agrishop-50">
-                        <Heart size={16} /> Mes favoris
-                      </Link>
-                      <hr className="my-1 border-slate-100" />
-                      <button onClick={handleLogout} className="flex items-center gap-2 w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                        <LogOut size={16} /> Déconnexion
-                      </button>
+                      <div className="py-1">
+                        <Link href="/dashboard" onClick={() => setUserMenu(false)} data-joyride="dashboard-link" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-agrishop-50 transition">
+                          <LayoutDashboard size={16} className="text-slate-400" /> Tableau de bord
+                        </Link>
+                        <Link href="/profile" onClick={() => setUserMenu(false)} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-agrishop-50 transition">
+                          <Settings size={16} className="text-slate-400" /> Mon profil
+                        </Link>
+                        <Link href="/favorites" onClick={() => setUserMenu(false)} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-agrishop-50 transition">
+                          <Heart size={16} className="text-slate-400" /> Mes favoris
+                        </Link>
+                      </div>
+                      <hr className="border-slate-100" />
+                      <div className="py-1">
+                        <button onClick={handleLogout} className="flex items-center gap-2.5 w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition">
+                          <LogOut size={16} /> Déconnexion
+                        </button>
+                      </div>
                     </div>
                   </>
                 )}
               </div>
             ) : (
-              <Link href="/auth/login" className="text-sm font-medium text-slate-600 hover:text-agrishop-600 px-3 py-2 transition">
-                Connexion
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link href="/auth/login" className="text-sm font-medium text-slate-600 hover:text-agrishop-700 px-3.5 py-2 transition">
+                  Connexion
+                </Link>
+                <Link href="/auth/register" className="text-sm font-medium bg-agrishop-700 text-white px-4 py-2 rounded-lg hover:bg-agrishop-800 transition shadow-sm">
+                  Inscription
+                </Link>
+              </div>
             )}
 
-            {/* Mobile menu toggle */}
-            <button onClick={() => setMobileMenu(!mobileMenu)} className="lg:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-full" aria-label="Menu">
+            <button onClick={() => setMobileMenu(!mobileMenu)} className="lg:hidden p-2.5 text-slate-500 hover:bg-slate-100 rounded-xl transition" aria-label="Menu">
               {mobileMenu ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
@@ -242,18 +260,16 @@ const Navbar = () => {
 
       {/* Mobile menu */}
       {mobileMenu && (
-        <div className="lg:hidden border-t bg-white max-h-[80vh] overflow-y-auto">
-          <div className="px-4 py-3 space-y-4">
-            {/* Search */}
-            <form onSubmit={handleSearch} className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-full">
+        <div className="lg:hidden border-t border-slate-200 bg-white max-h-[85vh] overflow-y-auto animate-slide-down">
+          <div className="px-4 py-4 space-y-4">
+            <form onSubmit={handleSearch} className="flex items-center gap-2 bg-slate-50 border border-slate-200 px-4 py-2.5 rounded-full focus-within:border-agrishop-400 focus-within:ring-2 focus-within:ring-agrishop-100 transition-all">
               <Search size={18} className="text-slate-400 shrink-0" />
-              <input className="w-full bg-transparent outline-none text-sm" type="text" placeholder="Rechercher..." value={search} onChange={(e) => setSearch(e.target.value)} />
+              <input className="w-full bg-transparent outline-none text-sm placeholder:text-slate-400" type="text" placeholder="Rechercher..." value={search} onChange={(e) => setSearch(e.target.value)} />
             </form>
 
             {user ? (
               <>
-                {/* Role-based mobile links */}
-                <div className="space-y-1">
+                <div className="space-y-0.5">
                   {links.map(link => {
                     const joyrideAttr = (
                       link.label === 'Explorer' ? 'explore' :
@@ -262,51 +278,52 @@ const Navbar = () => {
                       null
                     )
                     return (
-                      <Link key={link.href + link.label} href={link.href} onClick={() => setMobileMenu(false)} {...(joyrideAttr ? { 'data-joyride': joyrideAttr } : {})} className="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 py-2.5 px-2 rounded-lg transition">
-                        <link.icon size={18} /> {link.label}
+                      <Link key={link.href + link.label} href={link.href} onClick={() => setMobileMenu(false)} {...(joyrideAttr ? { 'data-joyride': joyrideAttr } : {})} className="flex items-center gap-3 text-sm font-medium text-slate-700 hover:text-agrishop-700 hover:bg-agrishop-50 py-2.5 px-3 rounded-lg transition">
+                        <link.icon size={18} className="text-slate-400" /> {link.label}
                       </Link>
                     )
                   })}
                 </div>
 
-                <hr />
+                <hr className="border-slate-100" />
 
-                <Link href="/dashboard" onClick={() => setMobileMenu(false)} className="flex items-center gap-2 text-sm text-slate-600 hover:text-agrishop-600 py-2">
-                  <LayoutDashboard size={16} /> Tableau de bord
+                <Link href="/dashboard" onClick={() => setMobileMenu(false)} className="flex items-center gap-3 text-sm text-slate-600 hover:text-agrishop-700 py-2.5 px-3 rounded-lg hover:bg-slate-50 transition">
+                  <LayoutDashboard size={16} className="text-slate-400" /> Tableau de bord
                 </Link>
-                <Link href="/favorites" onClick={() => setMobileMenu(false)} className="flex items-center gap-2 text-sm text-slate-600 hover:text-agrishop-600 py-2">
-                  <Heart size={16} /> Mes favoris
+                <Link href="/favorites" onClick={() => setMobileMenu(false)} className="flex items-center gap-3 text-sm text-slate-600 hover:text-agrishop-700 py-2.5 px-3 rounded-lg hover:bg-slate-50 transition">
+                  <Heart size={16} className="text-slate-400" /> Mes favoris
                 </Link>
-                <button onClick={handleLogout} className="flex items-center gap-2 text-sm text-red-600 hover:text-red-700 py-2 w-full text-left">
+                <button onClick={handleLogout} className="flex items-center gap-3 text-sm text-red-600 hover:text-red-700 py-2.5 px-3 rounded-lg hover:bg-red-50 w-full text-left transition">
                   <LogOut size={16} /> Déconnexion
                 </button>
               </>
             ) : (
               <>
-                {/* Categories for non-connected */}
-                <Link href="/create-ad" onClick={() => setMobileMenu(false)} className="flex items-center justify-center gap-2 w-full bg-agrishop-600 hover:bg-agrishop-700 text-white text-sm font-medium px-4 py-3 rounded-lg transition">
+                <Link href="/create-ad" onClick={() => setMobileMenu(false)} className="flex items-center justify-center gap-2 w-full bg-agrishop-700 hover:bg-agrishop-800 text-white text-sm font-medium px-4 py-3 rounded-xl transition shadow-sm">
                   <PlusCircle size={18} /> Déposer une annonce
                 </Link>
 
                 <div>
-                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Catégories</p>
-                  <div className="grid grid-cols-1 gap-1">
+                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-3 px-3">Catégories</p>
+                  <div className="grid grid-cols-2 gap-1">
                     {categories.map((cat) => (
-                      <Link key={cat.id} href={`/c/${cat.id}`} onClick={() => setMobileMenu(false)} className="flex items-center gap-2 text-sm text-slate-600 hover:text-agrishop-600 hover:bg-agrishop-50 py-2 px-2 rounded-lg transition">
+                      <Link key={cat.id} href={`/c/${cat.id}`} onClick={() => setMobileMenu(false)} className="flex items-center gap-2 text-sm text-slate-600 hover:text-agrishop-700 hover:bg-agrishop-50 py-2.5 px-3 rounded-lg transition">
                         {cat.nom}
                       </Link>
                     ))}
                   </div>
                 </div>
 
-                <hr />
+                <hr className="border-slate-100" />
 
-                <Link href="/favorites" onClick={() => setMobileMenu(false)} className="flex items-center gap-2 text-sm text-slate-600 hover:text-agrishop-600 py-2">
-                  <Heart size={16} /> Mes favoris
-                </Link>
-                <Link href="/auth/login" onClick={() => setMobileMenu(false)} className="flex items-center gap-2 text-sm text-agrishop-600 hover:underline py-2">
-                  Connexion / Inscription
-                </Link>
+                <div className="flex flex-col gap-1 px-3">
+                  <Link href="/auth/login" onClick={() => setMobileMenu(false)} className="text-sm font-medium text-agrishop-700 hover:underline py-2">
+                    Connexion
+                  </Link>
+                  <Link href="/auth/register" onClick={() => setMobileMenu(false)} className="text-sm font-medium bg-agrishop-700 text-white px-4 py-2.5 rounded-lg hover:bg-agrishop-800 transition text-center shadow-sm">
+                    Créer un compte
+                  </Link>
+                </div>
               </>
             )}
           </div>

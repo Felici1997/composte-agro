@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, HelpCircle } from 'lucide-react'
 
 const faqs = [
   {
@@ -33,28 +33,35 @@ export default function FAQSection() {
   const [open, setOpen] = useState(null)
 
   return (
-    <section className="py-12">
-      <h2 className="text-lg font-semibold text-slate-700 text-center mb-2">Questions fréquentes</h2>
-      <p className="text-sm text-slate-400 text-center mb-8">Tout ce que vous devez savoir sur Composte</p>
-      <div className="max-w-2xl mx-auto space-y-2">
+    <section className="py-14">
+      <div className="text-center mb-10">
+        <div className="inline-flex items-center gap-2 bg-agrishop-50 text-agrishop-700 px-4 py-1.5 rounded-full text-xs font-medium mb-3">
+          <HelpCircle size={14} /> Aide
+        </div>
+        <h2 className="text-lg font-semibold text-slate-800 mb-1">Questions fréquentes</h2>
+        <p className="text-sm text-slate-500 mb-6">Tout ce que vous devez savoir sur Composte</p>
+      </div>
+      <div className="max-w-2xl mx-auto space-y-3">
         {faqs.map((faq, i) => (
-          <div key={i} className="border border-slate-200 rounded-xl overflow-hidden">
+          <div key={i} className="border border-slate-200 rounded-2xl overflow-hidden hover:border-slate-300 transition">
             <button
               onClick={() => setOpen(open === i ? null : i)}
-              className="w-full flex items-center justify-between px-5 py-4 text-left text-sm font-medium text-slate-700 hover:bg-slate-50 transition"
+              className={`w-full flex items-center justify-between px-6 py-4 text-left text-sm font-medium transition ${
+                open === i ? 'text-agrishop-700 bg-agrishop-50' : 'text-slate-700 hover:bg-slate-50'
+              }`}
             >
-              {faq.q}
+              <span>{faq.q}</span>
               <ChevronDown
-                size={16}
-                className={`text-slate-400 transition-transform duration-200 ${open === i ? 'rotate-180' : ''}`}
+                size={17}
+                className={`text-slate-400 transition-transform duration-200 shrink-0 ${open === i ? 'rotate-180 text-agrishop-600' : ''}`}
               />
             </button>
             <div
-              className={`overflow-hidden transition-all duration-200 ${
-                open === i ? 'max-h-40 border-t border-slate-100' : 'max-h-0'
+              className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                open === i ? 'max-h-40' : 'max-h-0'
               }`}
             >
-              <p className="px-5 py-4 text-sm text-slate-500 leading-relaxed">{faq.a}</p>
+              <p className="px-6 py-4 text-sm text-slate-500 leading-relaxed border-t border-slate-100">{faq.a}</p>
             </div>
           </div>
         ))}
