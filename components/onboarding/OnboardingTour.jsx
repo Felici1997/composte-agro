@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { Joyride } from 'react-joyride'
 import { supabase } from '@/lib/supabase/client'
@@ -80,14 +80,16 @@ export default function OnboardingTour() {
   const isMobile = useMedia(1023)
   const role = profile?.role || 'client'
   const steps = makeSteps(role, isMobile)
+  const userRef = useRef(user)
+  userRef.current = user
+
+  if (localStorage.getItem('has_seen_onboarding') === 'true') return null
 
   useEffect(() => {
     if (!user) return
-    const seen = localStorage.getItem('has_seen_onboarding')
-    if (!seen) {
-      const timer = setTimeout(() => setRun(true), 800)
-      return () => clearTimeout(timer)
-    }
+    if (localStorage.getItem('has_seen_onboarding') === 'true') return
+    const timer = setTimeout(() => setRun(true), 800)
+    return () => clearTimeout(timer)
   }, [user])
 
   useEffect(() => {
@@ -105,11 +107,14 @@ export default function OnboardingTour() {
     if (status === 'finished' || status === 'skipped') {
       localStorage.setItem('has_seen_onboarding', 'true')
       setRun(false)
-      try {
-        await supabase.from('profiles').update({ has_seen_onboarding: true }).eq('id', user.id)
-      } catch {}
+      const uid = userRef.current?.id
+      if (uid) {
+        try {
+          await supabase.from('profiles').update({ has_seen_onboarding: true }).eq('id', uid)
+        } catch {}
+      }
     }
-  }, [user])
+  }, [])
 
   return (
     <Joyride
