@@ -1,10 +1,10 @@
-import { ShieldCheck, CreditCard, RotateCcw, Headphones } from 'lucide-react'
+﻿import { ShieldCheck, CreditCard, RotateCcw, Headphones } from 'lucide-react'
 
 const badges = [
-  { icon: ShieldCheck, title: 'Profils v\u00e9rifi\u00e9s', desc: 'Comptes professionnels authentifi\u00e9s manuellement', color: 'text-blue-600', bg: 'bg-blue-50' },
-  { icon: CreditCard, title: 'Paiement s\u00e9curis\u00e9', desc: 'Transactions prot\u00e9g\u00e9es via notre plateforme', color: 'text-emerald-600', bg: 'bg-emerald-50' },
+  { icon: ShieldCheck, title: 'Profils vérifiés', desc: 'Comptes professionnels authentifiés manuellement', color: 'text-blue-600', bg: 'bg-blue-50' },
+  { icon: CreditCard, title: 'Paiement sécurisé', desc: 'Transactions protégées via notre plateforme', color: 'text-emerald-600', bg: 'bg-emerald-50' },
   { icon: RotateCcw, title: 'Annulation flexible', desc: 'Annulation gratuite sous 48h avant livraison', color: 'text-amber-600', bg: 'bg-amber-50' },
-  { icon: Headphones, title: 'Service client', desc: 'Une \u00e9quipe disponible 7j/7 pour vous accompagner', color: 'text-violet-600', bg: 'bg-violet-50' },
+  { icon: Headphones, title: 'Service client', desc: 'Une équipe disponible 7j/7 pour vous accompagner', color: 'text-violet-600', bg: 'bg-violet-50' },
 ]
 
 export default function TrustBadges() {

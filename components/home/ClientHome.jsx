@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
@@ -39,7 +39,7 @@ export default function ClientHome() {
               <span className="text-white/90">Composte</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-bold">Bienvenue !</h1>
-            <p className="text-sm sm:text-base text-white/80 mt-1.5 max-w-xl">Trouvez produits, matériels et services agricoles près de chez vous au Congo.</p>
+            <p className="text-sm sm:text-base text-white/80 mt-1.5 max-w-xl">Trouvez produits, matÃ©riels et services agricoles prÃ¨s de chez vous au Congo.</p>
           </div>
           <Link href="/create-ad" className="inline-flex items-center gap-2 bg-white text-agrishop-800 font-semibold px-6 py-3 rounded-xl text-sm hover:bg-agrishop-50 transition shadow-lg shadow-black/10 shrink-0 group">
             <PlusCircle size={18} /> Publier une annonce <ArrowRight size={16} className="transition group-hover:translate-x-0.5" />
@@ -51,9 +51,9 @@ export default function ClientHome() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-lg font-semibold text-slate-800 mb-1">Producteurs</h2>
-            <p className="text-sm text-slate-500 mb-6 mb-0">Produits frais et locaux des producteurs près de chez vous</p>
+            <p className="text-sm text-slate-500 mb-6 mb-0">Produits frais et locaux des producteurs prÃ¨s de chez vous</p>
           </div>
-          <Link href="/search?type=product" className="text-sm font-medium text-agrishop-700 hover:text-agrishop-800 hover:underline shrink-0">Voir tout →</Link>
+          <Link href="/search?type=product" className="text-sm font-medium text-agrishop-700 hover:text-agrishop-800 hover:underline shrink-0">Voir tout â†’</Link>
         </div>
         {loading && products.length === 0 ? <SkeletonCards /> : products.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -71,9 +71,9 @@ export default function ClientHome() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <h2 className="text-lg font-semibold text-slate-800 mb-1">Services</h2>
-            <p className="text-sm text-slate-500 mb-6 mb-0">Services agricoles près de chez vous</p>
+            <p className="text-sm text-slate-500 mb-6 mb-0">Services agricoles prÃ¨s de chez vous</p>
           </div>
-          <Link href="/search?type=service" className="text-sm font-medium text-agrishop-700 hover:text-agrishop-800 hover:underline shrink-0">Voir tout →</Link>
+          <Link href="/search?type=service" className="text-sm font-medium text-agrishop-700 hover:text-agrishop-800 hover:underline shrink-0">Voir tout â†’</Link>
         </div>
         {loading && services.length === 0 ? <SkeletonCards /> : services.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

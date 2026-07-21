@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
@@ -36,7 +36,7 @@ export default function VendeurHome() {
             <Store size={12} /> Espace vendeur
           </div>
           <h1 className="text-2xl font-bold">Bienvenue dans votre boutique</h1>
-          <p className="text-sm text-white/80 mt-1.5 max-w-md">G\u00e9rez vos produits, suivez vos ventes et trouvez de nouveaux clients</p>
+          <p className="text-sm text-white/80 mt-1.5 max-w-md">Gérez vos produits, suivez vos ventes et trouvez de nouveaux clients</p>
           <div className="flex flex-wrap gap-3 mt-6">
             <Link href="/create-ad" className="inline-flex items-center gap-2 bg-white text-emerald-800 font-semibold px-5 py-2.5 rounded-xl text-sm hover:bg-emerald-50 transition shadow-lg shadow-black/10">
               <PlusCircle size={18} /> Ajouter un produit
@@ -82,7 +82,7 @@ export default function VendeurHome() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-semibold text-slate-800 mb-1">Mon catalogue</h2>
-          {mesProduits.length > 0 && <Link href="/dashboard" className="text-sm font-medium text-emerald-700 hover:text-emerald-800 hover:underline">Tout voir \u2192</Link>}
+          {mesProduits.length > 0 && <Link href="/dashboard" className="text-sm font-medium text-emerald-700 hover:text-emerald-800 hover:underline">Tout voir →</Link>}
         </div>
         {mesProduits.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -92,7 +92,7 @@ export default function VendeurHome() {
           <div className="text-center py-14 bg-gradient-to-b from-slate-50 to-white border border-dashed border-slate-300 rounded-2xl">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-50 mb-3"><Package size={28} className="text-emerald-400" /></div>
             <p className="text-slate-500 font-medium">Vous n&apos;avez pas encore de produit</p>
-            <p className="text-xs text-slate-400 mt-1">Ajoutez votre premier produit pour commencer \u00e0 vendre</p>
+            <p className="text-xs text-slate-400 mt-1">Ajoutez votre premier produit pour commencer à vendre</p>
             <Link href="/create-ad" className="inline-flex items-center gap-1.5 mt-4 bg-emerald-600 text-white text-sm font-medium px-5 py-2.5 rounded-xl hover:bg-emerald-700 transition shadow-sm">
               <PlusCircle size={16} /> Ajouter un produit
             </Link>
@@ -116,7 +116,7 @@ export default function VendeurHome() {
                       {d.price != null && <span className="font-semibold text-emerald-600">{formatPrice(d.price)}</span>}
                       {d._profile && <span className="flex items-center gap-1"><User size={12} /> {d._profile.nom_complet || 'Anonyme'}</span>}
                       {d.localite && <span className="flex items-center gap-1"><MapPin size={12} /> {d.localite}{d.departement ? ' (' + d.departement + ')' : ''}</span>}
-                      {d.is_pre_sale && <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full font-medium"><Sprout size={10} /> Pr\u00e9-vente</span>}
+                      {d.is_pre_sale && <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-600 px-2 py-0.5 rounded-full font-medium"><Sprout size={10} /> Pré-vente</span>}
                       {d.created_at && <span className="flex items-center gap-1"><Clock size={12} /> {new Date(d.created_at).toLocaleDateString('fr-FR')}</span>}
                     </div>
                   </div>
@@ -131,7 +131,7 @@ export default function VendeurHome() {
           <div className="text-center py-14 bg-gradient-to-b from-slate-50 to-white border border-dashed border-slate-300 rounded-2xl">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-blue-50 mb-3"><ShoppingBag size={28} className="text-blue-400" /></div>
             <p className="text-slate-500 font-medium">Aucune demande pour le moment</p>
-            <p className="text-xs text-slate-400 mt-1">Soyez le premier inform\u00e9 d\u00e8s qu&apos;un client publie une demande</p>
+            <p className="text-xs text-slate-400 mt-1">Soyez le premier informé dès qu&apos;un client publie une demande</p>
           </div>
         )}
       </div>

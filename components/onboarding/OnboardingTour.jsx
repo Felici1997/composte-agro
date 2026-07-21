@@ -8,46 +8,46 @@ import CustomTooltip from './CustomTooltip'
 const makeSteps = (role, isMobile) => {
   const desktop = {
     client: [
-      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Trouvez produits, materiel et services pres de chez vous.' },
-      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '🔍', title: 'Parcourir les annonces', content: 'Des milliers d\'annonces de produits et services agricoles pres de chez vous.' },
-      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '📝', title: 'Deposer une annonce', content: 'Publiez gratuitement votre demande en quelques clics pour toucher des milliers de vendeurs.' },
-      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Suivre vos annonces', content: 'Retrouvez et gerez toutes vos annonces depuis votre tableau de bord.' },
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numéro 1 au Congo. Trouvez produits, matériel et services près de chez vous.' },
+      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '🔍', title: 'Parcourir les annonces', content: 'Des milliers d\'annonces de produits et services agricoles près de chez vous.' },
+      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '📝', title: 'Déposer une annonce', content: 'Publiez gratuitement votre demande en quelques clics pour toucher des milliers de vendeurs.' },
+      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Suivre vos annonces', content: 'Retrouvez et gérez toutes vos annonces depuis votre tableau de bord.' },
     ],
     vendeur: [
-      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Vendez vos produits directement aux acheteurs.' },
-      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '📦', title: 'Ajouter un produit', content: 'Creez votre catalogue en quelques clics : photo, prix, stock et localisation.' },
-      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Gerer mes produits', content: 'Consultez et mettez a jour votre catalogue depuis votre tableau de bord.' },
-      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '📊', title: 'Suivre le marche', content: 'Explorez les annonces pour suivre la concurrence et trouver de nouvelles opportunites.' },
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numéro 1 au Congo. Vendez vos produits directement aux acheteurs.' },
+      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '📦', title: 'Ajouter un produit', content: 'Créez votre catalogue en quelques clics : photo, prix, stock et localisation.' },
+      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Gérer mes produits', content: 'Consultez et mettez à jour votre catalogue depuis votre tableau de bord.' },
+      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '📊', title: 'Suivre le marché', content: 'Explorez les annonces pour suivre la concurrence et trouver de nouvelles opportunités.' },
     ],
     prestataire: [
-      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Proposez vos services aux agriculteurs.' },
-      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '🔧', title: 'Creer un service', content: 'Creez votre carte de service : prestation, tarif, zone d\'intervention.' },
-      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Gerer mes services', content: 'Suivez les demandes de service et gerez vos prestations.' },
-      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '📊', title: 'Decouvrir le marche', content: 'Parcourez les annonces pour trouver de nouveaux clients et partenaires.' },
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numéro 1 au Congo. Proposez vos services aux agriculteurs.' },
+      { target: '[data-joyride="create-ad"]', placement: 'bottom', icon: '🔧', title: 'Créer un service', content: 'Créez votre carte de service : prestation, tarif, zone d\'intervention.' },
+      { target: '[data-joyride="my-items"]', placement: 'bottom', icon: '📋', title: 'Gérer mes services', content: 'Suivez les demandes de service et gérez vos prestations.' },
+      { target: '[data-joyride="explore"]', placement: 'bottom', icon: '📊', title: 'Découvrir le marché', content: 'Parcourez les annonces pour trouver de nouveaux clients et partenaires.' },
     ],
   }
 
   const mobile = {
     client: [
-      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Trouvez produits, materiel et services pres de chez vous.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '🔍', title: 'Parcourir les annonces', content: 'Dans le menu, appuyez sur "Explorer" pour decouvrir des milliers d\'annonces.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📝', title: 'Deposer une annonce', content: 'Appuyez sur "Deposer une annonce" dans le menu pour publier gratuitement.' },
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numéro 1 au Congo. Trouvez produits, matériel et services près de chez vous.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour accéder au menu et découvrir toutes les fonctionnalités.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '🔍', title: 'Parcourir les annonces', content: 'Dans le menu, appuyez sur "Explorer" pour découvrir des milliers d\'annonces.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📝', title: 'Déposer une annonce', content: 'Appuyez sur "Déposer une annonce" dans le menu pour publier gratuitement.' },
       { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Suivre vos annonces', content: 'Retrouvez vos annonces depuis "Mes annonces" dans le menu.' },
     ],
     vendeur: [
-      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Vendez vos produits directement aux acheteurs.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📦', title: 'Ajouter un produit', content: 'Dans le menu, appuyez sur "Nouveau produit" pour creer votre catalogue.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Gerer mes produits', content: 'Appuyez sur "Mes produits" dans le menu pour gerer votre catalogue.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📊', title: 'Suivre le marche', content: 'Utilisez "Explorer" dans le menu pour trouver des opportunites.' },
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numéro 1 au Congo. Vendez vos produits directement aux acheteurs.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour accéder au menu et découvrir toutes les fonctionnalités.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📦', title: 'Ajouter un produit', content: 'Dans le menu, appuyez sur "Nouveau produit" pour créer votre catalogue.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Gérer mes produits', content: 'Appuyez sur "Mes produits" dans le menu pour gérer votre catalogue.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📊', title: 'Suivre le marché', content: 'Utilisez "Explorer" dans le menu pour trouver des opportunités.' },
     ],
     prestataire: [
-      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numero 1 au Congo. Proposez vos services aux agriculteurs.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour acceder au menu et decouvrir toutes les fonctionnalites.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '🔧', title: 'Creer un service', content: 'Dans le menu, appuyez sur "Nouveau service" pour creer votre carte.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Gerer mes services', content: 'Appuyez sur "Mes services" dans le menu pour suivre vos prestations.' },
-      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📊', title: 'Decouvrir le marche', content: 'Utilisez "Explorer" dans le menu pour trouver de nouveaux clients.' },
+      { target: 'body', placement: 'center', icon: '🌱', title: 'Bienvenue sur Composte', content: 'Plateforme agricole numéro 1 au Congo. Proposez vos services aux agriculteurs.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Ouvrez le menu', content: 'Appuyez ici pour accéder au menu et découvrir toutes les fonctionnalités.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '🔧', title: 'Créer un service', content: 'Dans le menu, appuyez sur "Nouveau service" pour créer votre carte.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📋', title: 'Gérer mes services', content: 'Appuyez sur "Mes services" dans le menu pour suivre vos prestations.' },
+      { target: 'button[aria-label="Menu"]', placement: 'bottom', icon: '📊', title: 'Découvrir le marché', content: 'Utilisez "Explorer" dans le menu pour trouver de nouveaux clients.' },
     ],
   }
 

@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { PlusCircle, ArrowRight, Leaf } from 'lucide-react'
+import { PlusCircle, ArrowRight } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
 import ClientHome from '@/components/home/ClientHome'
 import VendeurHome from '@/components/home/VendeurHome'
@@ -71,7 +71,6 @@ export default function Home() {
           </div>
           <div className="relative z-10 text-center max-w-xl">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-medium mb-4 border border-white/10">
-              <Leaf size={14} className="text-emerald-300" />
               Rejoignez la communauté
             </div>
             <h2 className="text-2xl md:text-3xl font-bold mb-3">Vous avez quelque chose à vendre ?</h2>

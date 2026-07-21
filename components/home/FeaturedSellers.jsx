@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
@@ -41,7 +41,7 @@ export default function FeaturedSellers() {
           <p className="text-sm text-slate-500 mb-6 mb-0">Les membres les plus actifs du moment</p>
         </div>
         <Link href="/search" className="text-sm font-medium text-agrishop-700 hover:text-agrishop-800 hover:underline shrink-0">
-          Voir tout →
+          Voir tout â†’
         </Link>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

@@ -1,20 +1,20 @@
-const steps = [
+﻿const steps = [
   {
     src: '/images/illustrations/online-groceries-bro.svg',
     title: 'Publiez gratuitement',
-    desc: 'D\u00e9posez votre annonce en 2 minutes. Producteurs, services ou clients \u2014 tout le monde peut publier.',
+    desc: 'Déposez votre annonce en 2 minutes. Producteurs, services ou clients — tout le monde peut publier.',
     color: 'from-emerald-500 to-emerald-600',
   },
   {
     src: '/images/illustrations/online-groceries-pana.svg',
     title: 'Trouvez des acheteurs',
-    desc: 'Des milliers d\'agriculteurs et professionnels consultent les annonces chaque jour pr\u00e8s de chez vous.',
+    desc: "Des milliers d'agriculteurs et professionnels consultent les annonces chaque jour près de chez vous.",
     color: 'from-blue-500 to-blue-600',
   },
   {
     src: '/images/illustrations/online-world-cuate.svg',
-    title: '\u00c9changez et vendez',
-    desc: 'Contactez directement les vendeurs par t\u00e9l\u00e9phone ou message. Aucune commission sur les ventes.',
+    title: 'Échangez et vendez',
+    desc: 'Contactez directement les vendeurs par téléphone ou message. Aucune commission sur les ventes.',
     color: 'from-amber-500 to-amber-600',
   },
 ]
@@ -23,8 +23,8 @@ export default function HowItWorks() {
   return (
     <section className="py-14">
       <div className="text-center mb-10">
-        <h2 className="text-lg font-semibold text-slate-800 mb-1">Comment \u00e7a marche ?</h2>
-        <p className="text-sm text-slate-500 mb-6">Rejoignez la communaut\u00e9 agricole en 3 \u00e9tapes simples</p>
+        <h2 className="text-lg font-semibold text-slate-800 mb-1">Comment ça marche ?</h2>
+        <p className="text-sm text-slate-500 mb-6">Rejoignez la communauté agricole en 3 étapes simples</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {steps.map((step, i) => (

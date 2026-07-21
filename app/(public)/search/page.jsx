@@ -83,15 +83,15 @@ function SearchContent() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-agrishop-50/30 via-white to-emerald-50/20 pb-10">
       {/* Mini hero */}
-      <div className="bg-gradient-to-r from-agrishop-900 to-emerald-800">
-        <div className="max-w-7xl mx-auto px-4 py-10 md:py-14">
+      <div className="border-b border-slate-200 bg-white">
+        <div className="max-w-7xl mx-auto px-4 py-8 md:py-10">
           <div className="flex items-center gap-3 mb-2">
-            <Search size={22} className="text-emerald-300" />
-            <h1 className="text-xl md:text-2xl font-bold text-white font-heading">
-              {q ? <>Résultats pour &ldquo;<span className="text-emerald-300">{q}</span>&rdquo;</> : 'Explorer les annonces'}
+            <Search size={22} className="text-agrishop-600" />
+            <h1 className="text-xl md:text-2xl font-bold text-slate-800 font-heading">
+              {q ? <>Résultats pour &ldquo;<span className="text-agrishop-600">{q}</span>&rdquo;</> : 'Explorer les annonces'}
             </h1>
           </div>
-          <p className="text-white/60 text-sm">{mounted ? filteredAds.length : '—'} résultat{filteredAds.length > 1 ? 's' : ''}</p>
+          <p className="text-slate-400 text-sm">{mounted ? filteredAds.length : '—'} résultat{filteredAds.length > 1 ? 's' : ''}</p>
         </div>
       </div>
 

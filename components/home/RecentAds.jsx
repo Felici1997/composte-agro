@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Link from 'next/link'
@@ -44,11 +44,11 @@ export default function RecentAds() {
     <section className="py-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-lg font-semibold text-slate-800 mb-1">Annonces r\u00e9centes</h2>
-          <p className="text-sm text-slate-500 mb-0">Les derni\u00e8res annonces publi\u00e9es sur la plateforme</p>
+          <h2 className="text-lg font-semibold text-slate-800 mb-1">Annonces récentes</h2>
+          <p className="text-sm text-slate-500 mb-0">Les dernières annonces publiées sur la plateforme</p>
         </div>
         <Link href="/search" className="text-sm font-medium text-agrishop-700 hover:text-agrishop-800 hover:underline transition shrink-0">
-          Voir tout \u2192
+          Voir tout →
         </Link>
       </div>
       <FeaturedAds ads={activeAds} />
@@ -56,11 +56,11 @@ export default function RecentAds() {
         <SkeletonCards />
       ) : stuck ? (
         <div className="text-center py-14 text-slate-400 bg-slate-50 rounded-2xl border border-slate-100">
-          <p className="text-sm font-medium text-slate-500">Le chargement prend plus de temps que pr\u00e9vu</p>
-          <p className="text-xs mt-1">V\u00e9rifiez votre connexion internet</p>
+          <p className="text-sm font-medium text-slate-500">Le chargement prend plus de temps que prévu</p>
+          <p className="text-xs mt-1">Vérifiez votre connexion internet</p>
           <button onClick={() => { setStuck(false); dispatch(loadAds()) }}
             className="mt-5 inline-flex items-center gap-1.5 bg-agrishop-700 hover:bg-agrishop-800 text-white text-sm font-medium px-6 py-2.5 rounded-xl transition shadow-sm">
-            R\u00e9essayer
+            Réessayer
           </button>
         </div>
       ) : activeAds.length > 0 ? (
@@ -70,7 +70,7 @@ export default function RecentAds() {
       ) : (
         <div className="text-center py-14 text-slate-400 bg-slate-50 rounded-2xl border border-slate-100">
           <p className="text-sm font-medium text-slate-500">Aucune annonce pour le moment</p>
-          <p className="text-xs mt-1">{error ? 'Erreur de chargement' : 'Soyez le premier \u00e0 publier !'}</p>
+          <p className="text-xs mt-1">{error ? 'Erreur de chargement' : 'Soyez le premier à publier !'}</p>
         </div>
       )}
     </section>

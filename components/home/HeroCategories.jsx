@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import Link from 'next/link'
 import { categories } from '@/lib/categories'
 import { Tractor, Droplets, Wrench, Sprout, Cpu, Briefcase } from 'lucide-react'
@@ -12,11 +12,11 @@ export default function HeroCategories() {
     <section data-joyride="categories" className="py-10">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-lg font-semibold text-slate-800 mb-1">Parcourir par cat\u00e9gorie</h2>
-          <p className="text-sm text-slate-500 mb-0">{categories.length} cat\u00e9gories disponibles</p>
+          <h2 className="text-lg font-semibold text-slate-800 mb-1">Parcourir par catégorie</h2>
+          <p className="text-sm text-slate-500 mb-0">{categories.length} catégories disponibles</p>
         </div>
         <Link href="/search" className="text-sm font-medium text-agrishop-700 hover:text-agrishop-800 hover:underline shrink-0">
-          Voir tout \u2192
+          Voir tout →
         </Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">

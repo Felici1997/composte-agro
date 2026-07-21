@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Wrench, PlusCircle, ShoppingBag, User, ChevronRight, Briefcase } from 'lucide-react'
@@ -38,7 +38,7 @@ export default function PrestataireHome() {
             <Briefcase size={12} /> Espace prestataire
           </div>
           <h1 className="text-2xl font-bold">Bonjour, prestataire</h1>
-          <p className="text-sm text-white/80 mt-1.5 max-w-md">G\u00e9rez vos services et r\u00e9pondez aux demandes de vos clients.</p>
+          <p className="text-sm text-white/80 mt-1.5 max-w-md">Gérez vos services et répondez aux demandes de vos clients.</p>
           <div className="flex flex-wrap gap-3 mt-6">
             <Link href="/create-ad" className="inline-flex items-center gap-2 bg-white text-violet-800 font-semibold px-5 py-2.5 rounded-xl text-sm hover:bg-violet-50 transition shadow-lg shadow-black/10">
               <PlusCircle size={18} /> Ajouter un service
@@ -66,7 +66,7 @@ export default function PrestataireHome() {
       <div className="mb-8">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-semibold text-slate-800 mb-1">Mes services</h2>
-          {mesServices.length > 0 && <Link href="/dashboard" className="text-sm font-medium text-violet-700 hover:text-violet-800 hover:underline">Tout voir \u2192</Link>}
+          {mesServices.length > 0 && <Link href="/dashboard" className="text-sm font-medium text-violet-700 hover:text-violet-800 hover:underline">Tout voir →</Link>}
         </div>
         {loading ? <div className="text-center py-12 text-slate-400">Chargement...</div> : mesServices.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{mesServices.map(s => <AdCard key={s._key || s.id} ad={s} />)}</div>
@@ -108,7 +108,7 @@ export default function PrestataireHome() {
           <div className="text-center py-14 bg-gradient-to-b from-slate-50 to-white border border-dashed border-slate-300 rounded-2xl">
             <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-violet-50 mb-3"><ShoppingBag size={28} className="text-violet-400" /></div>
             <p className="text-slate-500 font-medium">Aucune demande de service pour le moment</p>
-            <p className="text-xs text-slate-400 mt-1">Les demandes appara\u00eetront ici</p>
+            <p className="text-xs text-slate-400 mt-1">Les demandes apparaîtront ici</p>
           </div>
         )}
       </div>
