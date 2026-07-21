@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Eye, EyeOff, LogIn, ArrowRight, Mail, Lock, Leaf, Sprout, ShieldCheck, Quote } from 'lucide-react'
+import { Eye, EyeOff, LogIn, ArrowRight, Mail, Lock, Leaf, ShieldCheck, Quote } from 'lucide-react'
 import Image from 'next/image'
 import { supabase } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
@@ -35,31 +35,20 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex bg-white">
-      {/* Left - Organic Biophilic decorative panel */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center min-h-screen">
-        <img src="/images/hero-bg.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-gradient-to-br from-agrishop-900/92 via-emerald-800/85 to-agrishop-950/92" />
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden items-center justify-center min-h-screen bg-gradient-to-br from-agrishop-900 via-emerald-800 to-agrishop-950">
+        <img src="/images/illustrations/marketplace-bro.svg" alt="" className="absolute inset-0 w-full h-full object-contain p-16 opacity-70" />
+        <div className="absolute inset-0 bg-gradient-to-t from-agrishop-900/60 via-transparent to-agrishop-900/40" />
 
-        {/* Amorphous organic blobs */}
         <div className="absolute -top-48 -right-32 w-[600px] h-[600px] bg-white/[0.04] rounded-full animate-blob" />
         <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] bg-emerald-400/[0.04] rounded-full animate-blob" style={{ animationDelay: '-6s' }} />
-        <div className="absolute top-1/3 left-1/4 w-72 h-72 bg-white/[0.02] rounded-full animate-blob" style={{ animationDelay: '-3s' }} />
 
-        {/* Floating leaf decorations */}
         <div className="absolute top-[18%] left-[12%] text-white/15 animate-float-slow">
           <Leaf size={32} />
         </div>
         <div className="absolute top-[65%] right-[15%] text-white/15 animate-float" style={{ animationDelay: '-2s' }}>
-          <Sprout size={28} />
-        </div>
-        <div className="absolute top-[40%] left-[8%] text-white/10 animate-float-slow" style={{ animationDelay: '-4s' }}>
-          <Leaf size={20} />
-        </div>
-        <div className="absolute bottom-[25%] left-[55%] text-white/10 animate-float" style={{ animationDelay: '-1s' }}>
-          <Sprout size={22} />
+          <Leaf size={28} />
         </div>
 
-        {/* Content overlay */}
         <div className="relative z-10 text-center px-12 max-w-lg">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm mb-6 shadow-lg shadow-black/10">
             <Leaf size={32} className="text-emerald-300" />
@@ -70,10 +59,9 @@ export default function LoginPage() {
           </h2>
           <p className="text-white/70 mt-3 text-sm leading-relaxed">
             La marketplace qui connecte les producteurs agricoles congolais aux acheteurs,
-           partout dans le pays.
+            partout dans le pays.
           </p>
 
-          {/* Trust stats */}
           <div className="grid grid-cols-3 gap-4 mt-10">
             {[
               { value: '2 000+', label: 'Agriculteurs' },
@@ -87,7 +75,6 @@ export default function LoginPage() {
             ))}
           </div>
 
-          {/* Testimonial quote */}
           <div className="mt-10 pt-8 border-t border-white/10">
             <Quote size={20} className="text-emerald-400/50 mx-auto mb-3" />
             <p className="text-white/75 text-sm italic leading-relaxed">
@@ -99,7 +86,6 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right - Conversion-Optimized form */}
       <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-agrishop-50/50 via-white to-emerald-50/30 px-6 py-12">
         <div
           className={`w-full max-w-sm transition-all duration-700 ease-out ${
@@ -107,7 +93,7 @@ export default function LoginPage() {
           }`}
         >
           <Link href="/" className="flex justify-center mb-6">
-            <Image src="/logo.svg" alt="Composte" width={160} height={48} priority className="h-10 w-auto" />
+            <Image src="/logo.png" alt="Composte" width={160} height={160} priority className="h-9 w-auto object-contain" />
           </Link>
 
           <div className="text-center mb-8">
@@ -118,7 +104,6 @@ export default function LoginPage() {
           </div>
 
           <form onSubmit={handleLogin} className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl border border-white/60 shadow-xl shadow-slate-200/50 space-y-5">
-            {/* Email */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1.5">Adresse email</label>
               <div className="relative group">
@@ -132,7 +117,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <div className="flex items-center justify-between mb-1.5">
                 <label htmlFor="password" className="text-sm font-medium text-slate-700">Mot de passe</label>
@@ -157,7 +141,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Remember me */}
             <label className="flex items-center gap-2.5 cursor-pointer select-none">
               <input
                 type="checkbox" checked={remember} onChange={(e) => setRemember(e.target.checked)}
@@ -166,7 +149,6 @@ export default function LoginPage() {
               <span className="text-sm text-slate-600">Se souvenir de moi</span>
             </label>
 
-            {/* CTA */}
             <button
               disabled={loading}
               className="w-full h-12 bg-gradient-to-r from-agrishop-600 to-emerald-600 hover:from-agrishop-700 hover:to-emerald-700 disabled:from-agrishop-400 disabled:to-emerald-400 text-white font-semibold rounded-2xl transition-all duration-200 text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200/50 hover:shadow-xl hover:shadow-agrishop-300/40 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100"
@@ -181,7 +163,6 @@ export default function LoginPage() {
               )}
             </button>
 
-            {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-200" /></div>
               <div className="relative flex justify-center text-xs">
@@ -189,7 +170,6 @@ export default function LoginPage() {
               </div>
             </div>
 
-            {/* Register link */}
             <p className="text-center text-sm text-slate-500">
               Pas encore de compte ?{' '}
               <Link href="/auth/register" className="text-agrishop-600 hover:text-agrishop-700 font-semibold inline-flex items-center gap-1 transition">
@@ -197,7 +177,6 @@ export default function LoginPage() {
               </Link>
             </p>
 
-            {/* Trust badges */}
             <div className="flex items-center justify-center gap-5 pt-2 text-[11px] text-slate-400">
               <span className="flex items-center gap-1.5">
                 <ShieldCheck size={13} className="text-agrishop-500" /> Données chiffrées

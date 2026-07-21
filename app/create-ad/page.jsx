@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Upload, X, Info, ShoppingBag, Package, Wrench, MapPin, Calendar, AlertTriangle, CheckCircle, Briefcase, Search, DollarSign, Box } from 'lucide-react'
+import { Upload, X, Info, ShoppingBag, Package, Wrench, MapPin, Calendar, AlertTriangle, CheckCircle, Briefcase, Search, DollarSign, Box, ArrowRight, Leaf } from 'lucide-react'
 import { categories, regions } from '@/lib/categories'
 import { supabase } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
@@ -12,20 +12,15 @@ export default function CreateAdPage() {
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(false)
   const [images, setImages] = useState([])
+  const [mounted, setMounted] = useState(false)
   const [form, setForm] = useState({
-    title: '',
-    description: '',
-    price: '',
-    unit: '',
-    category_id: '',
-    city: '',
-    region: '',
-    is_pre_sale: false,
-    harvest_date: '',
-    stock_actuel: '1',
-    type_service: 'prestation',
+    title: '', description: '', price: '', unit: '', category_id: '',
+    city: '', region: '', is_pre_sale: false, harvest_date: '',
+    stock_actuel: '1', type_service: 'prestation',
   })
   const [notFound, setNotFound] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -69,47 +64,30 @@ export default function CreateAdPage() {
       if (!form[field]) return toast.error('Veuillez remplir tous les champs obligatoires')
     }
     setLoading(true)
-
     try {
       let uploadedUrls = []
       if (images.length > 0) {
         for (const img of images.slice(0, 5)) {
           const ext = img.name.split('.').pop()
           const fileName = `${user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
-          const { error: uploadError } = await supabase.storage
-            .from('listing')
-            .upload(fileName, img)
-          if (uploadError) {
-            toast.error(`Upload échoué : ${uploadError.message}`)
-            setLoading(false)
-            return
-          }
+          const { error: uploadError } = await supabase.storage.from('listing').upload(fileName, img)
+          if (uploadError) { toast.error(`Upload échoué : ${uploadError.message}`); setLoading(false); return }
           const { data: { publicUrl } } = supabase.storage.from('listing').getPublicUrl(fileName)
           uploadedUrls.push(publicUrl)
         }
       }
-
       const res = await fetch('/api/ads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          role,
-          title: form.title,
-          description: form.description,
-          price: form.price,
-          unit: form.unit,
-          category_id: form.category_id,
-          city: form.city,
-          region: form.region,
-          image_url: uploadedUrls[0] || '',
-          images: uploadedUrls,
-          is_pre_sale: form.is_pre_sale,
-          harvest_date: form.harvest_date,
+          role, title: form.title, description: form.description, price: form.price,
+          unit: form.unit, category_id: form.category_id, city: form.city, region: form.region,
+          image_url: uploadedUrls[0] || '', images: uploadedUrls,
+          is_pre_sale: form.is_pre_sale, harvest_date: form.harvest_date,
           stock_actuel: form.stock_actuel ? parseInt(form.stock_actuel) : 1,
           type_service: form.type_service,
         }),
       })
-
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur lors de la publication')
       const label = isListing ? 'Annonce' : isProduct ? 'Produit' : 'Service'
@@ -118,10 +96,11 @@ export default function CreateAdPage() {
       router.refresh()
     } catch (err) {
       toast.error(err.message || 'Erreur lors de la publication')
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
   }
+
+  const inputClass = "w-full h-12 px-4 text-sm border-2 border-slate-200 rounded-2xl outline-none transition-all duration-200 placeholder-slate-400 bg-white focus:border-agrishop-400 focus:ring-4 focus:ring-agrishop-100/60 hover:border-slate-300"
+  const sectionClass = "bg-white/80 backdrop-blur-sm border border-slate-200/80 rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow duration-200"
 
   if (notFound) {
     return (
@@ -136,22 +115,10 @@ export default function CreateAdPage() {
     )
   }
 
-  // ─────────────────────────────────────────────────
-  // FORMULAIRE CLIENT — Annonce classifiée
-  // ─────────────────────────────────────────────────
-  if (isListing) return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-          <ShoppingBag size={24} className="text-emerald-600" />
-        </div>
-        <h1 className="text-2xl font-bold text-slate-800">Déposer une annonce</h1>
-        <p className="text-sm text-slate-400 mt-1">Publiez une offre ou une demande agricole</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Images */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+  const renderForm = () => {
+    if (isListing) return (
+      <>
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-3">
             Photos <span className="text-slate-400 font-normal">({images.length}/5 max)</span>
           </label>
@@ -165,7 +132,7 @@ export default function CreateAdPage() {
               </div>
             ))}
             {images.length < 5 && (
-              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
+              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition-all duration-200">
                 <Upload size={22} />
                 <span className="text-[10px] mt-1">Ajouter</span>
                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} hidden />
@@ -174,61 +141,47 @@ export default function CreateAdPage() {
           </div>
         </div>
 
-        {/* Titre */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Titre de l&apos;annonce *</label>
           <input name="title" value={form.title} onChange={handleChange} required maxLength={80}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
-            placeholder="Ex: Recherche tracteur pour labour, Vente de poulets de chair..." />
+            className={inputClass} placeholder="Ex: Recherche tracteur, Vente de poulets de chair..." />
         </div>
 
-        {/* Description */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Description *</label>
           <textarea name="description" value={form.description} onChange={handleChange} required rows={5} maxLength={2000}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition resize-none"
+            className="w-full px-4 py-3 text-sm border-2 border-slate-200 rounded-2xl outline-none transition-all duration-200 placeholder-slate-400 bg-white focus:border-agrishop-400 focus:ring-4 focus:ring-agrishop-100/60 hover:border-slate-300 resize-none"
             placeholder="Décrivez votre annonce en détail : quantité, qualité, disponibilité..." />
         </div>
 
-        {/* Catégorie + Prix */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Catégorie *</label>
-              <select name="category_id" value={form.category_id} onChange={handleChange} required
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
+              <select name="category_id" value={form.category_id} onChange={handleChange} required className={inputClass}>
                 <option value="">Sélectionnez</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.nom}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                Prix <span className="text-slate-400 font-normal">(optionnel)</span>
-              </label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Prix <span className="text-slate-400 font-normal">(optionnel)</span></label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">FCFA</span>
                 <input type="number" name="price" value={form.price} onChange={handleChange} min={0} step={1}
-                  className="w-full pl-16 pr-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" placeholder="0" />
+                  className="w-full h-12 pl-16 pr-4 text-sm border-2 border-slate-200 rounded-2xl outline-none transition-all duration-200 placeholder-slate-400 bg-white focus:border-agrishop-400 focus:ring-4 focus:ring-agrishop-100/60 hover:border-slate-300" placeholder="0" />
               </div>
             </div>
           </div>
-
           <div className="mt-4">
-            <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-              Unité <span className="text-slate-400 font-normal">(optionnel)</span>
-            </label>
-            <input name="unit" value={form.unit} onChange={handleChange}
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
-              placeholder="Ex: kg, sac 25kg, tête, caisse..." />
+            <label className="block text-sm font-semibold text-slate-700 mb-1.5">Unité <span className="text-slate-400 font-normal">(optionnel)</span></label>
+            <input name="unit" value={form.unit} onChange={handleChange} className={inputClass} placeholder="Ex: kg, sac 25kg, tête, caisse..." />
           </div>
         </div>
 
-        {/* Pré-vente */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <div className="flex items-center gap-3">
             <div className="relative">
-              <input type="checkbox" name="is_pre_sale" checked={form.is_pre_sale} onChange={handleChange} id="is_pre_sale"
-                className="sr-only" />
+              <input type="checkbox" name="is_pre_sale" checked={form.is_pre_sale} onChange={handleChange} id="is_pre_sale" className="sr-only" />
               <div onClick={() => setForm(prev => ({ ...prev, is_pre_sale: !prev.is_pre_sale }))}
                 className={`w-11 h-6 rounded-full cursor-pointer transition-colors relative ${form.is_pre_sale ? 'bg-emerald-500' : 'bg-slate-300'}`}>
                 <div className={`w-5 h-5 bg-white rounded-full shadow-sm absolute top-0.5 transition-transform ${form.is_pre_sale ? 'translate-x-5.5' : 'translate-x-0.5'}`} style={{left: 0}} />
@@ -241,26 +194,20 @@ export default function CreateAdPage() {
           </div>
           {form.is_pre_sale && (
             <div className="mt-4 pt-4 border-t border-slate-100">
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                <Calendar size={14} className="inline mr-1" /> Date de récolte estimée
-              </label>
-              <input type="date" name="harvest_date" value={form.harvest_date} onChange={handleChange}
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" />
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5"><Calendar size={14} className="inline mr-1" /> Date de récolte estimée</label>
+              <input type="date" name="harvest_date" value={form.harvest_date} onChange={handleChange} className={inputClass} />
             </div>
           )}
         </div>
 
-        {/* Localisation */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <div className="flex items-center gap-2 mb-3">
             <MapPin size={16} className="text-slate-400" />
             <span className="text-sm font-semibold text-slate-700">Localisation *</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" />
-            <select name="region" value={form.region} onChange={handleChange} required
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
+            <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *" className={inputClass} />
+            <select name="region" value={form.region} onChange={handleChange} required className={inputClass}>
               <option value="">Département *</option>
               {regions.flatMap(r => r.departements).filter((d, i, a) => a.indexOf(d) === i).map(d => <option key={d} value={d}>{d}</option>)}
             </select>
@@ -268,78 +215,49 @@ export default function CreateAdPage() {
         </div>
 
         <button disabled={loading}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3.5 rounded-xl transition text-sm shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
+          className="w-full h-13 bg-gradient-to-r from-agrishop-600 to-emerald-600 hover:from-agrishop-700 hover:to-emerald-700 disabled:from-agrishop-400 disabled:to-emerald-400 text-white font-semibold rounded-2xl transition-all duration-200 text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200/50 hover:shadow-xl hover:shadow-agrishop-300/40 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100 py-3.5">
           {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Publication...</span> : <><ShoppingBag size={16} /> Publier mon annonce</>}
         </button>
+      </>
+    )
 
-        <p className="text-xs text-slate-400 text-center flex items-center justify-center gap-1">
-          <Info size={12} /> En publiant, vous acceptez nos conditions d&apos;utilisation
-        </p>
-      </form>
-    </div>
-  )
-
-  // ─────────────────────────────────────────────────
-  // FORMULAIRE VENDEUR — Catalogue produit
-  // ─────────────────────────────────────────────────
-  if (isProduct) return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-          <Package size={24} className="text-emerald-600" />
-        </div>
-        <h1 className="text-2xl font-bold text-slate-800">Ajouter un produit</h1>
-        <p className="text-sm text-slate-400 mt-1">Ajoutez un produit à votre catalogue de vente</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Images */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-          <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Photos <span className="text-slate-400 font-normal">({images.length}/5 max)</span>
-          </label>
+    if (isProduct) return (
+      <>
+        <div className={sectionClass}>
+          <label className="block text-sm font-semibold text-slate-700 mb-3">Photos <span className="text-slate-400 font-normal">({images.length}/5 max)</span></label>
           <div className="flex flex-wrap gap-3">
             {images.map((img, i) => (
               <div key={i} className="relative w-24 h-24 bg-slate-100 rounded-xl overflow-hidden border">
                 <img src={URL.createObjectURL(img)} className="w-full h-full object-cover" alt="" />
-                <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-black/80 transition">
-                  <X size={12} />
-                </button>
+                <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-black/80 transition"><X size={12} /></button>
               </div>
             ))}
             {images.length < 5 && (
-              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
-                <Upload size={22} />
-                <span className="text-[10px] mt-1">Ajouter</span>
+              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition-all duration-200">
+                <Upload size={22} /><span className="text-[10px] mt-1">Ajouter</span>
                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} hidden />
               </label>
             )}
           </div>
         </div>
 
-        {/* Nom du produit */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Nom du produit *</label>
-          <input name="title" value={form.title} onChange={handleChange} required maxLength={80}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
-            placeholder="Ex: Foin de qualité, Sac de maïs 25kg..." />
+          <input name="title" value={form.title} onChange={handleChange} required maxLength={80} className={inputClass} placeholder="Ex: Foin de qualité, Sac de maïs 25kg..." />
         </div>
 
-        {/* Description */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Description *</label>
           <textarea name="description" value={form.description} onChange={handleChange} required rows={5} maxLength={2000}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition resize-none"
+            className="w-full px-4 py-3 text-sm border-2 border-slate-200 rounded-2xl outline-none transition-all duration-200 placeholder-slate-400 bg-white focus:border-agrishop-400 focus:ring-4 focus:ring-agrishop-100/60 hover:border-slate-300 resize-none"
             placeholder="Décrivez votre produit : variété, qualité, origine, mode de production..." />
         </div>
 
-        {/* Catégorie + Prix */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Catégorie *</label>
-              <select name="category_id" value={form.category_id} onChange={handleChange} required
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
+              <select name="category_id" value={form.category_id} onChange={handleChange} required className={inputClass}>
                 <option value="">Sélectionnez</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.nom}</option>)}
               </select>
@@ -349,58 +267,42 @@ export default function CreateAdPage() {
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">FCFA</span>
                 <input type="number" name="price" value={form.price} onChange={handleChange} required min={1} step={1}
-                  className="w-full pl-16 pr-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" placeholder="0" />
+                  className="w-full h-12 pl-16 pr-4 text-sm border-2 border-slate-200 rounded-2xl outline-none transition-all duration-200 placeholder-slate-400 bg-white focus:border-agrishop-400 focus:ring-4 focus:ring-agrishop-100/60 hover:border-slate-300" placeholder="0" />
               </div>
             </div>
           </div>
-
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">Unité de mesure *</label>
-              <input name="unit" value={form.unit} onChange={handleChange} required
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
-                placeholder="Ex: kg, sac 25kg, ballot..." />
+              <input name="unit" value={form.unit} onChange={handleChange} required className={inputClass} placeholder="Ex: kg, sac 25kg, ballot..." />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                <Box size={14} className="inline mr-1" /> Stock initial
-              </label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5"><Box size={14} className="inline mr-1" /> Stock initial</label>
               <div className="relative">
                 <input type="number" name="stock_actuel" value={form.stock_actuel} onChange={handleChange} min={0}
-                  className={`w-full px-4 py-3 border rounded-xl text-sm outline-none focus:ring-2 transition ${
-                    stockZero ? 'border-amber-300 focus:border-amber-400 focus:ring-amber-100 bg-amber-50' : 'border-slate-300 focus:border-emerald-400 focus:ring-emerald-100'
+                  className={`w-full h-12 px-4 text-sm border-2 rounded-2xl outline-none transition-all duration-200 bg-white focus:ring-4 ${
+                    stockZero ? 'border-amber-300 focus:border-amber-400 focus:ring-amber-100/60 bg-amber-50/50' : 'border-slate-200 focus:border-agrishop-400 focus:ring-agrishop-100/60 hover:border-slate-300'
                   }`} placeholder="0" />
                 {stockZero && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs font-medium text-amber-600">
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1 text-xs font-medium text-amber-600">
                     <AlertTriangle size={14} /> Rupture
                   </div>
                 )}
               </div>
-              {stockZero && (
-                <p className="text-xs text-amber-600 mt-1.5 flex items-center gap-1">
-                  <AlertTriangle size={11} /> Le produit sera publié mais marqué comme en rupture de stock
-                </p>
-              )}
-              {!stockZero && form.stock_actuel !== '' && parseInt(form.stock_actuel) > 0 && (
-                <p className="text-xs text-emerald-600 mt-1.5 flex items-center gap-1">
-                  <CheckCircle size={11} /> En stock
-                </p>
-              )}
+              {stockZero && <p className="text-xs text-amber-600 mt-1.5 flex items-center gap-1"><AlertTriangle size={11} /> Le produit sera marqué comme en rupture de stock</p>}
+              {!stockZero && form.stock_actuel !== '' && parseInt(form.stock_actuel) > 0 && <p className="text-xs text-emerald-600 mt-1.5 flex items-center gap-1"><CheckCircle size={11} /> En stock</p>}
             </div>
           </div>
         </div>
 
-        {/* Localisation */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <div className="flex items-center gap-2 mb-3">
             <MapPin size={16} className="text-slate-400" />
             <span className="text-sm font-semibold text-slate-700">Localisation *</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" />
-            <select name="region" value={form.region} onChange={handleChange} required
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
+            <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *" className={inputClass} />
+            <select name="region" value={form.region} onChange={handleChange} required className={inputClass}>
               <option value="">Département *</option>
               {regions.flatMap(r => r.departements).filter((d, i, a) => a.indexOf(d) === i).map(d => <option key={d} value={d}>{d}</option>)}
             </select>
@@ -408,33 +310,15 @@ export default function CreateAdPage() {
         </div>
 
         <button disabled={loading}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3.5 rounded-xl transition text-sm shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
+          className="w-full py-3.5 bg-gradient-to-r from-agrishop-600 to-emerald-600 hover:from-agrishop-700 hover:to-emerald-700 disabled:from-agrishop-400 disabled:to-emerald-400 text-white font-semibold rounded-2xl transition-all duration-200 text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200/50 hover:shadow-xl hover:shadow-agrishop-300/40 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100">
           {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Ajout...</span> : <><Package size={16} /> Ajouter au catalogue</>}
         </button>
+      </>
+    )
 
-        <p className="text-xs text-slate-400 text-center flex items-center justify-center gap-1">
-          <Info size={12} /> En publiant, vous acceptez nos conditions d&apos;utilisation
-        </p>
-      </form>
-    </div>
-  )
-
-  // ─────────────────────────────────────────────────
-  // FORMULAIRE PRESTATAIRE — Carte de service pro
-  // ─────────────────────────────────────────────────
-  return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
-      <div className="text-center mb-8">
-        <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
-          <Wrench size={24} className="text-emerald-600" />
-        </div>
-        <h1 className="text-2xl font-bold text-slate-800">Proposer un service</h1>
-        <p className="text-sm text-slate-400 mt-1">Offrez vos compétences aux agriculteurs et professionnels</p>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Type de service */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+    return (
+      <>
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-3">Type de service *</label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {[
@@ -445,10 +329,10 @@ export default function CreateAdPage() {
               const Icon = t.icon
               return (
                 <button key={t.value} type="button" onClick={() => setForm(prev => ({ ...prev, type_service: t.value }))}
-                  className={`flex items-start gap-3 p-4 rounded-xl border text-left transition ${
-                    isActive ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-200' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                  className={`flex items-start gap-3 p-4 rounded-2xl border text-left transition-all duration-200 ${
+                    isActive ? 'border-emerald-500 bg-emerald-50 ring-2 ring-emerald-200 shadow-sm' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
                   }`}>
-                  <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 ${isActive ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-50 text-slate-400'}`}>
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${isActive ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-50 text-slate-400'}`}>
                     <Icon size={20} />
                   </div>
                   <div>
@@ -461,81 +345,62 @@ export default function CreateAdPage() {
           </div>
         </div>
 
-        {/* Titre */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Titre du service *</label>
-          <input name="title" value={form.title} onChange={handleChange} required maxLength={80}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
+          <input name="title" value={form.title} onChange={handleChange} required maxLength={80} className={inputClass}
             placeholder={form.type_service === 'recherche' ? 'Ex: Recherche un tractoriste pour labour' : 'Ex: Service de labour mécanisé'} />
         </div>
 
-        {/* Description */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <label className="block text-sm font-semibold text-slate-700 mb-1.5">Description *</label>
           <textarea name="description" value={form.description} onChange={handleChange} required rows={5} maxLength={2000}
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition resize-none"
+            className="w-full px-4 py-3 text-sm border-2 border-slate-200 rounded-2xl outline-none transition-all duration-200 placeholder-slate-400 bg-white focus:border-agrishop-400 focus:ring-4 focus:ring-agrishop-100/60 hover:border-slate-300 resize-none"
             placeholder="Décrivez votre service : compétences, expérience, disponibilités, zone d'intervention..." />
         </div>
 
-        {/* Tarif + Unité */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                <DollarSign size={14} className="inline mr-1" /> Tarif <span className="text-slate-400 font-normal">(optionnel)</span>
-              </label>
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5"><DollarSign size={14} className="inline mr-1" /> Tarif <span className="text-slate-400 font-normal">(optionnel)</span></label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-medium">FCFA</span>
                 <input type="number" name="price" value={form.price} onChange={handleChange} min={0} step={1}
-                  className="w-full pl-16 pr-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" placeholder="0" />
+                  className="w-full h-12 pl-16 pr-4 text-sm border-2 border-slate-200 rounded-2xl outline-none transition-all duration-200 placeholder-slate-400 bg-white focus:border-agrishop-400 focus:ring-4 focus:ring-agrishop-100/60 hover:border-slate-300" placeholder="0" />
               </div>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-1.5">
-                Unité <span className="text-slate-400 font-normal">(optionnel)</span>
-              </label>
-              <input name="unit" value={form.unit} onChange={handleChange}
-                className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition"
-                placeholder="Ex: heure, jour, forfait..." />
+              <label className="block text-sm font-semibold text-slate-700 mb-1.5">Unité <span className="text-slate-400 font-normal">(optionnel)</span></label>
+              <input name="unit" value={form.unit} onChange={handleChange} className={inputClass} placeholder="Ex: heure, jour, forfait..." />
             </div>
           </div>
         </div>
 
-        {/* Localisation */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+        <div className={sectionClass}>
           <div className="flex items-center gap-2 mb-3">
             <MapPin size={16} className="text-slate-400" />
             <span className="text-sm font-semibold text-slate-700">Localisation *</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *"
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 transition" />
-            <select name="region" value={form.region} onChange={handleChange} required
-              className="w-full px-4 py-3 border border-slate-300 rounded-xl text-sm outline-none focus:border-emerald-400 focus:ring-2 focus:ring-emerald-100 bg-white">
+            <input name="city" value={form.city} onChange={handleChange} required placeholder="Commune *" className={inputClass} />
+            <select name="region" value={form.region} onChange={handleChange} required className={inputClass}>
               <option value="">Département *</option>
               {regions.flatMap(r => r.departements).filter((d, i, a) => a.indexOf(d) === i).map(d => <option key={d} value={d}>{d}</option>)}
             </select>
           </div>
         </div>
 
-        {/* Images */}
-        <div className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
-          <label className="block text-sm font-semibold text-slate-700 mb-3">
-            Photos <span className="text-slate-400 font-normal">({images.length}/5 max, optionnel)</span>
-          </label>
+        <div className={sectionClass}>
+          <label className="block text-sm font-semibold text-slate-700 mb-3">Photos <span className="text-slate-400 font-normal">({images.length}/5 max, optionnel)</span></label>
           <div className="flex flex-wrap gap-3">
             {images.map((img, i) => (
               <div key={i} className="relative w-24 h-24 bg-slate-100 rounded-xl overflow-hidden border">
                 <img src={URL.createObjectURL(img)} className="w-full h-full object-cover" alt="" />
-                <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-black/80 transition">
-                  <X size={12} />
-                </button>
+                <button type="button" onClick={() => removeImage(i)} className="absolute top-1 right-1 bg-black/60 text-white rounded-full w-5 h-5 flex items-center justify-center hover:bg-black/80 transition"><X size={12} /></button>
               </div>
             ))}
             {images.length < 5 && (
-              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition">
-                <Upload size={22} />
-                <span className="text-[10px] mt-1">Ajouter</span>
+              <label className="w-24 h-24 border-2 border-dashed border-slate-300 rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:border-emerald-400 hover:bg-emerald-50 text-slate-400 hover:text-emerald-600 transition-all duration-200">
+                <Upload size={22} /><span className="text-[10px] mt-1">Ajouter</span>
                 <input type="file" accept="image/*" multiple onChange={handleImageUpload} hidden />
               </label>
             )}
@@ -543,14 +408,48 @@ export default function CreateAdPage() {
         </div>
 
         <button disabled={loading}
-          className="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-emerald-400 text-white font-semibold py-3.5 rounded-xl transition text-sm shadow-lg shadow-emerald-200 flex items-center justify-center gap-2">
+          className="w-full py-3.5 bg-gradient-to-r from-agrishop-600 to-emerald-600 hover:from-agrishop-700 hover:to-emerald-700 disabled:from-agrishop-400 disabled:to-emerald-400 text-white font-semibold rounded-2xl transition-all duration-200 text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200/50 hover:shadow-xl hover:shadow-agrishop-300/40 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100">
           {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Publication...</span> : <><Wrench size={16} /> Publier le service</>}
         </button>
+      </>
+    )
+  }
 
-        <p className="text-xs text-slate-400 text-center flex items-center justify-center gap-1">
-          <Info size={12} /> En publiant, vous acceptez nos conditions d&apos;utilisation
-        </p>
-      </form>
+  const iconMap = { client: ShoppingBag, vendeur: Package, prestataire: Wrench }
+  const titleMap = { client: 'Déposer une annonce', vendeur: 'Ajouter un produit', prestataire: 'Proposer un service' }
+  const descMap = { client: 'Publiez une offre ou une demande agricole', vendeur: 'Ajoutez un produit à votre catalogue de vente', prestataire: 'Offrez vos compétences aux agriculteurs' }
+  const Icon = iconMap[role]
+  const isClientOrVendeur = isListing || isProduct
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-agrishop-50/40 via-white to-emerald-50/30">
+      {/* Hero with Storyset illustration */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-agrishop-900 via-emerald-800 to-agrishop-950">
+        <img src="/images/hero-ad.jpg" alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-r from-agrishop-900/80 via-emerald-800/60 to-transparent" />
+        <div className="relative z-10 max-w-4xl mx-auto px-4 py-14 md:py-20">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-sm flex items-center justify-center shadow-lg shadow-black/10 shrink-0">
+              {Icon && <Icon size={28} className="text-emerald-300" />}
+            </div>
+            <div>
+              <h1 className="text-2xl md:text-3xl font-bold text-white font-heading">{titleMap[role]}</h1>
+              <p className="text-white/70 text-sm mt-1">{descMap[role]}</p>
+            </div>
+          </div>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-agrishop-50/40 to-transparent" />
+      </div>
+
+      <div className={`max-w-2xl mx-auto px-4 -mt-6 pb-12 relative z-20 transition-all duration-700 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {renderForm()}
+
+          <p className="text-xs text-slate-400 text-center flex items-center justify-center gap-1 pt-2">
+            <Info size={12} /> En publiant, vous acceptez nos conditions d&apos;utilisation
+          </p>
+        </form>
+      </div>
     </div>
   )
 }

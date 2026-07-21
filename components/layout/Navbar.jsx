@@ -1,5 +1,6 @@
 'use client'
 import { Search, Heart, PlusCircle, Menu, X, User, LogOut, LayoutDashboard, ShoppingCart, Package, Store, Wrench, ClipboardList, Star, ChevronDown, Settings } from "lucide-react"
+import Image from "next/image"
 import LocationSelector from "./LocationSelector"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -132,10 +133,8 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-16 gap-2 sm:gap-4">
 
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1.5 shrink-0 group" aria-label="Accueil Composte">
-            <span className="text-xl font-bold text-agrishop-700 group-hover:text-agrishop-600 transition">
-              composte
-            </span>
+          <Link href="/" className="flex items-center shrink-0 group" aria-label="Accueil Composte">
+            <Image src="/logo.png" alt="Composte" width={160} height={160} priority className="h-8 w-auto object-contain" />
           </Link>
 
           {/* Nav links (desktop) */}

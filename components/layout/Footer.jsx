@@ -1,6 +1,7 @@
 'use client'
 import Link from "next/link"
-import { MapPin, Shield, HelpCircle, Newspaper, Leaf } from 'lucide-react'
+import Image from "next/image"
+import { MapPin, Shield, HelpCircle, Newspaper } from 'lucide-react'
 import { categories } from "@/lib/categories"
 
 const Footer = () => {
@@ -15,8 +16,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-              <Leaf size={20} className="text-agrishop-500 group-hover:text-agrishop-400 transition" />
-              <span className="text-lg font-bold text-white">composte</span>
+              <Image src="/logo.png" alt="Composte" width={160} height={160} priority className="h-7 w-auto object-contain brightness-0 invert" />
             </Link>
             <p className="text-sm text-slate-500 leading-relaxed mb-5 max-w-xs">
               Le marché agricole de proximité. Trouvez matériel, animaux, terrains et services agricoles près de chez vous au Congo.

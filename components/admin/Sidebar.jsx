@@ -1,9 +1,10 @@
 'use client'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image'
 import {
   LayoutDashboard, Package, Wrench, Users, ShoppingCart,
-  MessageCircle, MessageSquare, Settings, Leaf, ChevronLeft,
+  MessageCircle, MessageSquare, Settings, ChevronLeft,
 } from 'lucide-react'
 
 const navItems = [
@@ -21,11 +22,8 @@ export function Sidebar() {
 
   return (
     <aside className="w-56 bg-white border-r border-slate-200 flex flex-col shrink-0">
-      <Link href="/admin" className="flex items-center gap-1.5 px-5 h-14 border-b border-slate-100 shrink-0">
-        <Leaf size={22} className="text-agrishop-600" />
-        <span className="text-base font-semibold text-slate-800">
-          composte
-        </span>
+      <Link href="/admin" className="flex items-center gap-2 px-4 h-14 border-b border-slate-100 shrink-0">
+        <Image src="/logo.png" alt="Composte" width={160} height={160} priority className="h-6 w-auto object-contain" />
         <span className="ml-auto text-[10px] font-medium text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">admin</span>
       </Link>
       <nav className="flex-1 py-3 space-y-0.5 px-2 overflow-y-auto">
