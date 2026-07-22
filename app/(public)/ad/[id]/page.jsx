@@ -231,9 +231,7 @@ export default function AdDetailPage() {
               <div className="flex items-center gap-1.5"><MapPin size={15} className="text-slate-400" /> {localisation}</div>
               <div className="flex items-center gap-1.5"><Clock size={15} className="text-slate-400" /> {getRelativeTime(adCreated(ad))}</div>
               <div className="flex items-center gap-1.5"><User size={15} className="text-slate-400" /> {sellerName}</div>
-              {(ad.views ?? 0) > 0 && (
-                <div className="flex items-center gap-1.5"><Eye size={15} className="text-slate-400" /> {ad.views} vues</div>
-              )}
+              <div className="flex items-center gap-1.5"><Eye size={15} className="text-slate-400" /> {ad.views ?? 0} vues</div>
             </div>
           </div>
 
@@ -297,14 +295,12 @@ export default function AdDetailPage() {
                   <span className="text-slate-700 font-medium">{departement}</span>
                 </div>
               )}
-              {ad.views > 0 && (
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-400">Vues</span>
-                  <span className="flex items-center gap-1 text-slate-700 font-medium">
-                    <Eye size={13} className="text-slate-400" /> {ad.views}
-                  </span>
-                </div>
-              )}
+              <div className="flex items-center justify-between">
+                <span className="text-slate-400">Vues</span>
+                <span className="flex items-center gap-1 text-slate-700 font-medium">
+                  <Eye size={13} className="text-slate-400" /> {ad.views ?? 0}
+                </span>
+              </div>
               {adCreated(ad) && (
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400">Publiée</span>

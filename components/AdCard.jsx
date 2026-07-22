@@ -82,11 +82,9 @@ const AdCard = ({ ad }) => {
             <span className="truncate">{getAdVendeur(ad)}</span>
           </div>
           <div className="flex items-center gap-2 shrink-0">
-            {(ad.views ?? 0) > 0 && (
-              <span className="flex items-center gap-0.5 text-[11px] text-slate-400">
-                <Eye size={11} className="shrink-0" /> {ad.views}
-              </span>
-            )}
+            <span className="flex items-center gap-0.5 text-[11px] text-slate-400">
+              <Eye size={11} className="shrink-0" /> {ad.views ?? 0}
+            </span>
             <span className="text-[11px] text-slate-400">{getRelativeTime(getAdCreated(ad))}</span>
           </div>
         </div>

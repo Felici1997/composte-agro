@@ -1,23 +1,37 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Upload, X, Info, ShoppingBag, Package, Wrench, MapPin, Calendar, AlertTriangle, CheckCircle, Briefcase, Search, DollarSign, Box, ArrowRight, Leaf } from 'lucide-react'
 import { categories, regions } from '@/lib/categories'
 import { supabase } from '@/lib/supabase/client'
 import toast from 'react-hot-toast'
 
 export default function CreateAdPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-agrishop-600 border-t-transparent rounded-full animate-spin" /></div>}>
+      <CreateAdForm />
+    </Suspense>
+  )
+}
+
+function CreateAdForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const editId = searchParams.get('id')
+  const isEditing = !!editId
   const [user, setUser] = useState(null)
   const [profile, setProfile] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [loadingAd, setLoadingAd] = useState(false)
   const [images, setImages] = useState([])
+  const [existingImages, setExistingImages] = useState([])
   const [mounted, setMounted] = useState(false)
   const [form, setForm] = useState({
     title: '', description: '', price: '', unit: '', category_id: '',
     city: '', region: '', is_pre_sale: false, harvest_date: '',
     stock_actuel: '1', type_service: 'prestation',
   })
+  const [contentType, setContentType] = useState(null)
   const [notFound, setNotFound] = useState(false)
 
   useEffect(() => { setMounted(true) }, [])
@@ -31,6 +45,43 @@ export default function CreateAdPage() {
       setProfile(p)
     })
   }, [router])
+
+  useEffect(() => {
+    if (!editId || !user) return
+    const loadAd = async () => {
+      setLoadingAd(true)
+      try {
+        const tables = ['listings', 'products', 'services']
+        for (const table of tables) {
+          const { data } = await supabase.from(table).select('*').eq('id', editId).maybeSingle()
+          if (data) {
+            let ct = 'listing'
+            if (table === 'products') ct = 'product'
+            else if (table === 'services') ct = 'service'
+            setContentType(ct)
+            setForm({
+              title: data.title || data.titre || data.nom || '',
+              description: data.description || '',
+              price: data.price !== null && data.price !== undefined ? String(data.price) : (data.prix_unitaire !== null && data.prix_unitaire !== undefined ? String(data.prix_unitaire) : (data.tarif_base !== null && data.tarif_base !== undefined ? String(data.tarif_base) : '')),
+              unit: data.unit || data.unite_mesure || data.unite || '',
+              category_id: String(data.category_id || ''),
+              city: data.localite || '',
+              region: data.departement || '',
+              is_pre_sale: data.is_pre_sale || false,
+              harvest_date: data.harvest_date || '',
+              stock_actuel: data.stock_actuel !== undefined ? String(data.stock_actuel) : '1',
+              type_service: data.type_service || 'prestation',
+            })
+            if (data.images?.length > 0) setExistingImages(data.images)
+            break
+          }
+        }
+      } catch (err) {
+        toast.error('Erreur lors du chargement de l\'annonce')
+      } finally { setLoadingAd(false) }
+    }
+    loadAd()
+  }, [editId, user])
 
   const role = profile?.role || 'client'
   const isProduct = role === 'vendeur'
@@ -65,7 +116,7 @@ export default function CreateAdPage() {
     }
     setLoading(true)
     try {
-      let uploadedUrls = []
+      let uploadedUrls = [...existingImages]
       if (images.length > 0) {
         for (const img of images.slice(0, 5)) {
           const ext = img.name.split('.').pop()
@@ -76,23 +127,29 @@ export default function CreateAdPage() {
           uploadedUrls.push(publicUrl)
         }
       }
+      const method = isEditing ? 'PUT' : 'POST'
+      const payload = isEditing
+        ? { id: editId, contentType, title: form.title, description: form.description, price: form.price,
+            unit: form.unit, category_id: form.category_id, city: form.city, region: form.region,
+            image_url: uploadedUrls[0] || '', images: uploadedUrls,
+            stock_actuel: form.stock_actuel ? parseInt(form.stock_actuel) : 1,
+            type_service: form.type_service }
+        : { role, title: form.title, description: form.description, price: form.price,
+            unit: form.unit, category_id: form.category_id, city: form.city, region: form.region,
+            image_url: uploadedUrls[0] || '', images: uploadedUrls,
+            is_pre_sale: form.is_pre_sale, harvest_date: form.harvest_date,
+            stock_actuel: form.stock_actuel ? parseInt(form.stock_actuel) : 1,
+            type_service: form.type_service }
       const res = await fetch('/api/ads', {
-        method: 'POST',
+        method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          role, title: form.title, description: form.description, price: form.price,
-          unit: form.unit, category_id: form.category_id, city: form.city, region: form.region,
-          image_url: uploadedUrls[0] || '', images: uploadedUrls,
-          is_pre_sale: form.is_pre_sale, harvest_date: form.harvest_date,
-          stock_actuel: form.stock_actuel ? parseInt(form.stock_actuel) : 1,
-          type_service: form.type_service,
-        }),
+        body: JSON.stringify(payload),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error || 'Erreur lors de la publication')
       const label = isListing ? 'Annonce' : isProduct ? 'Produit' : 'Service'
-      toast.success(`${label} publié${isService ? '' : 'e'} avec succès !`)
-      router.push(isProduct ? '/dashboard' : '/')
+      toast.success(isEditing ? `${label} modifié${isService ? '' : 'e'} avec succès !` : `${label} publié${isService ? '' : 'e'} avec succès !`)
+      router.push('/dashboard')
       router.refresh()
     } catch (err) {
       toast.error(err.message || 'Erreur lors de la publication')
@@ -216,7 +273,7 @@ export default function CreateAdPage() {
 
         <button disabled={loading}
           className="w-full h-13 bg-gradient-to-r from-agrishop-600 to-emerald-600 hover:from-agrishop-700 hover:to-emerald-700 disabled:from-agrishop-400 disabled:to-emerald-400 text-white font-semibold rounded-2xl transition-all duration-200 text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200/50 hover:shadow-xl hover:shadow-agrishop-300/40 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100 py-3.5">
-          {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Publication...</span> : <><ShoppingBag size={16} /> Publier mon annonce</>}
+          {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> {isEditing ? 'Modification...' : 'Publication...'}</span> : <><ShoppingBag size={16} /> {isEditing ? 'Enregistrer les modifications' : 'Publier mon annonce'}</>}
         </button>
       </>
     )
@@ -311,7 +368,7 @@ export default function CreateAdPage() {
 
         <button disabled={loading}
           className="w-full py-3.5 bg-gradient-to-r from-agrishop-600 to-emerald-600 hover:from-agrishop-700 hover:to-emerald-700 disabled:from-agrishop-400 disabled:to-emerald-400 text-white font-semibold rounded-2xl transition-all duration-200 text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200/50 hover:shadow-xl hover:shadow-agrishop-300/40 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100">
-          {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Ajout...</span> : <><Package size={16} /> Ajouter au catalogue</>}
+          {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> {isEditing ? 'Modification...' : 'Ajout...'}</span> : <><Package size={16} /> {isEditing ? 'Enregistrer les modifications' : 'Ajouter au catalogue'}</>}
         </button>
       </>
     )
@@ -409,15 +466,15 @@ export default function CreateAdPage() {
 
         <button disabled={loading}
           className="w-full py-3.5 bg-gradient-to-r from-agrishop-600 to-emerald-600 hover:from-agrishop-700 hover:to-emerald-700 disabled:from-agrishop-400 disabled:to-emerald-400 text-white font-semibold rounded-2xl transition-all duration-200 text-sm flex items-center justify-center gap-2 shadow-lg shadow-agrishop-200/50 hover:shadow-xl hover:shadow-agrishop-300/40 hover:scale-[1.02] active:scale-[0.98] disabled:hover:scale-100">
-          {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> Publication...</span> : <><Wrench size={16} /> Publier le service</>}
+          {loading ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> {isEditing ? 'Modification...' : 'Publication...'}</span> : <><Wrench size={16} /> {isEditing ? 'Enregistrer les modifications' : 'Publier le service'}</>}
         </button>
       </>
     )
   }
 
   const iconMap = { client: ShoppingBag, vendeur: Package, prestataire: Wrench }
-  const titleMap = { client: 'Déposer une annonce', vendeur: 'Ajouter un produit', prestataire: 'Proposer un service' }
-  const descMap = { client: 'Publiez une offre ou une demande agricole', vendeur: 'Ajoutez un produit à votre catalogue de vente', prestataire: 'Offrez vos compétences aux agriculteurs' }
+  const titleMap = { client: isEditing ? 'Modifier mon annonce' : 'Déposer une annonce', vendeur: isEditing ? 'Modifier mon produit' : 'Ajouter un produit', prestataire: isEditing ? 'Modifier mon service' : 'Proposer un service' }
+  const descMap = { client: isEditing ? 'Modifiez les informations de votre annonce' : 'Publiez une offre ou une demande agricole', vendeur: isEditing ? 'Modifiez les informations de votre produit' : 'Ajoutez un produit à votre catalogue de vente', prestataire: isEditing ? 'Modifiez les informations de votre service' : 'Offrez vos compétences aux agriculteurs' }
   const Icon = iconMap[role]
   const isClientOrVendeur = isListing || isProduct
 

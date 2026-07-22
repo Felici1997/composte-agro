@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase/client'
 import Link from 'next/link'
-import { PlusCircle, Package, ShoppingBag, Wrench, TrendingUp, Eye, Clock, ChevronRight, User, MapPin, Store, ClipboardList, Star, Settings, Leaf } from 'lucide-react'
+import { PlusCircle, Package, ShoppingBag, Wrench, TrendingUp, Eye, Clock, ChevronRight, User, MapPin, Store, ClipboardList, Star, Settings, Leaf, Edit3, Trash2, ToggleLeft, ToggleRight, X, AlertTriangle } from 'lucide-react'
 import AdCard from '@/components/AdCard'
 import { formatPrice } from '@/lib/categories'
 import PromoDashboard from '@/components/ads/PromoDashboard'
@@ -32,6 +32,8 @@ export default function DashboardPage() {
   const [userDemandes, setUserDemandes] = useState([])
   const [userProducts, setUserProducts] = useState([])
   const [userServices, setUserServices] = useState([])
+  const [confirmDelete, setConfirmDelete] = useState(null)
+  const [actionLoading, setActionLoading] = useState(null)
 
   useEffect(() => { setMounted(true) }, [])
 
@@ -56,6 +58,52 @@ export default function DashboardPage() {
     }
     load()
   }, [router])
+
+  const handleToggle = async (ad) => {
+    setActionLoading(ad._key || ad.id)
+    try {
+      const res = await fetch('/api/ads', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: ad.id, contentType: ad.contentType }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      const setter = ad.contentType === 'product' ? setUserProducts : ad.contentType === 'service' ? setUserServices : setUserDemandes
+      const updater = (prev) => prev.map(a => a.id === ad.id ? { ...a, [ad.contentType === 'product' ? 'is_active' : ad.contentType === 'service' ? 'est_disponible' : 'status']: ad.contentType === 'listing' ? (data.active ? 'disponible' : 'inactive') : data.active } : a)
+      setter(updater)
+      toast.success(data.active ? 'Annonce activée' : 'Annonce désactivée')
+    } catch (err) {
+      toast.error(err.message || 'Erreur')
+    } finally { setActionLoading(null) }
+  }
+
+  const handleDelete = async () => {
+    if (!confirmDelete) return
+    setActionLoading(confirmDelete._key || confirmDelete.id)
+    try {
+      const res = await fetch('/api/ads', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: confirmDelete.id, contentType: confirmDelete.contentType }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      const setter = confirmDelete.contentType === 'product' ? setUserProducts : confirmDelete.contentType === 'service' ? setUserServices : setUserDemandes
+      setter(prev => prev.filter(a => a.id !== confirmDelete.id))
+      toast.success('Annonce supprimée')
+      setConfirmDelete(null)
+    } catch (err) {
+      toast.error(err.message || 'Erreur lors de la suppression')
+    } finally { setActionLoading(null) }
+  }
+
+  const isAdActive = (ad) => {
+    if (ad.contentType === 'listing') return ad.status === 'disponible'
+    if (ad.contentType === 'product') return ad.is_active
+    if (ad.contentType === 'service') return ad.est_disponible
+    return true
+  }
 
   if (loading) return <div className="max-w-7xl mx-auto px-4 py-6"><Skeleton /></div>
 
@@ -230,7 +278,7 @@ export default function DashboardPage() {
                 <Eye size={20} className="text-slate-500" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-slate-800">{totalViews > 0 ? totalViews : '—'}</p>
+                <p className="text-2xl font-bold text-slate-800">{totalViews}</p>
                 <p className="text-xs text-slate-400">Vues</p>
               </div>
             </div>
@@ -281,14 +329,27 @@ export default function DashboardPage() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><ClipboardList size={18} /> Mes annonces</h2>
               {userDemandes.length > 0 && (
-                <Link href="/search" className="text-xs text-agrishop-600 hover:text-agrishop-700 font-medium flex items-center gap-1 transition">
-                  Tout voir <ChevronRight size={14} />
-                </Link>
+                <span className="text-xs text-slate-400">Survolez une carte pour les actions</span>
               )}
             </div>
             {userDemandes.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {userDemandes.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+                {userDemandes.map(ad => (
+                  <div key={ad._key || ad.id} className="relative group/ad">
+                    <AdCard ad={ad} />
+                    <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover/ad:opacity-100 transition-opacity z-20">
+                      <Link href={`/create-ad?id=${ad.id}`} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-white hover:shadow-md transition-all" title="Modifier">
+                        <Edit3 size={14} className="text-slate-600" />
+                      </Link>
+                      <button onClick={() => setConfirmDelete(ad)} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-red-50 hover:shadow-md transition-all" title="Supprimer">
+                        <Trash2 size={14} className="text-red-500" />
+                      </button>
+                      <button onClick={() => handleToggle(ad)} disabled={actionLoading === (ad._key || ad.id)} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-white hover:shadow-md transition-all" title={isAdActive(ad) ? 'Désactiver' : 'Activer'}>
+                        {isAdActive(ad) ? <ToggleRight size={14} className="text-emerald-600" /> : <ToggleLeft size={14} className="text-slate-400" />}
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : (
               <div className="text-center py-16 bg-gradient-to-b from-slate-50 to-white border border-dashed border-slate-200 rounded-2xl">
@@ -311,14 +372,27 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><Package size={18} /> Mon catalogue</h2>
                 {userProducts.length > 0 && (
-                  <Link href="/admin/produits" className="text-xs text-emerald-600 hover:text-emerald-700 font-medium flex items-center gap-1 transition">
-                    Gérer <ChevronRight size={14} />
-                  </Link>
+                  <span className="text-xs text-slate-400">Survolez une carte pour les actions</span>
                 )}
               </div>
               {userProducts.length > 0 ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {userProducts.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+                  {userProducts.map(ad => (
+                    <div key={ad._key || ad.id} className="relative group/ad">
+                      <AdCard ad={ad} />
+                      <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover/ad:opacity-100 transition-opacity z-20">
+                        <Link href={`/create-ad?id=${ad.id}`} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-white hover:shadow-md transition-all" title="Modifier">
+                          <Edit3 size={14} className="text-slate-600" />
+                        </Link>
+                        <button onClick={() => setConfirmDelete(ad)} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-red-50 hover:shadow-md transition-all" title="Supprimer">
+                          <Trash2 size={14} className="text-red-500" />
+                        </button>
+                        <button onClick={() => handleToggle(ad)} disabled={actionLoading === (ad._key || ad.id)} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-white hover:shadow-md transition-all" title={isAdActive(ad) ? 'Désactiver' : 'Activer'}>
+                          {isAdActive(ad) ? <ToggleRight size={14} className="text-emerald-600" /> : <ToggleLeft size={14} className="text-slate-400" />}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <div className="text-center py-16 bg-gradient-to-b from-slate-50 to-white border border-dashed border-slate-200 rounded-2xl">
@@ -378,14 +452,27 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-base font-semibold text-slate-800 flex items-center gap-1.5"><Wrench size={18} /> Mes services</h2>
                 {userServices.length > 0 && (
-                  <Link href="/admin/services" className="text-xs text-violet-600 hover:text-violet-700 font-medium flex items-center gap-1 transition">
-                    Gérer <ChevronRight size={14} />
-                  </Link>
+                  <span className="text-xs text-slate-400">Survolez une carte pour les actions</span>
                 )}
               </div>
               {userServices.length > 0 ? (
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {userServices.map(ad => <AdCard key={ad._key || ad.id} ad={ad} />)}
+                  {userServices.map(ad => (
+                    <div key={ad._key || ad.id} className="relative group/ad">
+                      <AdCard ad={ad} />
+                      <div className="absolute top-2 right-2 flex gap-1 opacity-0 group-hover/ad:opacity-100 transition-opacity z-20">
+                        <Link href={`/create-ad?id=${ad.id}`} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-white hover:shadow-md transition-all" title="Modifier">
+                          <Edit3 size={14} className="text-slate-600" />
+                        </Link>
+                        <button onClick={() => setConfirmDelete(ad)} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-red-50 hover:shadow-md transition-all" title="Supprimer">
+                          <Trash2 size={14} className="text-red-500" />
+                        </button>
+                        <button onClick={() => handleToggle(ad)} disabled={actionLoading === (ad._key || ad.id)} className="w-8 h-8 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-sm hover:bg-white hover:shadow-md transition-all" title={isAdActive(ad) ? 'Désactiver' : 'Activer'}>
+                          {isAdActive(ad) ? <ToggleRight size={14} className="text-emerald-600" /> : <ToggleLeft size={14} className="text-slate-400" />}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : (
                 <div className="text-center py-16 bg-gradient-to-b from-slate-50 to-white border border-dashed border-slate-200 rounded-2xl">
@@ -436,6 +523,26 @@ export default function DashboardPage() {
               )}
             </div>
           </>
+        )}
+
+        {/* Delete confirmation modal */}
+        {confirmDelete && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4" onClick={() => setConfirmDelete(null)}>
+            <div className="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 text-center" onClick={e => e.stopPropagation()}>
+              <div className="w-14 h-14 rounded-2xl bg-red-50 flex items-center justify-center mx-auto mb-4">
+                <AlertTriangle size={28} className="text-red-500" />
+              </div>
+              <h3 className="text-lg font-semibold text-slate-800 mb-2">Supprimer cette annonce ?</h3>
+              <p className="text-sm text-slate-500 mb-6">Cette action est irréversible. L&apos;annonce sera définitivement supprimée.</p>
+              <div className="flex gap-3">
+                <button onClick={() => setConfirmDelete(null)} className="flex-1 py-2.5 border border-slate-200 text-sm font-medium text-slate-600 rounded-xl hover:bg-slate-50 transition-all">Annuler</button>
+                <button onClick={handleDelete} disabled={actionLoading} className="flex-1 py-2.5 bg-red-500 text-white text-sm font-medium rounded-xl hover:bg-red-600 transition-all disabled:opacity-50 flex items-center justify-center gap-2">
+                  {actionLoading ? <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Trash2 size={16} />}
+                  Supprimer
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
