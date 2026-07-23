@@ -1,5 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
+import { invalidateAdsCache } from '@/lib/supabase/queries'
 
 const VALID_DEPARTEMENTS = ['Brazzaville', 'Pointe-Noire', 'Pool', 'Bouenza', 'Lékoumou', 'Niari', 'Plateaux', 'Cuvette', 'Cuvette-Ouest', 'Sangha', 'Likouala']
 
@@ -106,6 +107,7 @@ export async function POST(request) {
     }
 
     if (error) throw error
+    await invalidateAdsCache(getContentType({ _role: role }))
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('POST /api/ads:', err)
@@ -196,6 +198,7 @@ export async function PUT(request) {
     const { error } = await supabase.from(table).update(updateData).eq('id', id)
     if (error) throw error
 
+    await invalidateAdsCache(contentType)
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('PUT /api/ads:', err)
@@ -232,6 +235,7 @@ export async function DELETE(request) {
     const { error } = await supabase.from(table).delete().eq('id', id)
     if (error) throw error
 
+    await invalidateAdsCache(contentType)
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('DELETE /api/ads:', err)
@@ -282,6 +286,7 @@ export async function PATCH(request) {
     const { error } = await supabase.from(table).update(updatePayload).eq('id', id)
     if (error) throw error
 
+    await invalidateAdsCache(contentType)
     return NextResponse.json({ success: true, active: table === 'listings' ? newActive === 'disponible' : newActive })
   } catch (err) {
     console.error('PATCH /api/ads:', err)
