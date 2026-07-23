@@ -129,9 +129,6 @@ export default function DashboardPage() {
           <div className="relative z-10">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div>
-                <div className="inline-flex items-center gap-1.5 bg-white/15 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium mb-3">
-                  <User size={12} /> {roleLabel}
-                </div>
                 <h1 className="text-xl md:text-2xl font-bold font-heading">Bonjour, {profile?.nom_complet || user?.email?.split('@')[0]}</h1>
                 <p className="text-sm text-white/70 mt-0.5">{user?.email}</p>
               </div>
@@ -188,41 +185,17 @@ export default function DashboardPage() {
             </div>
           )}
           {role === 'vendeur' && (
-            <>
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 hover:shadow-md transition-all duration-200 hover:border-emerald-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
-                    <Package size={20} className="text-emerald-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-800">{userProducts.length}</p>
-                    <p className="text-xs text-slate-400">Produits</p>
-                  </div>
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 hover:shadow-md transition-all duration-200 hover:border-emerald-200">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0">
+                  <Package size={20} className="text-emerald-600" />
+                </div>
+                <div>
+                  <p className="text-2xl font-bold text-slate-800">{userProducts.length}</p>
+                  <p className="text-xs text-slate-400">Produits</p>
                 </div>
               </div>
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 hover:shadow-md transition-all duration-200 hover:border-blue-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
-                    <ShoppingBag size={20} className="text-blue-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-800">{userDemandes.length}</p>
-                    <p className="text-xs text-slate-400">Clients</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white border border-slate-200 rounded-2xl p-4 hover:shadow-md transition-all duration-200 hover:border-green-200">
-                <div className="flex items-center gap-3">
-                  <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center shrink-0">
-                    <TrendingUp size={20} className="text-green-600" />
-                  </div>
-                  <div>
-                    <p className="text-2xl font-bold text-slate-800">0</p>
-                    <p className="text-xs text-slate-400">Ventes</p>
-                  </div>
-                </div>
-              </div>
-            </>
+            </div>
           )}
           {role === 'prestataire' && (
             <>
