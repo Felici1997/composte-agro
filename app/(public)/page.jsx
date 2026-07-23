@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { PlusCircle, ArrowRight } from 'lucide-react'
 import { supabase } from '@/lib/supabase/client'
-import ClientHome from '@/components/home/ClientHome'
-import VendeurHome from '@/components/home/VendeurHome'
-import PrestataireHome from '@/components/home/PrestataireHome'
+import DashboardContent from '@/components/dashboard/DashboardContent'
 import SearchBanner from '@/components/home/SearchBanner'
 import QuickFilters from '@/components/home/QuickFilters'
 import TrustBar from '@/components/home/TrustBar'
@@ -16,19 +14,12 @@ import RecentAds from '@/components/home/RecentAds'
 import FAQSection from '@/components/home/FAQSection'
 
 export default function Home() {
-  const [role, setRole] = useState(null)
+  const [user, setUser] = useState(null)
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('role')
-          .eq('id', session.user.id)
-          .maybeSingle()
-        setRole(profile?.role || null)
-      }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user || null)
       setReady(true)
     })
   }, [])
@@ -46,9 +37,7 @@ export default function Home() {
     )
   }
 
-  if (role === 'vendeur') return <VendeurHome />
-  if (role === 'prestataire') return <PrestataireHome />
-  if (role === 'client') return <ClientHome />
+  if (user) return <DashboardContent />
 
   return (
     <div className="max-w-7xl mx-auto px-4">
@@ -61,7 +50,6 @@ export default function Home() {
       <RecentAds />
       <FAQSection />
 
-      {/* CTA Section */}
       <section className="pb-16">
         <div className="relative overflow-hidden bg-gradient-to-br from-agrishop-800 via-agrishop-700 to-earth-800 rounded-3xl p-10 md:p-14 text-white shadow-xl min-h-[360px] flex items-center justify-center">
           <div className="absolute inset-0">

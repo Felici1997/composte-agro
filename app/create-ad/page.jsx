@@ -149,7 +149,7 @@ function CreateAdForm() {
       if (!res.ok) throw new Error(data.error || 'Erreur lors de la publication')
       const label = isListing ? 'Annonce' : isProduct ? 'Produit' : 'Service'
       toast.success(isEditing ? `${label} modifié${isService ? '' : 'e'} avec succès !` : `${label} publié${isService ? '' : 'e'} avec succès !`)
-      router.push('/dashboard')
+      router.push('/')
       router.refresh()
     } catch (err) {
       toast.error(err.message || 'Erreur lors de la publication')

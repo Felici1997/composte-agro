@@ -29,7 +29,7 @@ export default function CartPage() {
           if (data) {
             setForm(prev => ({ ...prev, nom_complet: data.nom_complet || '', telephone: data.telephone || '' }))
             setRole(data.role)
-            if (data.role !== 'client') router.replace('/dashboard')
+            if (data.role !== 'client') router.replace('/')
           }
         })
       }
@@ -68,7 +68,7 @@ export default function CartPage() {
     if (res.ok) {
       dispatch(clearCart())
       toast.success('Commande envoyée !')
-      router.push('/dashboard')
+      router.push('/')
     } else {
       toast.error(data.error || 'Erreur lors de la commande')
     }

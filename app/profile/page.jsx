@@ -70,8 +70,8 @@ export default function ProfilePage() {
   return (
     <div className={`min-h-screen bg-gradient-to-b from-agrishop-50/30 via-white to-emerald-50/20 pb-10 transition-all duration-700 ease-out ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <Link href="/dashboard" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 mb-6 transition-all duration-200 hover:gap-2">
-          <ArrowLeft size={16} /> Retour au tableau de bord
+        <Link           href="/" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 mb-6 transition-all duration-200 hover:gap-2">
+          <ArrowLeft size={16} /> Retour à l'accueil
         </Link>
 
         {/* Profile hero with illustration */}

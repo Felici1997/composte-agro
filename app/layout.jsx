@@ -24,6 +24,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr" className={`${outfit.variable} ${poppins.variable}`}>
       <head>
+        <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#166534" />
         <link rel="apple-touch-icon" href="/logo.png" />

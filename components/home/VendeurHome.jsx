@@ -41,8 +41,8 @@ export default function VendeurHome() {
             <Link href="/create-ad" className="inline-flex items-center gap-2 bg-white text-emerald-800 font-semibold px-5 py-2.5 rounded-xl text-sm hover:bg-emerald-50 transition shadow-lg shadow-black/10">
               <PlusCircle size={18} /> Ajouter un produit
             </Link>
-            <Link href="/dashboard" className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/20 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
-              Tableau de bord <ChevronRight size={16} />
+            <Link href="/" className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/20 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
+              Accueil <ChevronRight size={16} />
             </Link>
           </div>
         </div>
@@ -54,18 +54,7 @@ export default function VendeurHome() {
             <div><p className="text-2xl font-bold text-slate-800">{mesProduits.length}</p><p className="text-xs text-slate-500">En vente</p></div>
           </div>
         </div>
-        <div className="bg-white border border-slate-200 rounded-xl transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:border-agrishop-200 p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center shrink-0"><ShoppingBag size={20} className="text-blue-600" /></div>
-            <div><p className="text-2xl font-bold text-slate-800">{demandes.length}</p><p className="text-xs text-slate-500">Clients</p></div>
-          </div>
-        </div>
-        <div className="bg-white border border-slate-200 rounded-xl transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:border-agrishop-200 p-4">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center shrink-0"><TrendingUp size={20} className="text-green-600" /></div>
-            <div><p className="text-2xl font-bold text-slate-800">0</p><p className="text-xs text-slate-500">Ventes ce mois</p></div>
-          </div>
-        </div>
+
         <div className="bg-white border border-slate-200 rounded-xl transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:border-agrishop-200 p-4">
           <div className="flex items-center gap-3">
             <div className="w-11 h-11 rounded-xl bg-purple-50 flex items-center justify-center shrink-0"><Eye size={20} className="text-purple-600" /></div>
@@ -75,14 +64,14 @@ export default function VendeurHome() {
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
         <Link href="/create-ad" className="flex items-center gap-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl p-3 text-sm font-medium text-emerald-700 transition"><PlusCircle size={18} /> Nouveau produit</Link>
-        <Link href="/dashboard" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition"><Package size={18} /> Mon catalogue</Link>
-        <Link href="/dashboard" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition"><Clock size={18} /> Commandes</Link>
+        <Link href="/" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition"><Package size={18} /> Mon catalogue</Link>
+        <Link href="/" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition"><Clock size={18} /> Commandes</Link>
         <Link href="/search" className="flex items-center gap-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl p-3 text-sm font-medium text-slate-700 transition"><ShoppingBag size={18} /> Explorer</Link>
       </div>
       <div className="mb-8">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-semibold text-slate-800 mb-1">Mon catalogue</h2>
-          {mesProduits.length > 0 && <Link href="/dashboard" className="text-sm font-medium text-emerald-700 hover:text-emerald-800 hover:underline">Tout voir →</Link>}
+          {mesProduits.length > 0 && <Link href="/" className="text-sm font-medium text-emerald-700 hover:text-emerald-800 hover:underline">Tout voir →</Link>}
         </div>
         {mesProduits.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

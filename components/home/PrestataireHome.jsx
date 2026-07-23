@@ -43,8 +43,8 @@ export default function PrestataireHome() {
             <Link href="/create-ad" className="inline-flex items-center gap-2 bg-white text-violet-800 font-semibold px-5 py-2.5 rounded-xl text-sm hover:bg-violet-50 transition shadow-lg shadow-black/10">
               <PlusCircle size={18} /> Ajouter un service
             </Link>
-            <Link href="/dashboard" className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/20 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
-              Tableau de bord <ChevronRight size={16} />
+            <Link href="/" className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/10 hover:bg-white/20 text-white font-medium px-5 py-2.5 rounded-xl text-sm transition">
+              Accueil <ChevronRight size={16} />
             </Link>
           </div>
         </div>
@@ -56,17 +56,12 @@ export default function PrestataireHome() {
             <div><p className="text-2xl font-bold text-slate-800">{mesServices.length}</p><p className="text-xs text-slate-500">Mes services</p></div>
           </div>
         </div>
-        <div className="bg-white border border-slate-200 rounded-xl transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 hover:border-agrishop-200 p-5">
-          <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center shrink-0"><ShoppingBag size={20} className="text-blue-600" /></div>
-            <div><p className="text-2xl font-bold text-slate-800">{demandes.length}</p><p className="text-xs text-slate-500">Clients</p></div>
-          </div>
-        </div>
+
       </div>
       <div className="mb-8">
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-lg font-semibold text-slate-800 mb-1">Mes services</h2>
-          {mesServices.length > 0 && <Link href="/dashboard" className="text-sm font-medium text-violet-700 hover:text-violet-800 hover:underline">Tout voir →</Link>}
+          {mesServices.length > 0 && <Link href="/" className="text-sm font-medium text-violet-700 hover:text-violet-800 hover:underline">Tout voir →</Link>}
         </div>
         {loading ? <div className="text-center py-12 text-slate-400">Chargement...</div> : mesServices.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{mesServices.map(s => <AdCard key={s._key || s.id} ad={s} />)}</div>

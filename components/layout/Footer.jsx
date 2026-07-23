@@ -61,7 +61,7 @@ const Footer = () => {
             <h3 className="text-xs font-semibold text-white uppercase tracking-wider mb-4">Vendeurs</h3>
             <ul className="space-y-2.5">
               <li><Link href="/create-ad" className="text-sm text-slate-500 hover:text-agrishop-400 transition">Publier une annonce</Link></li>
-              <li><Link href="/dashboard" className="text-sm text-slate-500 hover:text-agrishop-400 transition">Tableau de bord</Link></li>
+              <li><Link href="/" className="text-sm text-slate-500 hover:text-agrishop-400 transition">Tableau de bord</Link></li>
               <li><Link href="/auth/register" className="text-sm text-slate-500 hover:text-agrishop-400 transition">Créer un compte pro</Link></li>
               <li><Link href="/help/selling" className="text-sm text-slate-500 hover:text-agrishop-400 transition">Conseils vente</Link></li>
             </ul>

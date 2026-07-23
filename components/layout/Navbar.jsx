@@ -14,20 +14,20 @@ import { categories } from "@/lib/categories";
 const roleLinks = {
   client: [
     { label: 'Déposer une annonce', href: '/create-ad', icon: PlusCircle },
-    { label: 'Mes annonces', href: '/dashboard', icon: ClipboardList },
+    { label: 'Mes annonces', href: '/', icon: ClipboardList },
     { label: 'Favoris', href: '/favorites', icon: Star },
     { label: 'Explorer', href: '/search', icon: Store },
   ],
   vendeur: [
     { label: 'Nouveau produit', href: '/create-ad', icon: PlusCircle },
-    { label: 'Mes produits', href: '/dashboard', icon: Package },
-    { label: 'Commandes', href: '/dashboard', icon: ShoppingCart },
+    { label: 'Mes produits', href: '/', icon: Package },
+    { label: 'Commandes', href: '/', icon: ShoppingCart },
     { label: 'Explorer', href: '/search', icon: Store },
   ],
   prestataire: [
     { label: 'Nouveau service', href: '/create-ad', icon: PlusCircle },
-    { label: 'Mes services', href: '/dashboard', icon: Wrench },
-    { label: 'Commandes', href: '/dashboard', icon: ShoppingCart },
+    { label: 'Mes services', href: '/', icon: Wrench },
+    { label: 'Commandes', href: '/', icon: ShoppingCart },
     { label: 'Explorer', href: '/search', icon: Store },
   ],
 }
@@ -219,7 +219,7 @@ const Navbar = () => {
                         <p className="text-xs text-slate-400 capitalize mt-0.5">{role}</p>
                       </div>
                       <div className="py-1">
-                        <Link href="/dashboard" onClick={() => setUserMenu(false)} data-joyride="dashboard-link" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-agrishop-50 transition">
+                        <Link href="/" onClick={() => setUserMenu(false)} data-joyride="dashboard-link" className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-agrishop-50 transition">
                           <LayoutDashboard size={16} className="text-slate-400" /> Tableau de bord
                         </Link>
                         <Link href="/profile" onClick={() => setUserMenu(false)} className="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-agrishop-50 transition">
@@ -286,7 +286,7 @@ const Navbar = () => {
 
                 <hr className="border-slate-100" />
 
-                <Link href="/dashboard" onClick={() => setMobileMenu(false)} className="flex items-center gap-3 text-sm text-slate-600 hover:text-agrishop-700 py-2.5 px-3 rounded-lg hover:bg-slate-50 transition">
+                <Link href="/" onClick={() => setMobileMenu(false)} className="flex items-center gap-3 text-sm text-slate-600 hover:text-agrishop-700 py-2.5 px-3 rounded-lg hover:bg-slate-50 transition">
                   <LayoutDashboard size={16} className="text-slate-400" /> Tableau de bord
                 </Link>
                 <Link href="/favorites" onClick={() => setMobileMenu(false)} className="flex items-center gap-3 text-sm text-slate-600 hover:text-agrishop-700 py-2.5 px-3 rounded-lg hover:bg-slate-50 transition">

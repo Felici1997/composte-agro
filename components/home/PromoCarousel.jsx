@@ -7,7 +7,7 @@ const slides = [
   {
     icon: ShoppingBag,
     title: 'Nouveau sur Composte ?',
-    desc: 'Publiez votre premiÃ¨re annonce gratuitement et touchez des milliers d\'acheteurs dÃ¨s aujourd\'hui.',
+    desc: 'Publiez votre première annonce gratuitement et touchez des milliers d\'acheteurs dès aujourd\'hui.',
     cta: 'Publier une annonce',
     href: '/create-ad',
     gradient: 'from-agrishop-700 to-emerald-700',
@@ -15,7 +15,7 @@ const slides = [
   },
   {
     icon: TrendingUp,
-    title: 'Boostez votre visibilitÃ©',
+    title: 'Boostez votre visibilité',
     desc: 'Mettez vos annonces en avant et augmentez vos ventes avec nos options de promotion.',
     cta: 'En savoir plus',
     href: '/help',
@@ -25,7 +25,7 @@ const slides = [
   {
     icon: Leaf,
     title: 'Conseils agricoles',
-    desc: 'DÃ©couvrez nos guides et astuces pour rÃ©ussir dans l\'agriculture au Congo.',
+    desc: 'Découvrez nos guides et astuces pour réussir dans l\'agriculture au Congo.',
     cta: 'Lire les articles',
     href: '/help',
     gradient: 'from-emerald-600 to-teal-600',

@@ -4,7 +4,7 @@ import { Suspense } from 'react'
 import { Flame, Clock, Briefcase, Users, DollarSign, MapPin } from 'lucide-react'
 
 const filters = [
-  { label: 'NouveautÃ©s', icon: Clock, params: { sort: 'date_desc' } },
+  { label: 'Nouveautés', icon: Clock, params: { sort: 'date_desc' } },
   { label: 'Urgent', icon: Flame, params: { urgent: 'true' } },
   { label: 'Professionnels', icon: Briefcase, params: { pro: 'true' } },
   { label: 'Particuliers', icon: Users, params: { pro: 'false' } },

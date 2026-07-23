@@ -40,7 +40,7 @@ export default function SearchBanner() {
         </h1>
 
         <p className="text-base sm:text-lg text-white/80 mb-8 max-w-xl animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-          Trouvez matÃ©riel, animaux, semences, terrains et services agricoles prÃ¨s de chez vous. Publiez gratuitement.
+          Trouvez matériel, animaux, semences, terrains et services agricoles près de chez vous. Publiez gratuitement.
         </p>
 
         <form onSubmit={handleSearch} className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-3 sm:p-4 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
@@ -62,7 +62,7 @@ export default function SearchBanner() {
                 onChange={e => setCategory(e.target.value)}
                 className="appearance-none w-full sm:w-44 pl-4 pr-10 py-3.5 rounded-xl text-slate-800 text-sm bg-white outline-none cursor-pointer shadow-sm"
               >
-                <option value="">Toute catÃ©gorie</option>
+                <option value="">Toute catégorie</option>
                 {categories.map(c => <option key={c.id} value={c.id}>{c.nom}</option>)}
               </select>
               <ChevronDown size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
@@ -73,7 +73,7 @@ export default function SearchBanner() {
                 onChange={e => setRegion(e.target.value)}
                 className="appearance-none w-full sm:w-44 pl-4 pr-10 py-3.5 rounded-xl text-slate-800 text-sm bg-white outline-none cursor-pointer shadow-sm"
               >
-                <option value="">Toute rÃ©gion</option>
+                <option value="">Toute région</option>
                 {regions.map(r => <option key={r.nom} value={r.nom}>{r.nom}</option>)}
               </select>
               <MapPin size={16} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
@@ -104,7 +104,7 @@ export default function SearchBanner() {
           </div>
           <div className="text-center">
             <p className="text-xl sm:text-2xl font-bold text-white">11</p>
-            <p className="text-xs text-white/60 mt-0.5">DÃ©partements</p>
+            <p className="text-xs text-white/60 mt-0.5">Départements</p>
           </div>
           <div className="text-center">
             <p className="text-xl sm:text-2xl font-bold text-white">Gratuit</p>
