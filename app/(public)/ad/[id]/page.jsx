@@ -39,7 +39,11 @@ export default function AdDetailPage() {
   const cat = ad ? getCategoryById(ad.category_id) : null
   const isFav = favIds.includes(id)
   const [userRole, setUserRole] = useState(null)
+  const [currentUserId, setCurrentUserId] = useState(null)
   const [sellerId, setSellerId] = useState(null)
+  const isOwner = currentUserId && sellerId && currentUserId === sellerId
+  const isAdmin = userRole === 'admin'
+  const canSeeViews = isOwner || isAdmin
   const [imgIndex, setImgIndex] = useState(0)
   const allImages = ad ? adImages(ad) : []
   const currentImg = allImages[imgIndex] || ''
@@ -47,6 +51,7 @@ export default function AdDetailPage() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session?.user) {
+        setCurrentUserId(session.user.id)
         supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle().then(({ data }) => {
           if (data) setUserRole(data.role)
         })
@@ -231,7 +236,7 @@ export default function AdDetailPage() {
               <div className="flex items-center gap-1.5"><MapPin size={15} className="text-slate-400" /> {localisation}</div>
               <div className="flex items-center gap-1.5"><Clock size={15} className="text-slate-400" /> {getRelativeTime(adCreated(ad))}</div>
               <div className="flex items-center gap-1.5"><User size={15} className="text-slate-400" /> {sellerName}</div>
-              <div className="flex items-center gap-1.5"><Eye size={15} className="text-slate-400" /> {ad.views ?? 0} vues</div>
+              {canSeeViews && <div className="flex items-center gap-1.5"><Eye size={15} className="text-slate-400" /> {ad.views ?? 0} vues</div>}
             </div>
           </div>
 
@@ -295,12 +300,12 @@ export default function AdDetailPage() {
                   <span className="text-slate-700 font-medium">{departement}</span>
                 </div>
               )}
-              <div className="flex items-center justify-between">
+              {canSeeViews && <div className="flex items-center justify-between">
                 <span className="text-slate-400">Vues</span>
                 <span className="flex items-center gap-1 text-slate-700 font-medium">
                   <Eye size={13} className="text-slate-400" /> {ad.views ?? 0}
                 </span>
-              </div>
+              </div>}
               {adCreated(ad) && (
                 <div className="flex items-center justify-between">
                   <span className="text-slate-400">Publiée</span>
