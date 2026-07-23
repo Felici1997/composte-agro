@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Search, MapPin, ChevronDown, PlusCircle, ArrowRight, Leaf } from 'lucide-react'
+import { Search, MapPin, ChevronDown, PlusCircle, ArrowRight } from 'lucide-react'
 import { categories, regions } from '@/lib/categories'
 
 export default function SearchBanner() {
@@ -31,7 +31,6 @@ export default function SearchBanner() {
 
       <div className="relative z-10 w-full">
         <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-medium mb-5 border border-white/10 animate-fade-in-up">
-          <Leaf size={14} className="text-emerald-300" />
           Plateforme agricole n°1 au Congo
         </div>
 
